@@ -21,17 +21,6 @@ class SikuliServer(object):
         from sikuli import Sikuli
         for k,v in Sikuli.__dict__.items():
             self.__dict__[k] = v
-    def popen(self, command):
-        """
-        Runs command, returns dictionary of {RC, stdout, stderr, command}
-        """
-        from subprocess import Popen, PIPE
-        p = Popen(command, shell=True, stderr=PIPE, stdout=PIPE)
-        RC = p.wait()       # This will block until the shell gives back control
-        return {'RC': RC,
-                'stdout': p.stdout.read(),
-                'stderr': p.stderr.read(),
-                'command': command}
 from robotremoteserver import RobotRemoteServer
 from socket import gethostname
 RobotRemoteServer(library=SikuliServer(),
