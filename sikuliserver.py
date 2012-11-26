@@ -16,13 +16,13 @@ Under bash this works ($PATH_TO_SIKULI is what you set in siculi_installer):
     PATH=$OLDPATH
 """
 
-from sikuli import Sikuli
 class SikuliServer(object):
     """
     Class nto which to dump the namespace of sikuli.Sikuli
     """
-    __dict__ = Sikuli.__dict__
-    __slots__ = Sikuli.__dict__.keys()
+    def __init__(self):
+        from sikuli import Sikuli
+        self.__dict__.update(Sikuli.__dict__)
 
 class RemoteLib(object):
     def __init__(self, remote):self.__lib = remote
