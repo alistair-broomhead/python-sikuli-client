@@ -9,7 +9,7 @@ Under windows run like so (if installed to "C:\Program Files (x86)\Sikuli X\"):
     SET SIKULI_HOME=C:\Program Files (x86)\Sikuli X\
     java -cp "%SIKULI_HOME%sikuli-script.jar" org.python.util.jython sikuliserver.py
     SET PATH=%OLDPATH%
-    
+
 Under bash this works ($PATH_TO_SIKULI is what you set in sikuli_installer):
 
     OLDPATH=$PATH
@@ -21,14 +21,23 @@ Under bash this works ($PATH_TO_SIKULI is what you set in sikuli_installer):
 
 class SikuliServer(object):
     """
-    Class nto which to dump the namespace of sikuli.Sikuli
+    Class into which to dump the namespace of sikuli.Sikuli
     """
+    def eval_jython(self, jython_as_string):
+        """
+        Gives a quick and dirty way to run jython directly on the SiculiServer -
+        not intended for direct use, but for giving an interface for building a
+        remote API
+        """
+        return eval(jython_as_string)
     def __init__(self):
+        #noinspection PyUnresolvedReferences
         from sikuli import Sikuli
         self.__dict__.update(Sikuli.__dict__)
 
 
 def run():
+    """ runs the server """
     from robotremoteserver import RobotRemoteServer
     from socket import gethostname
     RobotRemoteServer(library=SikuliServer(),
