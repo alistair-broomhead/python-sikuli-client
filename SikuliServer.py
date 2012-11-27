@@ -27,15 +27,6 @@ class SikuliServer(object):
         from sikuli import Sikuli
         self.__dict__.update(Sikuli.__dict__)
 
-class RemoteLib(object):
-    def __init__(self, remote):self.__lib = remote
-    def __getattr__(self, name):
-            if name in self.__lib.get_keyword_names():
-                    def _(*args):return self.__lib.run_keyword(name, args)
-                    _.__name__ = name
-                    self.__dict__[name] = _
-                    return _
-            raise AttributeError()
 
 def run():
     from robotremoteserver import RobotRemoteServer
