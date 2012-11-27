@@ -69,6 +69,8 @@ class RemoteLib(object):
 # http://doc.sikuli.org/finder.html
 class SiculiUnreflected(object):
     """ Custom keyword handlers rather than those reflected over RPC """
+    def _eval(self, jython_as_string):
+        return self.remote.eval_jython(jython_as_string=jython_as_string)
     def __init__(self, remote):
         self.remote = remote
 class SikuliClient(object):
