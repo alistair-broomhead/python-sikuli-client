@@ -2,40 +2,15 @@
 """
 Client library for interacting with Siculi from Robotframework over XML-RPC
 """
-f = lambda *x: frozenset(x)
-# All of these sets of keywords are provided purely for convenience, as they can
-# be unioned to give common feature-sets
-#
-# sets of keywords we get in the rf namespace by default
-APPS = f('openApp', 'switchApp', 'closeApp', 'run', )
-RGN_LOW_INPUT = f('mouseDown', 'mouseMove', 'mouseUp', 'wheel', 'keyDown',
-                  'keyUp')
-RGN_FIND = f('find', 'findAll', 'wait', 'waitVanish', 'exists')
-RGN_INTERACT = f('click', 'doubleClick', 'rightClick', 'highlight', 'hover',
-                 'dragDrop','drag', 'dropAt', 'type', 'paste')
-# sets of keywords we don't by default get in the RF namespace
-LOAD_JAR_FILE = f('load', )
-SIKULI_SCRIPT = f('setShowActions', 'exit')
-USER_INTERACTION = f('popup', 'input')
-ENVIRONMENT = f('getImagePath', 'addImagePath', 'removeImagePath',
-                'setBundlePath', 'getBundlePath')
-RGN_ABSTRACT = f('getH', 'getW', 'getX', 'getY', 'setH', 'setW', 'setX', 'setY',
-                 'moveTo', 'getROI', 'setROI', 'setRect', 'morphTo','getCenter',
-                 'getTopLeft', 'getTopRight', 'getBottomLeft','getBottomRight',
-                 'getScreen', 'getLastMatch','getLastMatches',
-                 'setAutoWaitTimeout','getAutoWaitTimeout')
-RGN_EXTENSION = f('offset', 'inside', 'nearby', 'above', 'below', 'left',
-                     'right')
-RGN_FIND_OBS = f('onAppear', 'onVanish', 'onChange', 'observe',
-                         'observeInBackground', 'stopObserver')
-RGN_OCR = f('text')
-FINDFAILED = f('setFindFailedResponse', 'getFindFailedResponse',
-               'setThrowException', 'getThrowException', )
-RGN_DEPRECATED = f('getRegionFromPSRM', 'getLocationFromPSRML')
-SCREEN = f('getNumberScreens', 'getBounds', 'capture', 'selectRegion')
-del f
+import json
+KEYWORDS = {
+    k: frozenset(v) for k,v in
+    json.load(open("keywords.json")).items()}
 DEFAULT_EXPOSED = frozenset.union(
-    APPS, RGN_LOW_INPUT, RGN_FIND, RGN_INTERACT)
+    KEYWORDS['APPS'],
+    KEYWORDS['RGN_LOW_INPUT'],
+    KEYWORDS['RGN_FIND'],
+    KEYWORDS['RGN_INTERACT'])
 class RemoteLib(object):
     """ Re-exposes a classes keywords wrapped by robotremotelibrary.py """
     def __init__(self, remote):
