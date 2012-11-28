@@ -1,22 +1,12 @@
 #sikuliserver.py
 ##Aka robotframework-sikuliserver
-Jython script to run a robot remote library exposing the Sikuli API (and popen)
+Jython script to run a robot remote library exposing the Sikuli API (and popen).
+You will need Sikuli and java to already be installed.
 
 ##Under windows
 
-run like so (if installed to "C:\Program Files (x86)\Sikuli X\"):
+Should be as simple as running sikuliserver.bat, although some variables may need changing for your installed environment
 
-    SET OLDPATH=%PATH%
-    SET PATH=%OLDPATH%;C:\Program Files (x86)\Sikuli X\libs
-    SET PATH=%OLDPATH%;C:\Program Files (x86)\Java\jre7\lib
-    SET SIKULI_HOME=C:\Program Files (x86)\Sikuli X\
-    java -cp "%SIKULI_HOME%sikuli-script.jar" org.python.util.jython sikuliserver.py
-    SET PATH=%OLDPATH%
-    
-##Under bash
-this works ($PATH_TO_SIKULI is what you set in sikuli_installer):
+##Under OSX/Linux/Unix
 
-    OLDPATH=$PATH
-    PATH=$OLDPATH:$PATH_TO_SIKULI/lib
-    java -cp "$PATH_TO_SIKULI/sikuli-script.jar" org.python.util.jython sikuliserver.py
-    PATH=$OLDPATH
+Under OSX you should be able to just run sikuliserver.sh. Under other operating systems you will need to edit sikuliserver.sh to give the path where you unzipped Sikuli-IDE
