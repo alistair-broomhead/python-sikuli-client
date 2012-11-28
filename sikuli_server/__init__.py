@@ -36,7 +36,7 @@ class SikuliServer(object):
         self.__dict__.update(Sikuli.__dict__)
 
 
-def run():
+def run_sikuli_server():
     """ runs the server """
     from robotremoteserver import RobotRemoteServer
     from socket import gethostname
@@ -46,4 +46,4 @@ def run():
                       allow_stop=True)
 
 if __name__ == "__main__":
-    run()
+    run_sikuli_server()
