@@ -1,4 +1,3 @@
-# coding=utf-8
 """
 Client library for interacting with Siculi from Robotframework over XML-RPC
 """
