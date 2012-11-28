@@ -1,9 +1,20 @@
 """
 Client library for interacting with Siculi from Robotframework over XML-RPC
 """
-SIKULI_CLASSES = ['Settings', 'App', 'Env', 'Vision', 'SikuliEvent', 'Region',
-                  'Screen', 'Match', 'Finder']
-__ALL__ = SIKULI_CLASSES
+from .finder import Finder
+from .globals import Settings, App, Env, Vision
+from .match import Match
+from .pattern import Pattern
+from .region import SikuliEvent, Region
+from .screen import Screen
+
+SIKULI_CLASSES = {v.__name__:v for v in
+                  [Finder,
+                   Settings, App, Env, Vision,
+                   Match,
+                   SikuliEvent, Region,
+                   Screen]}
+__ALL__ = sorted(list(SIKULI_CLASSES.keys()))
 __author__ = 'Alistair Broomhead'
 
 import json
