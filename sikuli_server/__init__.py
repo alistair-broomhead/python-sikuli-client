@@ -1,28 +1,21 @@
 """
 Jython script to run a robot remote library exposing the Sikuli API (and popen)
-
-Under windows run like so (if installed to "C:\Program Files (x86)\Sikuli X\"):
-
-    SET OLDPATH=%PATH%
-    SET PATH=%OLDPATH%;C:\Program Files (x86)\Sikuli X\libs
-    SET PATH=%OLDPATH%;C:\Program Files (x86)\Java\jre7\lib
-    SET SIKULI_HOME=C:\Program Files (x86)\Sikuli X\
-    java -cp "%SIKULI_HOME%sikuli-script.jar" org.python.util.jython sikuliserver.py
-    SET PATH=%OLDPATH%
-
-Under bash this works ($PATH_TO_SIKULI is what you set in sikuli_installer):
-
-    OLDPATH=$PATH
-    PATH=$OLDPATH:$PATH_TO_SIKULI/lib
-    java -cp "$PATH_TO_SIKULI/sikuli-script.jar" org.python.util.jython sikuliserver.py
-    PATH=$OLDPATH
-
 """
-
+import classes
 class SikuliServer(object):
     """
     Class into which to dump the namespace of sikuli.Sikuli
     """
+    # Please don't use these directly
+    def _new_jython_object(self, object_=None):
+        id_ = self._next_id
+        self._held_objects[id_] = object_
+        self._next_id += 1
+        return id_
+    def _del_jython_object(self, id_):
+        del self._held_objects[id_]
+    def _get_jython_object(self, id_):
+        return self._held_objects[id_]
     def eval_jython(self, jython_as_string):
         """
         Gives a quick and dirty way to run jython directly on the SiculiServer -
@@ -34,16 +27,33 @@ class SikuliServer(object):
         #noinspection PyUnresolvedReferences
         from sikuli import Sikuli
         self.__dict__.update(Sikuli.__dict__)
+        self._held_objects = {}
+        self._next_id = 0
 
+
+from robotremoteserver import RobotRemoteServer
+class SikuliRobotRemoteServer(RobotRemoteServer):
+    """ RemoteServer that deals with Sikuli types """
+    def _handle_return_value(self, ret):
+        from .classes.sikuli_class import SikuliClass, UnimplementedSikuliClass
+        if not isinstance(ret, SikuliClass):
+            return RobotRemoteServer._handle_return_value(self, ret)
+        elif isinstance(ret, UnimplementedSikuliClass):
+            raise NotImplementedError("Not yet implemented this type")
+        else:
+            return ret._marshallable()
+
+    def __init__(self, port=5637, allow_stop=True):
+        from socket import gethostname
+        RobotRemoteServer.__init__(self,
+                                   library=SikuliServer(),
+                                   host=gethostname(),
+                                   port=port,
+                                   allow_stop=allow_stop)
 
 def run_sikuli_server():
     """ runs the server """
-    from robotremoteserver import RobotRemoteServer
-    from socket import gethostname
-    RobotRemoteServer(library=SikuliServer(),
-                      host=gethostname(),
-                      port=5637,
-                      allow_stop=True)
+    SikuliRobotRemoteServer(port=5637)
 
 if __name__ == "__main__":
     run_sikuli_server()
