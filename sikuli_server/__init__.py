@@ -2,6 +2,8 @@
 Jython script to run a robot remote library exposing the Sikuli API (and popen)
 """
 import classes
+#noinspection PyUnresolvedReferences
+from sikuli import Sikuli
 class SikuliServer(object):
     """
     Class into which to dump the namespace of sikuli.Sikuli
@@ -24,8 +26,6 @@ class SikuliServer(object):
         """
         return eval(jython_as_string)
     def __init__(self):
-        #noinspection PyUnresolvedReferences
-        from sikuli import Sikuli
         self.__dict__.update(Sikuli.__dict__)
         self._held_objects = {}
         self._next_id = 0

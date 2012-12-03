@@ -3,10 +3,10 @@ __author__ = 'Alistair Broomhead'
 SIKULI_OBJECTS = {}
 class SikuliClass(object):
     """ Base class for types based on the Sikuli native types """
+    obj = None
     @property
-    def _id(self):
-        return id(self)
-    def __new__(cls, id_=None, *args, **kwargs):
+    def _id(self): return id(self)
+    def __new__(cls, obj, id_=None, *args, **kwargs):
         from .import SIKULI_CLASSES
         if 'cls' in kwargs and cls in SIKULI_CLASSES:
             cls = SIKULI_CLASSES[kwargs['cls']]
@@ -20,6 +20,8 @@ class SikuliClass(object):
             obj = SIKULI_OBJECTS[id_]
         obj.__dict__.update(kwargs)
         return obj
+    def __init__(self, obj, *args, **kwargs):
+        self.ojb = obj
     @property
     def _marshallable(self):
         return dict(cls=type(self).__name__,
