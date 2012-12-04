@@ -32,7 +32,6 @@ class SikuliClient(object):
     """
     Client for sikuliserver to expose a more limited set of keywords to rf
     """
-    sikuliserver = None
 
     def __init__(self,
                  host,
@@ -46,7 +45,7 @@ class SikuliClient(object):
 
         self._sikuliserver = RemoteLib(
             ServerProxy("http://%s:%r" % (host, port)))
-        self._unreflected = SikuliUnreflected(self.sikuliserver)
+        self._unreflected = SikuliUnreflected(self._sikuliserver)
         self._keywords = DEFAULT_EXPOSED.union(include).difference(exclude)
         for k in self._keywords:
             try:
