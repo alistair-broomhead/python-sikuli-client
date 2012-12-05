@@ -4,7 +4,7 @@ Classes to fulfill the roles of those described at
 """
 __author__ = 'Alistair Broomhead'
 from .sikuli_class import UnimplementedSikuliClass, SikuliClass
-from . import Match
+from .match import Match
 
 class SikuliEvent(UnimplementedSikuliClass):
     """ Manages interaction with Sikuli's SikuliEvent """
