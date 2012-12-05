@@ -12,6 +12,7 @@ class SikuliEvent(UnimplementedSikuliClass):
     pass
 
 
+#noinspection PyDocstring
 class Region(SikuliClass):
     """ Manages interaction with Sikuli's Region """
     # http://doc.sikuli.org/region.html#Region
@@ -21,21 +22,20 @@ class Region(SikuliClass):
         lambda region: (Region.remote._eval(
             "self._new_jython_object(Sikuli.Region("
                 "self._get_jython_object(%r)))" % region.server_id))
-
     )
-    setX = lambda self, num: self.remote._eval(
-        "self._get_jython_object(%r).setX(%r)" % (self.server_id, num))
-    setY = lambda self, num: self.remote._eval(
-        "self._get_jython_object(%r).setY(%r)" % (self.server_id, num))
-    setW = lambda self, num: self.remote._eval(
-        "self._get_jython_object(%r).setW(%r)" % (self.server_id, num))
-    setH = lambda self, num: self.remote._eval(
-        "self._get_jython_object(%r).setH(%r)" % (self.server_id, num))
-    getX = lambda self: self.remote._eval(
-        "self._get_jython_object(%r).getX()" % self.server_id)
-    getY = lambda self: self.remote._eval(
-        "self._get_jython_object(%r).getY()" % self.server_id)
-    getW = lambda self: self.remote._eval(
-        "self._get_jython_object(%r).getW()" % self.server_id)
-    getH = lambda self: self.remote._eval(
-        "self._get_jython_object(%r).getH()" % self.server_id)
+    @SikuliClass.run_on_remote
+    def setX(self, num): pass
+    @SikuliClass.run_on_remote
+    def setY(self, num): pass
+    @SikuliClass.run_on_remote
+    def setW(self, num): pass
+    @SikuliClass.run_on_remote
+    def setH(self, num): pass
+    @SikuliClass.run_on_remote
+    def getX(self): pass
+    @SikuliClass.run_on_remote
+    def getY(self): pass
+    @SikuliClass.run_on_remote
+    def getW(self): pass
+    @SikuliClass.run_on_remote
+    def getH(self): pass
