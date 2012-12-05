@@ -31,7 +31,7 @@ class SikuliClient(object):
     def _eval(self, jython_string):
         rv = self._sikuliserver.eval_jython(jython_string)
         if rv['status'] != 'PASS':
-            print rv['status'], rv['traceback']
+            print "\n\n", jython_string, '-->', rv['status'], ':\n\n', rv['traceback']
             assert rv['status'] == 'PASS'
         return rv['return']
     def __init__(self,
