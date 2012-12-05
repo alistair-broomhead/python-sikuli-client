@@ -27,18 +27,6 @@ class SikuliUnreflected(object):
         :type remote: SikuliServer
         """
         self.remote = remote
-
-    def _eval(self, jython_as_string):
-        rv = self.remote.eval_jython(jython_as_string=jython_as_string)
-        from . import SIKULI_CLASSES
-        from .sikuli_class import SikuliClass
-        if isinstance(rv, str):
-            if len([name for name in SIKULI_CLASSES if rv.startswith(name)]):
-                try:
-                    return SikuliClass.from_string(rv)
-                except BaseException:
-                    pass
-        return rv
     def find(self, PS):
         """
         :rtype : Match

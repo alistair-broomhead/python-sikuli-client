@@ -1,4 +1,5 @@
 """ Base class for types based on the Sikuli native types """
+from functools import wraps
 from sikuli_server.class_definitions.sikuli_class import (SikuliClass,
                                                           SIKULI_OBJECTS)
 __author__ = 'Alistair Broomhead'
@@ -6,6 +7,36 @@ class SikuliClass(SikuliClass):
     """ Base class for types based on the Sikuli native types """
     _constructors = ()
     remote = None
+    @staticmethod
+    def run_on_remote(func):
+        """
+        Runs the decorated function but discards the result, so you can use it
+        for sanity-checking but should not use it for actual processing, as
+        this will be done on the server side.
+        """
+        @wraps(func)
+        def _wrapper(self, *args):
+            func(*args)
+            return self.remote._eval("self._get_jython_object(%r).%s(%s)" % (
+                self.server_id,
+                func.__name__,
+                ', '.join([repr(x) for x in args])))
+        return _wrapper
+    @staticmethod
+    def run_modified_on_remote(func):
+        """
+        Runs the decorated function, setting the args of the wrapped function
+        to the  result, so you can use it for sanity-checking but should not use
+        it for actual processing, as this will be done on the server side.
+        """
+        @wraps(func)
+        def _wrapper(self, *args, **kwargs):
+            args = func(*args, **kwargs)
+            return self.remote._eval("self._get_jython_object(%r).%s(%s)" % (
+                self.server_id,
+                func.__name__,
+                ', '.join([repr(x) for x in args])))
+        return _wrapper
     @classmethod
     def mknew(cls, remote, *args, **kwargs):
         """ Create a new object, instantiating it on the server side. """
