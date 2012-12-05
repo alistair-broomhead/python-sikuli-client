@@ -1,23 +1,31 @@
 """ Base class for types based on the Sikuli native types """
 __author__ = 'Alistair Broomhead'
 SIKULI_OBJECTS = {}
+
 class SikuliClass(object):
     """ Base class for types based on the Sikuli native types """
     obj = None
     @property
     def _id(self): return id(self)
-    def __new__(cls, obj, id_=None, *args, **kwargs):
-        from .import SIKULI_CLASSES
-        if 'cls' in kwargs and cls in SIKULI_CLASSES:
-            cls = SIKULI_CLASSES[kwargs['cls']]
-        if id_ is None:
+    def __new__(cls, obj=None, server_id=None, *args, **kwargs):
+        """
+        Obj is not used, however the signature has to be the same as __init__
+        """
+        if 'cls' in kwargs:
+            try:
+                from .. import classes
+                cls = classes.__dict__[kwargs['cls']]
+            except BaseException:
+                pass
+        if server_id is None:
             obj = type.__new__(cls, *args, **kwargs)
             SIKULI_OBJECTS[obj._id()] = obj
-        elif not isinstance(SIKULI_OBJECTS[id_], cls):
+        elif not isinstance(SIKULI_OBJECTS[server_id], SikuliClass):
             raise TypeError(
-                "%r is not an instance of %r"%(SIKULI_OBJECTS[id_], cls))
+                "%r is not an instance of %r" % (SIKULI_OBJECTS[server_id],
+                                                 SikuliClass))
         else:
-            obj = SIKULI_OBJECTS[id_]
+            obj = SIKULI_OBJECTS[server_id]
         obj.__dict__.update(kwargs)
         return obj
     def __init__(self, obj, *args, **kwargs):

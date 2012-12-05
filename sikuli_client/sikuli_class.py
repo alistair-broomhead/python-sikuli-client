@@ -1,43 +1,45 @@
 """ Base class for types based on the Sikuli native types """
-from . import SikuliClient
-from sikuli_server.classes.sikuli_class import (SikuliClass,
-                                                SIKULI_OBJECTS)
+from sikuli_server.class_definitions.sikuli_class import (SikuliClass,
+                                                          SIKULI_OBJECTS)
 __author__ = 'Alistair Broomhead'
 class SikuliClass(SikuliClass):
     """ Base class for types based on the Sikuli native types """
-    _contructors = ()
+    _constructors = ()
     remote = None
     @classmethod
     def mknew(cls, remote, *args, **kwargs):
         """ Create a new object, instantiating it on the server side. """
+        from .sikuli_client import SikuliClient
         assert isinstance(remote, SikuliClient)
         _remote, cls.remote = cls.remote, remote
-        for method in cls._contructors:
+        for method in cls._constructors:
             try:
-                remote_id = method(*args, **kwargs)
-            except BaseException:
+                server_id = method(*args, **kwargs)
+            except BaseException, e:
+                print e
                 continue
             else:
                 if isinstance(_remote, SikuliClient): cls.remote = _remote
-                return cls(remote=remote, id_=remote_id)
+                #from pdb import set_trace; set_trace()
+                return cls(remote=remote, server_id=server_id)
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
     @property
     def _id(self):
-        return self.remote_id
-    def __new__(cls, remote, remote_id, *args, **kwargs):
+        return self.server_id
+    def __new__(cls, remote, server_id, *args, **kwargs):
         cls.remote = remote
-        if remote_id in SIKULI_OBJECTS:
-            kwargs['id_'] = remote_id
-        return super(SikuliClass, cls).__new__(remote, remote_id, *args,**kwargs)
+        if server_id in SIKULI_OBJECTS:
+            kwargs['server_id'] = server_id
+        return object.__new__(cls, remote, *args, **kwargs)
 
-    def __init__(self, remote, id_, *args, **kwargs):
+    def __init__(self, remote, server_id, *args, **kwargs):
         """
-        :type id_: int
+        :type server_id: int
         :type remote: SikuliClient
         """
         self.remote = remote
-        self.remote_id = id_
+        self.server_id = server_id
 class UnimplementedSikuliClass(SikuliClass):
     """ Base class for unimplemented types based on the Sikuli native types """
     def __new__(cls, *args, **kwargs):

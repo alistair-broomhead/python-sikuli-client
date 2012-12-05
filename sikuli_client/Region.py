@@ -2,7 +2,6 @@
 Classes to fulfill the roles of those described at
     http://doc.sikuli.org/region.html
 """
-from . import SikuliClient
 __author__ = 'Alistair Broomhead'
 from .sikuli_class import UnimplementedSikuliClass, SikuliClass
 
@@ -16,24 +15,27 @@ class SikuliEvent(UnimplementedSikuliClass):
 class Region(SikuliClass):
     """ Manages interaction with Sikuli's Region """
     # http://doc.sikuli.org/region.html#Region
-    @property
-    def _contructors(self):
-        cls, remote = Region, Region.remote
-        assert isinstance(remote, SikuliClient)
-        if not hasattr(cls, "__contructors"):
-            def _new_xywh(x, y, w, h):
-                return remote._eval(
-                    "return _new_jython_object(object=Sikuli.Region(x=%r, "
-                                                                   "y=%r, "
-                                                                   "w=%r, "
-                                                                   "h=%r))"%(
-                        x, y, w ,h))
-            def _new_region(region):
-                assert isinstance(region, cls)
-                _ = region.remote_id
-                return remote._eval(
-                    "return self._new_jython_object(object=Sikuli.Region("
-                                "self._get_jython_object(%r)"
-                            "))" % region.remote_id)
-            cls.__contructors = (_new_xywh, _new_region)
-        return cls.__contructors
+    _constructors = (
+        lambda x, y, w, h: (Region.remote._eval(
+            "self._new_jython_object(Sikuli.Region%r)"%((x, y, w, h),))),
+        lambda region: (Region.remote._eval(
+            "self._new_jython_object(Sikuli.Region("
+                "self._get_jython_object(%r)))" % region.server_id))
+
+    )
+    setX = lambda self, num: self.remote._eval(
+        "self._get_jython_object(%r).setX(%r)" % (self.server_id, num))
+    setY = lambda self, num: self.remote._eval(
+        "self._get_jython_object(%r).setY(%r)" % (self.server_id, num))
+    setW = lambda self, num: self.remote._eval(
+        "self._get_jython_object(%r).setW(%r)" % (self.server_id, num))
+    setH = lambda self, num: self.remote._eval(
+        "self._get_jython_object(%r).setH(%r)" % (self.server_id, num))
+    getX = lambda self: self.remote._eval(
+        "self._get_jython_object(%r).getX()" % self.server_id)
+    getY = lambda self: self.remote._eval(
+        "self._get_jython_object(%r).getY()" % self.server_id)
+    getW = lambda self: self.remote._eval(
+        "self._get_jython_object(%r).getW()" % self.server_id)
+    getH = lambda self: self.remote._eval(
+        "self._get_jython_object(%r).getH()" % self.server_id)
