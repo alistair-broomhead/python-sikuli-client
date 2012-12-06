@@ -2,7 +2,7 @@
 __author__ = 'Alistair Broomhead'
 SIKULI_OBJECTS = {}
 
-class SikuliClass(object):
+class ServerSikuliClass(object):
     """ Base class for types based on the Sikuli native types """
     obj = None
     @property
@@ -35,9 +35,9 @@ class SikuliClass(object):
         return dict(cls=type(self).__name__,
                     id_=id(self))
 
-
-class UnimplementedSikuliClass(SikuliClass):
+class UnimplementedSikuliClass(ServerSikuliClass):
     """ Base class for unimplemented types based on the Sikuli native types """
     def __new__(cls, *args, **kwargs):
         raise NotImplementedError("Not implemented %r"%cls)
 
+SikuliClass = ServerSikuliClass
