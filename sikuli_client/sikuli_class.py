@@ -3,11 +3,15 @@ from functools import wraps
 from sikuli_server.class_definitions.sikuli_class import (ServerSikuliClass,
                                                           SIKULI_OBJECTS)
 __author__ = 'Alistair Broomhead'
+
+
 class ClientSikuliClass(ServerSikuliClass):
     """ Base class for types based on the Sikuli native types """
     _constructors = ()
     _remote_funcs = {}
     remote = None
+
+    #noinspection PyDocstring
     @classmethod
     def mknew(cls, remote, *args, **kwargs):
         """ Create a new object, instantiating it on the server side. """
@@ -17,29 +21,35 @@ class ClientSikuliClass(ServerSikuliClass):
         for method in cls._constructors:
             try:
                 server_id = method(*args, **kwargs)
-            except BaseException, e:
-                print e
+            except BaseException as e:
+                print(e)
                 continue
             else:
-                if isinstance(_remote, SikuliClient): cls.remote = _remote
+                if isinstance(_remote, SikuliClient):
+                    cls.remote = _remote
                 #from pdb import set_trace; set_trace()
                 return cls(remote=remote, server_id=server_id)
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
+
     @property
     def _id(self):
         return self.server_id
+
     @property
     def _str_get(self):
-        return "self._get_jython_object(%r)"%self.server_id
+        return "self._get_jython_object(%r)" % self.server_id
+
     def __new__(cls, remote, server_id, *args, **kwargs):
         from .sikuli_client import SikuliClient
         assert isinstance(remote, SikuliClient)
         cls.remote = remote
         if server_id in SIKULI_OBJECTS:
             kwargs['server_id'] = server_id
+        #noinspection PyArgumentList
         return object.__new__(cls, remote, *args, **kwargs)
 
+    #noinspection PyUnusedLocal
     def __init__(self, remote, server_id, *args, **kwargs):
         """
         :type server_id: int
@@ -49,6 +59,7 @@ class ClientSikuliClass(ServerSikuliClass):
         self.remote = remote
         self.server_id = server_id
 
+
 class UnimplementedSikuliClass(ClientSikuliClass):
     """ Base class for unimplemented types based on the Sikuli native types """
     def __new__(cls, *args, **kwargs):
@@ -57,6 +68,7 @@ class UnimplementedSikuliClass(ClientSikuliClass):
 
 def run_on_remote(func):
     """
+    :param func: function to decorate
     Runs the decorated function but discards the result, so you can use it
     for sanity-checking but should not use it for actual processing, as
     this will be done on the server side.
@@ -73,13 +85,18 @@ def run_on_remote(func):
             Replaces the default inner function - should handle all interaction
             with the server
     """
+    s_repr = lambda obj: (repr(obj)
+                          if not isinstance(obj, SikuliClass) else
+                          "self._get_jython_object(%r)" % obj._str_get)
+
     def _inner(self, *args):
         return self.remote._eval("self._get_jython_object(%r).%s(%s)" % (
             self._id,
             func.__name__,
-            ', '.join([repr(x) for x in args])))
+            ', '.join([s_repr(x) for x in args])))
 
     func.func = _inner
+
     @wraps(func)
     def _outer(self, *args, **kwargs):
         func(self, *args, **kwargs)
@@ -90,12 +107,15 @@ def run_on_remote(func):
             return func.post(result)
         else:
             return result
+
     def _arg(arg_func):
         func.arg = arg_func
         return _outer
+
     def _post(post_func):
         func.post = post_func
         return _outer
+
     def _func(func_func):
         func.func = func_func
         return _outer
@@ -104,8 +124,10 @@ def run_on_remote(func):
     _outer.func = _func
     return _outer
 
+
 def constructor(cls):
     """
+    :param cls: class to use decorated function as constructor for
     Usage:
         @constructor(cls)
         def func(*args, **kwargs):
