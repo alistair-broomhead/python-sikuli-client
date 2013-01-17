@@ -1,5 +1,16 @@
 """
+:mod:`sikuli_server`
+========================================
+
 Jython script to run a robot remote library exposing the Sikuli API (and popen)
+
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+   sikuli_server.classes
+   sikuli_server.robotremoteserver
 """
 try:
     #noinspection PyUnresolvedReferences
@@ -33,6 +44,7 @@ class SikuliServer(object):
         Gives a quick and dirty way to run jython directly on the SiculiServer -
         not intended for direct use, but for giving an interface for building a
         remote API
+        :param jython_as_string: str -- will be evaluated server-side
         """
         l = locals()
         return eval(jython_as_string, self._private_globals, l)
@@ -46,7 +58,8 @@ from robotremoteserver import RobotRemoteServer
 class SikuliRobotRemoteServer(RobotRemoteServer):
     """ RemoteServer that deals with Sikuli types """
     def _handle_return_value(self, ret):
-        from .class_definitions.sikuli_class import SikuliClass, UnimplementedSikuliClass
+        from .class_definitions.sikuli_class import (SikuliClass,
+                                                     UnimplementedSikuliClass)
         if not isinstance(ret, SikuliClass):
             return RobotRemoteServer._handle_return_value(self, ret)
         elif isinstance(ret, UnimplementedSikuliClass):
