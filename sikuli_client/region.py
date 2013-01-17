@@ -1,6 +1,10 @@
 """
-Classes to fulfill the roles of those described at
-    http://doc.sikuli.org/region.html
+:class:`Region` and :class:`SikuliEvent` classes to fulfill the roles of those
+described at http://doc.sikuli.org/region.html
+
+.. toctree::
+   :maxdepth: 2
+
 """
 __author__ = 'Alistair Broomhead'
 from .sikuli_class import (UnimplementedSikuliClass,
@@ -22,8 +26,10 @@ class SikuliEvent(UnimplementedSikuliClass):
 
 
 class Region(SikuliClass):
-    """ Manages interaction with Sikuli's Region """
-    # http://doc.sikuli.org/region.html#Region
+    """
+    Manages interaction with Sikuli's Region, reflecting
+    http://doc.sikuli.org/region.html#Region
+    """
     @run_on_remote
     def setX(self, num):
         """
@@ -68,7 +74,7 @@ class Region(SikuliClass):
     def moveTo(self, location):
         """
         :param location: Location - the new top left corner
-        :rtype : Region - the modified region object
+        :rtype: Region -- the modified region object
 
         Set the position of this region regarding its top left corner to the
         given location (the x and y values are modified).
@@ -117,7 +123,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getX(self):
         """
-        :rtype : int
+        :rtype: int
 
         Get the respective attribute of the region.
         """
@@ -126,7 +132,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getY(self):
         """
-        :rtype : int
+        :rtype: int
 
         Get the respective attribute of the region.
         """
@@ -135,7 +141,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getW(self):
         """
-        :rtype : int
+        :rtype: int
 
         Get the respective attribute of the region.
         """
@@ -144,7 +150,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getH(self):
         """
-        :rtype : int
+        :rtype: int
 
         Get the respective attribute of the region.
         """
@@ -153,7 +159,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getCenter(self):
         """
-        :rtype : Location
+        :rtype: Location
 
         Get the center of the region.
         """
@@ -161,7 +167,7 @@ class Region(SikuliClass):
 
     @getCenter.func
     def getCenter(self):
-        """ :rtype : Location """
+        """ :rtype: Location """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getCenter())" % self._id)
@@ -170,7 +176,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getTopLeft(self):
         """
-        :rtype : Location
+        :rtype: Location
 
         Get the location of the region's respective corner.
         """
@@ -178,7 +184,7 @@ class Region(SikuliClass):
 
     @getTopLeft.func
     def getTopLeft(self):
-        """ :rtype : Location """
+        """ :rtype: Location """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getTopLeft())" % self._id)
@@ -187,7 +193,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getTopRight(self):
         """
-        :rtype : Location
+        :rtype: Location
 
         Get the location of the region's respective corner.
         """
@@ -195,7 +201,7 @@ class Region(SikuliClass):
 
     @getTopRight.func
     def getTopRight(self):
-        """ :rtype : Location """
+        """ :rtype: Location """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getTopRight())" % self._id)
@@ -204,7 +210,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getBottomLeft(self):
         """
-        :rtype : Location
+        :rtype: Location
 
         Get the location of the region's respective corner.
         """
@@ -212,7 +218,7 @@ class Region(SikuliClass):
 
     @getBottomLeft.func
     def getBottomLeft(self):
-        """ :rtype : Location """
+        """ :rtype: Location """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getBottomLeft())" % self._id)
@@ -221,7 +227,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getBottomRight(self):
         """
-        :rtype : Location
+        :rtype: Location
 
         Get the location of the region's respective corner.
         """
@@ -229,7 +235,7 @@ class Region(SikuliClass):
 
     @getBottomRight.func
     def getBottomRight(self):
-        """ :rtype : Location """
+        """ :rtype: Location """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getBottomRight())" % self._id)
@@ -238,7 +244,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getScreen(self):
         """
-        :rtype : Screen
+        :rtype: Screen
 
         Returns the screen object that contains this region.
 
@@ -249,7 +255,7 @@ class Region(SikuliClass):
 
     @getScreen.func
     def getScreen(self):
-        """ :rtype : Screen """
+        """ :rtype: Screen """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getScreen())" % self._id)
@@ -258,7 +264,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getLastMatch(self):
         """
-        :rtype : Match
+        :rtype: Match
 
         All successful find operations (explicit like find() or implicit like
         click()), store the best match in the lastMatch attribute of the region
@@ -268,7 +274,7 @@ class Region(SikuliClass):
 
     @getLastMatch.func
     def getLastMatch(self):
-        """ :rtype : Match """
+        """ :rtype: Match """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getLastMatch())" % self._id)
@@ -277,7 +283,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getLastMatches(self):
         """
-        :rtype : generator
+        :rtype: generator
 
         findAll() stores all found matches into lastMatches attribute of the
         region that was searched as a generator.
@@ -286,7 +292,7 @@ class Region(SikuliClass):
 
     @getLastMatches.func
     def getLastMatches(self):
-        """ :rtype : generator """
+        """ :rtype: generator """
         location_ids = self.remote._eval(
             "[self._new_jython_object(x) for x in"
             " self._get_jython_object(%r).getLastMatches()]" % self._id)
@@ -312,7 +318,7 @@ class Region(SikuliClass):
     @run_on_remote
     def getAutoWaitTimeout(self):
         """
-        :rtype : float
+        :rtype: float
 
         Get the current value of the maximum waiting time for find operations
         """
