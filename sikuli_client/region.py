@@ -237,10 +237,19 @@ class Region(SikuliClass):
 
     @run_on_remote
     def getScreen(self):
+        """
+        :rtype : Screen
+
+        Returns the screen object that contains this region.
+
+        This method only makes sense in Multi Monitor Environments, since it
+        always returns the default screen in a single monitor environment.
+        """
         pass
 
     @getScreen.func
     def getScreen(self):
+        """ :rtype : Screen """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getScreen())" % self._id)
@@ -248,10 +257,18 @@ class Region(SikuliClass):
 
     @run_on_remote
     def getLastMatch(self):
+        """
+        :rtype : Match
+
+        All successful find operations (explicit like find() or implicit like
+        click()), store the best match in the lastMatch attribute of the region
+        that was searched.
+        """
         pass
 
     @getLastMatch.func
     def getLastMatch(self):
+        """ :rtype : Match """
         location_id = self.remote._eval(
             "self._new_jython_object("
             "   self._get_jython_object(%r).getLastMatch())" % self._id)
@@ -259,22 +276,46 @@ class Region(SikuliClass):
 
     @run_on_remote
     def getLastMatches(self):
+        """
+        :rtype : generator
+
+        findAll() stores all found matches into lastMatches attribute of the
+        region that was searched as a generator.
+        """
         pass
 
     @getLastMatches.func
     def getLastMatches(self):
+        """ :rtype : generator """
         location_ids = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getLastMatches())" % self._id)
-        return (Match(remote=self.remote, server_id=location_id) for
-            location_id in location_ids)
+            "[self._new_jython_object(x) for x in"
+            " self._get_jython_object(%r).getLastMatches()]" % self._id)
+        return (Match(remote=self.remote, server_id=location_id)
+                for location_id in location_ids)
 
     @run_on_remote
     def setAutoWaitTimeout(self, seconds):
+        """
+        :param seconds: float - The internal granularity is milliseconds.
+
+        Set the maximum waiting time for all subsequent find operations.
+
+        This method enables all find operations to wait for the given pattern to
+        appear until the specified amount of time has elapsed. The default is
+        3.0 seconds. This method is intended for users to override this default
+        setting. As such it lets Region.find() work like Region.wait(), without
+        being able to set an individual timeout value for a specific find
+        operation.
+        """
         pass
 
     @run_on_remote
     def getAutoWaitTimeout(self):
+        """
+        :rtype : float
+
+        Get the current value of the maximum waiting time for find operations
+        """
         pass
 
     #20%
