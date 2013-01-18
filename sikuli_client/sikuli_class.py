@@ -85,15 +85,15 @@ def run_on_remote(func):
             Replaces the default inner function - should handle all interaction
             with the server
     """
-    s_repr = lambda obj: (repr(obj)
-                          if not isinstance(obj, SikuliClass) else
-                          "self._get_jython_object(%r)" % obj._str_get)
+    func.s_repr = lambda obj: (repr(obj)
+                               if not isinstance(obj, SikuliClass) else
+                               "self._get_jython_object(%r)" % obj._str_get)
 
     def _inner(self, *args):
         return self.remote._eval("self._get_jython_object(%r).%s(%s)" % (
             self._id,
             func.__name__,
-            ', '.join([s_repr(x) for x in args])))
+            ', '.join([func.s_repr(x) for x in args])))
 
     func.func = _inner
 
@@ -124,6 +124,30 @@ def run_on_remote(func):
     _outer.func = _func
     return _outer
 
+
+def return_from_remote(rtype):
+    """
+    :param rtype: return type
+    """
+    rt = []
+    def _new_decorator(func):
+        decorated = run_on_remote(func)
+        @decorated.func
+        def _inner(self, *args):
+            location_id = self.remote._eval(
+                "self._new_jython_object("
+                "   self._get_jython_object(%r).%s(%s))" % (
+                    self._id,
+                    func.__name__,
+                    ', '.join([func.s_repr(x) for x in args])))
+            if not rt:
+                from .classes import SIKULI_CLASSES
+                rt.append(rtype
+                          if isinstance(rtype, SikuliClass) else
+                          SIKULI_CLASSES[rtype])
+            return rt[0](remote=self.remote, server_id=location_id)
+        return decorated
+    return _new_decorator
 
 def constructor(cls):
     """
