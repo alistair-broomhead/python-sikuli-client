@@ -1,4 +1,5 @@
 """
+
 :class:`Region` and :class:`SikuliEvent` classes to fulfill the roles of those
 described at http://doc.sikuli.org/region.html
 
@@ -10,6 +11,7 @@ __author__ = 'Alistair Broomhead'
 from .sikuli_class import (UnimplementedSikuliClass,
                            SikuliClass,
                            run_on_remote,
+                           return_from_remote,
                            constructor)
 from .location import Location
 from .screen import Screen
@@ -19,17 +21,25 @@ from .pattern import Pattern
 
 
 class SikuliEvent(UnimplementedSikuliClass):
-    """ Manages interaction with Sikuli's SikuliEvent """
-    #TODO: Settings class
-    # http://doc.sikuli.org/region.html#SikuliEvent
+    """
+    .. module:: region.SikuliEvent
+    Manages interaction with Sikuli's SikuliEvent, reflecting
+    http://doc.sikuli.org/region.html#SikuliEvent
+
+    .. todo:: Implement
+
+    """
+    #TODO: SikuliEvent class
     pass
 
 
 class Region(SikuliClass):
     """
+    .. module:: region.Region
     Manages interaction with Sikuli's Region, reflecting
     http://doc.sikuli.org/region.html#Region
     """
+
     @run_on_remote
     def setX(self, num):
         """
@@ -70,7 +80,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @run_on_remote
+    @return_from_remote('Region')
     def moveTo(self, location):
         """
         :param location: Location - the new top left corner
@@ -156,7 +166,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @run_on_remote
+    @return_from_remote(Location)
     def getCenter(self):
         """
         :rtype: Location
@@ -165,15 +175,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @getCenter.func
-    def getCenter(self):
-        """ :rtype: Location """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getCenter())" % self._id)
-        return Location(remote=self.remote, server_id=location_id)
-
-    @run_on_remote
+    @return_from_remote(Location)
     def getTopLeft(self):
         """
         :rtype: Location
@@ -182,15 +184,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @getTopLeft.func
-    def getTopLeft(self):
-        """ :rtype: Location """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getTopLeft())" % self._id)
-        return Location(remote=self.remote, server_id=location_id)
-
-    @run_on_remote
+    @return_from_remote(Location)
     def getTopRight(self):
         """
         :rtype: Location
@@ -199,15 +193,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @getTopRight.func
-    def getTopRight(self):
-        """ :rtype: Location """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getTopRight())" % self._id)
-        return Location(remote=self.remote, server_id=location_id)
-
-    @run_on_remote
+    @return_from_remote(Location)
     def getBottomLeft(self):
         """
         :rtype: Location
@@ -216,15 +202,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @getBottomLeft.func
-    def getBottomLeft(self):
-        """ :rtype: Location """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getBottomLeft())" % self._id)
-        return Location(remote=self.remote, server_id=location_id)
-
-    @run_on_remote
+    @return_from_remote(Location)
     def getBottomRight(self):
         """
         :rtype: Location
@@ -233,15 +211,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @getBottomRight.func
-    def getBottomRight(self):
-        """ :rtype: Location """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getBottomRight())" % self._id)
-        return Location(remote=self.remote, server_id=location_id)
-
-    @run_on_remote
+    @return_from_remote(Screen)
     def getScreen(self):
         """
         :rtype: Screen
@@ -253,15 +223,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @getScreen.func
-    def getScreen(self):
-        """ :rtype: Screen """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getScreen())" % self._id)
-        return Screen(remote=self.remote, server_id=location_id)
-
-    @run_on_remote
+    @return_from_remote(Match)
     def getLastMatch(self):
         """
         :rtype: Match
@@ -271,14 +233,6 @@ class Region(SikuliClass):
         that was searched.
         """
         pass
-
-    @getLastMatch.func
-    def getLastMatch(self):
-        """ :rtype: Match """
-        location_id = self.remote._eval(
-            "self._new_jython_object("
-            "   self._get_jython_object(%r).getLastMatch())" % self._id)
-        return Match(remote=self.remote, server_id=location_id)
 
     @run_on_remote
     def getLastMatches(self):
@@ -325,132 +279,352 @@ class Region(SikuliClass):
         pass
 
     #20%
-    @run_on_remote
-    def offset(self): pass
+    @return_from_remote('Region')
+    def offset(self, location):
+        """
+        Returns a new Region object, whose upper left corner is relocated adding
+        the location's x and y value to the respective values of the given
+        region. Width and height are the same. So this clones a region at a
+        different place.
 
-    @run_on_remote
-    def inside(self): pass
+        :param location: Location
+        :rtype: Region
 
-    @run_on_remote
-    def nearby(self): pass
+        .. code-block:: python
 
-    @run_on_remote
-    def above(self): pass
+            new_reg = reg.offset(Location(xoff, yoff)) # same as
+            new_reg = Region(reg.x + xoff, reg.y + yoff, reg.w, reg.h)
+        """
+        pass
 
-    @run_on_remote
-    def below(self): pass
+    @return_from_remote('Region')
+    def inside(self):
+        """
+        Returns the same object. Retained for upward compatibility.
+
+        This method can be used to make scripts more readable.
+        ``region.inside().find()`` is totally equivalent to ``region.find()``.
+
+        :rtype: Region
+        """
+        pass
+
+    @return_from_remote('Region')
+    def nearby(self, range_=50):
+        """
+        Returns a new Region that includes the nearby neighbourhood of the
+        the current region. The new region is defined by extending the
+        current region's dimensions in all directions by range number of
+        pixels. The center of the new region remains the same.
+
+        :param range_: int -- must be greater than zero, default = 50
+        :rtype: Region
+        """
+        if isinstance(range_, int) or not range_ > 0:
+            raise TypeError("%r parameter 'range_' must be a positive integer" %
+                            self.nearby)
+
+    @return_from_remote('Region')
+    def above(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
+
+    @return_from_remote('Region')
+    def below(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #30%
-    @run_on_remote
-    def left(self): pass
+    @return_from_remote('Region')
+    def left(self):
+        """
+         .. todo:: Implement
+        """
+        #TODO
+        pass
+
+    @return_from_remote('Region')
+    def right(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def right(self): pass
+    def find(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def find(self): pass
+    def findAll(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def findAll(self): pass
-
-    @run_on_remote
-    def wait(self): pass
+    def wait(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #40%
     @run_on_remote
-    def waitVanish(self): pass
+    def waitVanish(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def exists(self): pass
+    def exists(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def onAppear(self): pass
+    def onAppear(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def onVanish(self): pass
+    def onVanish(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def onChange(self): pass
+    def onChange(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #50%
     @run_on_remote
-    def observe(self): pass
+    def observe(self):
+        """
+        .. todo:: Implement
+        """
+        pass
 
     @run_on_remote
-    def stopObserver(self): pass
+    def stopObserver(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def click(self): pass
+    def click(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def doubleClick(self): pass
+    def doubleClick(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def rightClick(self): pass
+    def rightClick(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #60%
     @run_on_remote
-    def highlight(self): pass
+    def highlight(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def hover(self): pass
+    def hover(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def dragDrop(self): pass
+    def dragDrop(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def drag(self): pass
+    def drag(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def dropAt(self): pass
+    def dropAt(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #70%
     @run_on_remote
-    def type(self): pass
+    def type(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def paste(self): pass
+    def paste(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def text(self): pass
+    def text(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def mouseDown(self): pass
+    def mouseDown(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def mouseUp(self): pass
+    def mouseUp(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #80%
     @run_on_remote
-    def mouseMove(self): pass
+    def mouseMove(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def wheel(self): pass
+    def wheel(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def keyDown(self): pass
+    def keyDown(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def keyUp(self): pass
+    def keyUp(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def setFindFailedResponse(self): pass
+    def setFindFailedResponse(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     #90%
     @run_on_remote
-    def getFindFailedResponse(self): pass
+    def getFindFailedResponse(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def setThrowException(self): pass
+    def setThrowException(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def getThrowException(self): pass
+    def getThrowException(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def getRegionFromPSRM(self): pass
+    def getRegionFromPSRM(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
     @run_on_remote
-    def getLocationFromPSRML(self): pass
+    def getLocationFromPSRML(self):
+        """
+        .. todo:: Implement
+        """
+        #TODO
+        pass
 
 
 @constructor(Region)
