@@ -22,7 +22,6 @@ from .pattern import Pattern
 
 class SikuliEvent(UnimplementedSikuliClass):
     """
-    .. module:: region.SikuliEvent
     Manages interaction with Sikuli's SikuliEvent, reflecting
     http://doc.sikuli.org/region.html#SikuliEvent
 
@@ -35,7 +34,6 @@ class SikuliEvent(UnimplementedSikuliClass):
 
 class Region(SikuliClass):
     """
-    .. module:: region.Region
     Manages interaction with Sikuli's Region, reflecting
     http://doc.sikuli.org/region.html#Region
     """

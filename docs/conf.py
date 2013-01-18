@@ -36,6 +36,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.viewcode']
 autodoc_default_flags = 'members', 'undoc-members'
 todo_include_todos = True
+ignore_chars = "'"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

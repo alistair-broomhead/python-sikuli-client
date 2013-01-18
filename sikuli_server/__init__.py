@@ -11,6 +11,7 @@ Jython script to run a robot remote library exposing the Sikuli API (and popen)
 
    sikuli_server.classes
    sikuli_server.robotremoteserver
+   sikuli_server.class_definitions
 """
 try:
     #noinspection PyUnresolvedReferences
