@@ -24,6 +24,7 @@ DEFAULT_EXPOSED = frozenset.union(
     KEYWORDS['RGN_FIND'],
     KEYWORDS['RGN_INTERACT'])
 
+
 class SikuliClient(object):
     """
     Client for sikuliserver to expose a more limited set of keywords to rf
@@ -31,9 +32,11 @@ class SikuliClient(object):
     def _eval(self, jython_string):
         rv = self._sikuliserver.eval_jython(jython_string)
         if rv['status'] != 'PASS':
-            print "\n\n", jython_string, '-->', rv['status'], ':\n\n', rv['traceback']
+            print "\n\n", jython_string, '-->', rv['status'], ':\n'
+            print rv['traceback']
             assert rv['status'] == 'PASS'
         return rv['return']
+
     def __init__(self,
                  host,
                  port=5637,
