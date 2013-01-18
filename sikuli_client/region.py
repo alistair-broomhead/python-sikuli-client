@@ -13,6 +13,7 @@ from .sikuli_class import (UnimplementedSikuliClass,
                            run_on_remote,
                            return_from_remote,
                            constructor)
+from .misc import assert_positive_int
 from .location import Location
 from .screen import Screen
 
@@ -81,8 +82,8 @@ class Region(SikuliClass):
     @return_from_remote('Region')
     def moveTo(self, location):
         """
-        :param location: Location - the new top left corner
-        :rtype: Region -- the modified region object
+        :param location: :class:`~sikuli_client.location.Location` - the new top left corner
+        :rtype: :class:`Region` -- the modified region object
 
         Set the position of this region regarding its top left corner to the
         given location (the x and y values are modified).
@@ -121,7 +122,7 @@ class Region(SikuliClass):
     @run_on_remote
     def morphTo(self, region):
         """
-        :param region: Region
+        :param region: :class:`Region`
 
         Set the position and dimension of this region to the
         corresponding values of the region given as parameter.
@@ -167,7 +168,7 @@ class Region(SikuliClass):
     @return_from_remote(Location)
     def getCenter(self):
         """
-        :rtype: Location
+        :rtype: :class:`~sikuli_client.location.Location`
 
         Get the center of the region.
         """
@@ -176,7 +177,7 @@ class Region(SikuliClass):
     @return_from_remote(Location)
     def getTopLeft(self):
         """
-        :rtype: Location
+        :rtype: :class:`~sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -185,7 +186,7 @@ class Region(SikuliClass):
     @return_from_remote(Location)
     def getTopRight(self):
         """
-        :rtype: Location
+        :rtype: :class:`~sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -194,7 +195,7 @@ class Region(SikuliClass):
     @return_from_remote(Location)
     def getBottomLeft(self):
         """
-        :rtype: Location
+        :rtype: :class:`~sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -203,7 +204,7 @@ class Region(SikuliClass):
     @return_from_remote(Location)
     def getBottomRight(self):
         """
-        :rtype: Location
+        :rtype: :class:`~sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -212,7 +213,7 @@ class Region(SikuliClass):
     @return_from_remote(Screen)
     def getScreen(self):
         """
-        :rtype: Screen
+        :rtype: :class:`~sikuli_client.screen.Screen`
 
         Returns the screen object that contains this region.
 
@@ -224,7 +225,7 @@ class Region(SikuliClass):
     @return_from_remote(Match)
     def getLastMatch(self):
         """
-        :rtype: Match
+        :rtype: :class:`~sikuli_client.match.Match`
 
         All successful find operations (explicit like find() or implicit like
         click()), store the best match in the lastMatch attribute of the region
@@ -276,7 +277,6 @@ class Region(SikuliClass):
         """
         pass
 
-    #20%
     @return_from_remote('Region')
     def offset(self, location):
         """
@@ -285,8 +285,8 @@ class Region(SikuliClass):
         region. Width and height are the same. So this clones a region at a
         different place.
 
-        :param location: Location
-        :rtype: Region
+        :param location: :class:`~sikuli_client.location.Location`
+        :rtype: :class:`Region`
 
         .. code-block:: python
 
@@ -303,57 +303,85 @@ class Region(SikuliClass):
         This method can be used to make scripts more readable.
         ``region.inside().find()`` is totally equivalent to ``region.find()``.
 
-        :rtype: Region
+        :rtype: :class:`Region`
         """
         pass
 
     @return_from_remote('Region')
-    def nearby(self, range_=50):
+    def nearby(self, range_px=50):
         """
         Returns a new Region that includes the nearby neighbourhood of the
         the current region. The new region is defined by extending the
         current region's dimensions in all directions by range number of
         pixels. The center of the new region remains the same.
 
-        :param range_: int -- must be greater than zero, default = 50
-        :rtype: Region
+        :param range_px: int > 0, default = 50
+        :rtype: :class:`Region`
         """
-        if isinstance(range_, int) or not range_ > 0:
-            raise TypeError("%r parameter 'range_' must be a positive integer" %
-                            self.nearby)
+        assert_positive_int(range_px,self.nearby)
 
     @return_from_remote('Region')
-    def above(self):
+    def above(self, range_px):
         """
-        .. todo:: Implement
+        Returns a new :py:class:`Region` that is defined above the current
+        region's
+        top border with a height of *range* number of pixels.
+        So it does not include the current    region.
+        If *range* is omitted, it reaches to the top
+        of the screen. The new region has the same width and x-position as the
+        current region.
+
+        :param range_px: a positive integer defining the new height
+        :return: a :class:`Region` object
         """
-        #TODO
-        pass
+        assert_positive_int(range_px, self.above)
 
     @return_from_remote('Region')
-    def below(self):
+    def below(self, range_px):
         """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        Returns a new :py:class:`Region` that is defined below the current
+        region's
+        bottom border with a height of *range* number of pixels.
+        So it does not include the current    region.
+        If *range* is omitted, it reaches to the bottom
+        of the screen. The new region has the same width and x-position as the
+        current region.
 
-    #30%
-    @return_from_remote('Region')
-    def left(self):
+        :param range_px: a positive integer defining the new height
+        :return: a :class:`Region` object
         """
-         .. todo:: Implement
-        """
-        #TODO
-        pass
+        assert_positive_int(range_px, self.below)
 
     @return_from_remote('Region')
-    def right(self):
+    def left(self, range_px):
         """
-        .. todo:: Implement
+        Returns a new :py:class:`Region` that is defined left of the current
+        region's
+        left border with a width of *range* number of pixels.
+        So it does not include the current    region.
+        If *range* is omitted, it reaches to the left border
+        of the screen. The new region has the same height and y-position as the
+        current region.
+
+        :param range_px: a positive integer defining the new width
+        :return: a :py:class:`Region` object
         """
-        #TODO
-        pass
+        assert_positive_int(range_px, self.left)
+
+    @return_from_remote('Region')
+    def right(self, range_px):
+        """
+        Returns a new :py:class:`Region` that is defined right of the current
+        region's right border with a width of *range* number of pixels.
+        So it does not include the current  region.
+        If *range* is omitted, it reaches to the right border
+        of the screen. The new region has the same height and y-position as the
+        current region.
+
+        :param range_px: a positive integer defining the new width
+        :return: a :py:class:`Region` object
+        """
+        assert_positive_int(range_px, self.right)
 
     @run_on_remote
     def find(self):

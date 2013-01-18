@@ -58,5 +58,17 @@ class SikuliUnreflected(object):
             ps = "self._get_jython_object(%r)" % PS.remote_id
         else:
             ps = repr(PS)
+        #noinspection PyUnresolvedReferences
         match_id = self._eval("self._new_jython_object(self.find(%s))" % ps)
         return Match(remote=self.remote, id_=match_id)
+
+
+def assert_positive_int(pos_int, meth):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param pos_int: int > 0
+    """
+    if isinstance(pos_int, int) or not pos_int > 0:
+        raise TypeError("%r expected positive integer, got %r" % (meth,
+                                                                  pos_int))
