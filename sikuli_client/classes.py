@@ -1,5 +1,16 @@
 """
 All the client-side Sikuli objects
+
+- :class:`~sikuli_client.finder.Finder`
+- :class:`~sikuli_client.globals.Settings`
+- :class:`~sikuli_client.globals.App`
+- :class:`~sikuli_client.globals.Env`
+- :class:`~sikuli_client.globals.Vision`
+- :class:`~sikuli_client.match.Match`
+- :class:`~sikuli_client.pattern.Pattern`
+- :class:`~sikuli_client.region.SikuliEvent`
+- :class:`~sikuli_client.region.Region`
+- :class:`~sikuli_client.screen.Screen`
 """
 __author__ = 'Alistair Broomhead'
 

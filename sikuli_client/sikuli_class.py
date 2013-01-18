@@ -1,4 +1,6 @@
-""" Base class for types based on the Sikuli native types """
+"""
+Base class for types based on the Sikuli native types
+"""
 from functools import wraps
 from sikuli_server.class_definitions.sikuli_class import (ServerSikuliClass,
                                                           SIKULI_OBJECTS)
@@ -69,6 +71,7 @@ class UnimplementedSikuliClass(ClientSikuliClass):
 def run_on_remote(func):
     """
     :param func: function to decorate
+
     Runs the decorated function but discards the result, so you can use it
     for sanity-checking but should not use it for actual processing, as
     this will be done on the server side.
@@ -76,14 +79,20 @@ def run_on_remote(func):
     The decorated function can have a number of properties that modify the
     way it is run, each of which should be a function itself:
 
-        func.arg(*args, **kwargs):
+        ``func.arg(*args, **kwargs)``:
             The output of this will be used as args for the inner wrapper
-        func.post(result):
+        ``func.post(result)``:
             This takes the output of the inner wrapper, and its ouput is
             returned by the outer wrapper
-        func.func(*args, **kwargs):
+        ``func.func(*args, **kwargs)``:
             Replaces the default inner function - should handle all interaction
             with the server
+
+    .. code-block:: python
+
+        @run_on_remote
+        def func(*args, **kwargs):
+            ...
     """
     func.s_repr = lambda obj: (repr(obj)
                                if not isinstance(obj, SikuliClass) else
@@ -127,9 +136,21 @@ def run_on_remote(func):
 
 def return_from_remote(rtype):
     """
+    Decorator factory returning a run_on_remote decorator which marshals and
+    unmarshals the return type as ``rtype`` where ``rtype`` must be either a
+    subclass of :class:`ClientSikuliClass`, or the string name of a
+    class in :mod:`~sikuli_client.classes`
+
     :param rtype: return type
+
+    .. code-block:: python
+
+        @return_from_remote(rtype)
+        def func(*args, **kwargs):
+            ...
     """
     rt = []
+
     def _new_decorator(func):
         decorated = run_on_remote(func)
         @decorated.func
@@ -143,7 +164,7 @@ def return_from_remote(rtype):
             if not rt:
                 from .classes import SIKULI_CLASSES
                 rt.append(rtype
-                          if isinstance(rtype, SikuliClass) else
+                          if isinstance(rtype, ClientSikuliClass) else
                           SIKULI_CLASSES[rtype])
             return rt[0](remote=self.remote, server_id=location_id)
         return decorated
@@ -152,13 +173,16 @@ def return_from_remote(rtype):
 def constructor(cls):
     """
     :param cls: class to use decorated function as constructor for
-    Usage:
-        @constructor(cls)
-        def func(*args, **kwargs):
-        ...
+
     Uses func as a potential constructor for cls:
     func should return the string which when evaluated by jython gives the
     object we want.
+
+    .. code-block:: python
+
+        @constructor(cls)
+        def func(*args, **kwargs):
+            ...
     """
     def _wrapper(func):
         @wraps(func)
@@ -171,3 +195,11 @@ def constructor(cls):
     return _wrapper
 
 SikuliClass = ClientSikuliClass
+#noinspection PyStatementEffect
+"""
+For convenience - anything importing
+:class:`sikuli_client.sikuli_class.SikuliClass` will get
+:class:`~sikuli_client.sikuli_class.ClientSikuliClass`, wheras anything
+importing :class:`sikuli_server.class_definitions.sikuli_class.SikuliClass` will
+get :class:`~sikuli_server.class_definitions.sikuli_class.ServerSikuliClass`
+"""
