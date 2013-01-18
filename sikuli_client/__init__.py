@@ -20,7 +20,6 @@ Client library for interacting with Siculi from Robotframework over XML-RPC
    sikuli_client.misc
    sikuli_client.sikuli_class
    sikuli_client.sikuli_client
-   sikuli_client.sikuli_client
 
 """
 from .sikuli_client import SikuliClient
