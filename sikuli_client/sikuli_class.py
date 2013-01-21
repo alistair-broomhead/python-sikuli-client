@@ -2,8 +2,13 @@
 Base class for types based on the Sikuli native types
 """
 from functools import wraps
-from sikuli_server.class_definitions.sikuli_class import (ServerSikuliClass,
-                                                          SIKULI_OBJECTS)
+try:
+    from ..sikuli_server.class_definitions.sikuli_class import (
+        ServerSikuliClass, SIKULI_OBJECTS)
+except ValueError:
+    from SikuliServer.sikuli_server.class_definitions.sikuli_class import (
+        ServerSikuliClass, SIKULI_OBJECTS)
+
 __author__ = 'Alistair Broomhead'
 
 
@@ -18,6 +23,7 @@ class ClientSikuliClass(ServerSikuliClass):
     def mknew(cls, remote, *args, **kwargs):
         """ Create a new object, instantiating it on the server side. """
         from .sikuli_client import SikuliClient
+
         assert isinstance(remote, SikuliClient)
         _remote, cls.remote = cls.remote, remote
         for method in cls._constructors:
@@ -29,7 +35,7 @@ class ClientSikuliClass(ServerSikuliClass):
             else:
                 if isinstance(_remote, SikuliClient):
                     cls.remote = _remote
-                #from pdb import set_trace; set_trace()
+                    #from pdb import set_trace; set_trace()
                 return cls(remote=remote, server_id=server_id)
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
@@ -44,11 +50,12 @@ class ClientSikuliClass(ServerSikuliClass):
 
     def __new__(cls, remote, server_id, *args, **kwargs):
         from .sikuli_client import SikuliClient
+
         assert isinstance(remote, SikuliClient)
         cls.remote = remote
         if server_id in SIKULI_OBJECTS:
             kwargs['server_id'] = server_id
-        #noinspection PyArgumentList
+            #noinspection PyArgumentList
         return object.__new__(cls, remote, *args, **kwargs)
 
     #noinspection PyUnusedLocal
@@ -58,14 +65,33 @@ class ClientSikuliClass(ServerSikuliClass):
         :type remote: SikuliClient
         """
         super(ClientSikuliClass, self).__init__(None)
+        for key in dir(self):
+            try:
+                func = getattr(self, key)
+            except AttributeError:
+                pass
+            else:
+                try:
+                    from functools import partial, wraps
+                    run = wraps(func.run)(partial(func.run, self))
+                    setattr(self, key, run)
+                except AttributeError:
+                    pass
         self.remote = remote
         self.server_id = server_id
 
 
 class UnimplementedSikuliClass(ClientSikuliClass):
     """ Base class for unimplemented types based on the Sikuli native types """
+
     def __new__(cls, *args, **kwargs):
         raise NotImplementedError("Not implemented %r" % cls)
+
+
+def s_repr(obj):
+    """ :param obj: object """
+    return (repr(obj) if not isinstance(obj, SikuliClass)
+            else "self._get_jython_object(%r)" % obj._str_get)
 
 
 def run_on_remote(func):
@@ -94,44 +120,41 @@ def run_on_remote(func):
         def func(*args, **kwargs):
             ...
     """
-    func.s_repr = lambda obj: (repr(obj)
-                               if not isinstance(obj, SikuliClass) else
-                               "self._get_jython_object(%r)" % obj._str_get)
-
-    def _inner(self, *args):
-        return self.remote._eval("self._get_jython_object(%r).%s(%s)" % (
-            self._id,
-            func.__name__,
-            ', '.join([func.s_repr(x) for x in args])))
-
-    func.func = _inner
+    gjo = "self._get_jython_object"
+    func._augment = {
+        'inner': lambda self, *args: (self.remote._eval("%s(%r).%s(%s)"
+                                      % (gjo, self._id, func.__name__,
+                                         ', '.join([s_repr(x)for x in args]))))
+    }
 
     @wraps(func)
     def _outer(self, *args, **kwargs):
         func(self, *args, **kwargs)
-        if hasattr(func, "arg"):
-            args, kwargs = func.arg(*args, **kwargs), {}
-        result = func.func(*args, **kwargs)
-        if hasattr(func, "post"):
+        if "arg" in func._augment:
+            args, kwargs = func._augment["arg"](self, *args, **kwargs), {}
+        result = func._augment['inner'](self, *args, **kwargs)
+        if "post" in func._augment:
             return func.post(result)
         else:
             return result
 
     def _arg(arg_func):
-        func.arg = arg_func
-        return _outer
+        func._augment['arg'] = arg_func
+        return func
 
     def _post(post_func):
-        func.post = post_func
-        return _outer
+        func._augment['post'] = post_func
+        return func
 
     def _func(func_func):
-        func.func = func_func
-        return _outer
-    _outer.arg = _arg
-    _outer.post = _post
-    _outer.func = _func
-    return _outer
+        func._augment['inner'] = func_func
+        return func
+
+    func.arg  = _outer.arg = _arg
+    func.post = _outer.post = _post
+    func.func = _outer.func = _func
+    func.run  = _outer.run = _outer
+    return func
 
 
 def TODO(func):
@@ -171,22 +194,28 @@ def return_from_remote(rtype):
 
     def _new_decorator(func):
         decorated = run_on_remote(func)
-        @decorated.func
+
+        @wraps(func)
         def _inner(self, *args):
             location_id = self.remote._eval(
                 "self._new_jython_object("
                 "   self._get_jython_object(%r).%s(%s))" % (
                     self._id,
                     func.__name__,
-                    ', '.join([func.s_repr(x) for x in args])))
+                    ', '.join([s_repr(x) for x in args])))
             if not rt:
                 from .classes import SIKULI_CLASSES
+
                 rt.append(rtype
                           if isinstance(rtype, ClientSikuliClass) else
                           SIKULI_CLASSES[rtype])
             return rt[0](remote=self.remote, server_id=location_id)
+
+        decorated._augment['inner'] = _inner
         return decorated
+
     return _new_decorator
+
 
 def constructor(cls):
     """
@@ -202,6 +231,7 @@ def constructor(cls):
         def func(*args, **kwargs):
             ...
     """
+
     def _wrapper(func):
         @wraps(func)
         def _func(*args, **kwargs):
@@ -210,7 +240,9 @@ def constructor(cls):
 
         cls._constructors = cls._constructors + (_func,)
         return _func
+
     return _wrapper
+
 
 SikuliClass = ClientSikuliClass
 #noinspection PyStatementEffect
