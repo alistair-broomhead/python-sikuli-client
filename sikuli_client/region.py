@@ -7,18 +7,21 @@ described at http://doc.sikuli.org/region.html
    :maxdepth: 2
 
 """
+from .asserts import (assert_positive_int,
+                      assert_PS,
+                      assert_positive_num)
 __author__ = 'Alistair Broomhead'
 from .sikuli_class import (UnimplementedSikuliClass,
                            SikuliClass,
                            run_on_remote,
                            return_from_remote,
-                           constructor)
-from .misc import assert_positive_int
+                           constructor,
+                           TODO,
+                           DEFERRED)
 from .location import Location
 from .screen import Screen
 
 from .match import Match
-from .pattern import Pattern
 
 
 class SikuliEvent(UnimplementedSikuliClass):
@@ -332,7 +335,7 @@ class Region(SikuliClass):
         current region.
 
         :param range_px: a positive integer defining the new height
-        :return: a :class:`Region` object
+        :rtype: a :class:`Region` object
         """
         assert_positive_int(range_px, self.above)
 
@@ -348,7 +351,7 @@ class Region(SikuliClass):
         current region.
 
         :param range_px: a positive integer defining the new height
-        :return: a :class:`Region` object
+        :rtype: a :class:`Region` object
         """
         assert_positive_int(range_px, self.below)
 
@@ -364,7 +367,7 @@ class Region(SikuliClass):
         current region.
 
         :param range_px: a positive integer defining the new width
-        :return: a :py:class:`Region` object
+        :rtype: a :py:class:`Region` object
         """
         assert_positive_int(range_px, self.left)
 
@@ -379,92 +382,303 @@ class Region(SikuliClass):
         current region.
 
         :param range_px: a positive integer defining the new width
-        :return: a :py:class:`Region` object
+        :rtype: a :py:class:`Region` object
         """
         assert_positive_int(range_px, self.right)
 
-    @run_on_remote
-    def find(self):
+    @return_from_remote(Match)
+    def find(self, PS):
         """
-        .. todo:: Implement
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
+        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+            best match or fails if PatternNotFound
+
+        Find a particular GUI element, which is seen as the given image or
+        just plain text. The given file name of an image specifies the
+        element's
+        appearance. It searches within the region and returns the best match,
+        which shows a similarity greater than the minimum similarity given by
+        the pattern. If no similarity was set for the pattern by
+        :py:meth:`Pattern.similar` before, a default minimum similarity of 0.7
+        is set automatically.
+
+        If autoWaitTimeout is set to a non-zero value, find() just acts as a
+        wait().
+
+        **Side Effect** *lastMatch*: the best match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
         """
-        #TODO
-        pass
+        assert_PS(PS, self.find)
 
     @run_on_remote
-    def findAll(self):
+    def findAll(self, PS):
         """
-        .. todo:: Implement
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
+        :rtype: one or more :class:`~sikuli_client.match.Match` objects as an
+            iterator object or fails if PatternNotFound
+
+        Repeatedly find ALL instances of a pattern, until no match can be
+        found anymore, that meets the requirements for a single
+        :py:meth:`Region.find()` with the specified pattern.
+
+        By default, the returned matches are sorted by the similiarty.
+        If you need them ordered by their positions, say the Y coordinates,
+        you have to use Python's `sorted <http://wiki.python
+        .org/moin/HowTo/Sorting/>`_ function. Here is a example of sorting the
+        matches from top to bottom.
+
+        .. code-block:: python
+
+            def by_y(match):
+               return match.y
+
+            icons = findAll("png_icon.png")
+            # sort the icons by their y coordinates and put them into a new
+            sorted_icons = sorted(icons, key=by_y)
+            # another shorter version is using lambda.
+            sorted_icons = sorted(icons, key=lambda m:m.y)
+            for icon in sorted_icons:
+               pass # do whatever you want to do with the sorted icons
+
+
+
+        **Side Effect** *lastMatches*: a reference to the returned iterator
+        object containing the
+        found matches is stored with the region that was searched. It can be
+        accessed using getLastMatches() afterwards.
         """
-        #TODO
+        assert_PS(PS, self.find)
         pass
 
-    @run_on_remote
-    def wait(self):
+    @findAll.func
+    def findAll(self, PS):
         """
-        .. todo:: Implement
+        :rtype: generator
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
         """
-        #TODO
-        pass
+        match_ids = self.remote._eval(
+            "[self._new_jython_object(x) for x in"
+            " self._get_jython_object(%r).findAll(%s)]"
+            % (self._id,
+               PS._str_get if isinstance(PS, SikuliClass) else PS))
+        return (Match(remote=self.remote, server_id=match_id)
+                for match_id in match_ids)
 
-    #40%
-    @run_on_remote
-    def waitVanish(self):
+    @return_from_remote(Match)
+    def wait(self, PS=None, seconds=None):
         """
-        .. todo:: Implement
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
+        :param seconds: a number, which can have a fraction, as maximum waiting
+            time in seconds. The internal granularity is milliseconds. If not
+            specified, the auto wait timeout value set by
+            :py:meth:`Region.setAutoWaitTimeout` is used. Use the string
+            *'FOREVER'* to wait for an infinite time.
+        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+            best match or fails if PatternNotFound
+
+        If *PS* is not specified, the script just pauses for the specified
+        amount of time. It is still possible to use ``sleep(seconds)`` instead,
+        but this is deprecated.
+
+        If *PS* is specified, it keeps searching the given pattern in the
+        region until the image appears ( would have been found with
+        :py:meth:`Region.find`) or the specified amount of time has elapsed. At
+        least one find operation is performed, even if 0 seconds is
+        specified.)
+
+        **Side Effect** *lastMatch*: the best match can be accessed using
+        :meth:`Region.getLastMatch` afterwards.
+
+        Note: You may adjust the scan rate (how often a search during the wait
+        takes place) by setting :py:attr:`Settings.WaitScanRate` appropriately.
         """
-        #TODO
-        pass
+        if PS is not None:
+            assert_PS(PS, self.wait)
+        if seconds is not None and not seconds == 'FOREVER':
+            assert_positive_num(seconds, self.wait)
+    @wait.func
+    def wait(self, PS=None, seconds=None):
+        """
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
+        :param seconds: a number, which can have a fraction, as maximum waiting
+            time in seconds. The internal granularity is milliseconds. If not
+            specified, the auto wait timeout value set by
+            :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant
+            *FOREVER* to wait for an infinite time.
+        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+            best match or fails if PatternNotFound
+        """
+        if PS is None:
+            from time import sleep
+            sleep(seconds)
+            return
+        ps_str = PS._str_get if isinstance(PS, SikuliClass) else PS
+        if seconds is None:
+            sec_str = repr(self.getAutoWaitTimeout())
+        elif isinstance(seconds, int):
+            sec_str = repr(seconds)
+        else:
+            sec_str = seconds
+        match_id = self.remote._eval(
+            "self._new_jython_object(self._get_jython_object(%r).wait("
+            "PS=%s, seconds=%s))" % (self._id, ps_str, sec_str))
+        return Match(remote=self.remote, server_id=match_id)
 
     @run_on_remote
-    def exists(self):
+    def waitVanish(self, PS, seconds=None):
         """
-        .. todo:: Implement
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
+        :param seconds: a number, which can have a fraction, as maximum waiting
+            time in seconds. The internal granularity is milliseconds. If not
+            specified, the auto wait timeout value set by
+            :py:meth:`Region.setAutoWaitTimeout` is used. Use the string
+            *'FOREVER'* to wait for an infinite time.
+        :rtype: *True* if the pattern vanishes within the specified waiting
+            time, or *False* if the pattern stays visible after the waiting
+            time has elapsed.
+
+        This method keeps searching the given pattern in the region until the
+        image vanishes (can not be found with :py:meth:`Region.find` any
+        longer) or the specified amount of time has elapsed. At least one find
+        operation is performed, even if 0 seconds is specified.
+
+        **Note**: You may adjust the scan rate (how often a search during the
+        wait
+        takes place) by setting :py:attr:`Settings.WaitScanRate` appropriately.
         """
-        #TODO
-        pass
+        assert_PS(PS, self.waitVanish)
+        if seconds is not None and not seconds == 'FOREVER':
+            assert_positive_num(seconds, self.waitVanish)
+
+    @wait.func
+    def waitVanish(self, PS, seconds=None):
+        """
+        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+            (path to an image file or just plain text)
+        :param seconds: a number, which can have a fraction, as maximum waiting
+            time in seconds. The internal granularity is milliseconds. If not
+            specified, the auto wait timeout value set by
+            :py:meth:`Region.setAutoWaitTimeout` is used. Use the string
+            *'FOREVER'* to wait for an infinite time.
+        :rtype: *True* if the pattern vanishes within the specified waiting
+            time, or *False* if the pattern stays visible after the waiting
+            time has elapsed.
+        """
+        ps_str = PS._str_get if isinstance(PS, SikuliClass) else PS
+        if seconds is None:
+            sec_str = repr(self.getAutoWaitTimeout())
+        elif isinstance(seconds, int):
+            sec_str = repr(seconds)
+        else:
+            sec_str = seconds
+        return self.remote._eval("self._get_jython_object(%r).waitVanish(PS=%s,"
+                                 " seconds=%s)" % (self._id, ps_str, sec_str))
 
     @run_on_remote
+    def exists(self, PS, seconds=None):
+        """
+        Check whether the give pattern is visible on the screen.
+
+        :param PS: a :py:class:`Pattern` object or a string (path to an image
+            file or just plain text)
+        :param seconds: a number, which can have a fraction, as maximum waiting
+            time in seconds. The internal granularity is milliseconds. If not
+            specified, the auto wait timeout value set by
+            :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant
+            *FOREVER* to wait for an infinite time.
+        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+            best match or fails if PatternNotFound. None is returned, if nothing
+            is found within the specified waiting time.
+
+        Does exactly the same as :py:meth:`Region.wait()`, but no exception is
+        raised in case of FindFailed. So it can be used to symplify scripting
+        in case that you only want to know wether something is there or not to
+        decide how to proceed in your workflow. So it is typically used with an
+        if statement.  At least one find operation is performed, even if 0
+        seconds is specified. So specifying 0 seconds saves some time, in case
+        there is no need to wait, since its your intention to get the
+        information "not found" directly.
+
+        **Side Effect** *lastMatch*: the best match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+
+        **Note**: You may adjust the scan rate (how often a search during the
+        wait
+        takes place) by setting :py:attr:`Settings.WaitScanRate` appropriately.
+        """
+        assert_PS(PS, self.exists)
+        if seconds is not None and not seconds == 'FOREVER':
+            assert_positive_num(seconds, self.exists)
+
+    @exists.func
+    def exists(self, PS, seconds=None):
+        """
+        :param PS: a :py:class:`Pattern` object or a string (path to an image
+            file or just plain text)
+        :param seconds: a number, which can have a fraction, as maximum waiting
+            time in seconds. The internal granularity is milliseconds. If not
+            specified, the auto wait timeout value set by
+            :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant
+            *FOREVER* to wait for an infinite time.
+        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+            best match or fails if PatternNotFound. None is returned, if nothing
+            is found within the specified waiting time.
+        """
+        ps_str = PS._str_get if isinstance(PS, SikuliClass) else PS
+        if seconds is None:
+            sec_str = repr(self.getAutoWaitTimeout())
+        elif isinstance(seconds, int):
+            sec_str = repr(seconds)
+        else:
+            sec_str = seconds
+        match_id = self.remote._eval(
+            "self._new_jython_object(self._get_jython_object(%r)"
+            ".exists(PS=%s, seconds=%s))" % (self._id, ps_str, sec_str))
+        return (Match(remote=self.remote, server_id=match_id) if match_id is not
+                None else match_id)
+
+    @DEFERRED
     def onAppear(self):
         """
         .. todo:: Implement
         """
-        #TODO
         pass
 
-    @run_on_remote
+    @DEFERRED
     def onVanish(self):
         """
         .. todo:: Implement
         """
-        #TODO
         pass
 
-    @run_on_remote
+    @DEFERRED
     def onChange(self):
         """
         .. todo:: Implement
         """
-        #TODO
         pass
 
-    #50%
-    @run_on_remote
+    @DEFERRED
     def observe(self):
         """
         .. todo:: Implement
         """
         pass
 
-    @run_on_remote
+    @DEFERRED
     def stopObserver(self):
         """
         .. todo:: Implement
         """
-        #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def click(self):
         """
         .. todo:: Implement
@@ -472,7 +686,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def doubleClick(self):
         """
         .. todo:: Implement
@@ -480,7 +694,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def rightClick(self):
         """
         .. todo:: Implement
@@ -489,7 +703,7 @@ class Region(SikuliClass):
         pass
 
     #60%
-    @run_on_remote
+    @TODO
     def highlight(self):
         """
         .. todo:: Implement
@@ -497,7 +711,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def hover(self):
         """
         .. todo:: Implement
@@ -505,7 +719,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def dragDrop(self):
         """
         .. todo:: Implement
@@ -513,7 +727,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def drag(self):
         """
         .. todo:: Implement
@@ -521,7 +735,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def dropAt(self):
         """
         .. todo:: Implement
@@ -530,7 +744,7 @@ class Region(SikuliClass):
         pass
 
     #70%
-    @run_on_remote
+    @TODO
     def type(self):
         """
         .. todo:: Implement
@@ -538,7 +752,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def paste(self):
         """
         .. todo:: Implement
@@ -546,7 +760,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def text(self):
         """
         .. todo:: Implement
@@ -554,7 +768,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def mouseDown(self):
         """
         .. todo:: Implement
@@ -562,7 +776,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def mouseUp(self):
         """
         .. todo:: Implement
@@ -571,7 +785,7 @@ class Region(SikuliClass):
         pass
 
     #80%
-    @run_on_remote
+    @TODO
     def mouseMove(self):
         """
         .. todo:: Implement
@@ -579,7 +793,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def wheel(self):
         """
         .. todo:: Implement
@@ -587,7 +801,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def keyDown(self):
         """
         .. todo:: Implement
@@ -595,7 +809,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def keyUp(self):
         """
         .. todo:: Implement
@@ -603,7 +817,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def setFindFailedResponse(self):
         """
         .. todo:: Implement
@@ -612,7 +826,7 @@ class Region(SikuliClass):
         pass
 
     #90%
-    @run_on_remote
+    @TODO
     def getFindFailedResponse(self):
         """
         .. todo:: Implement
@@ -620,7 +834,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def setThrowException(self):
         """
         .. todo:: Implement
@@ -628,7 +842,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def getThrowException(self):
         """
         .. todo:: Implement
@@ -636,7 +850,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def getRegionFromPSRM(self):
         """
         .. todo:: Implement
@@ -644,7 +858,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @run_on_remote
+    @TODO
     def getLocationFromPSRML(self):
         """
         .. todo:: Implement
