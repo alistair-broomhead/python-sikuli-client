@@ -134,6 +134,24 @@ def run_on_remote(func):
     return _outer
 
 
+def TODO(func):
+    """
+    Decorator for unimplemented interfaces
+    :type func: function
+    """
+    func.__doc__ = """ .. todo:: Implement %r (soon) """ % func
+    return func
+
+
+def DEFERRED(func):
+    """
+    Decorator for unimplemented interfaces
+    :type func: function
+    """
+    func.__doc__ = """ .. todo:: Implement %r (later) """ % func
+    return func
+
+
 def return_from_remote(rtype):
     """
     Decorator factory returning a run_on_remote decorator which marshals and
