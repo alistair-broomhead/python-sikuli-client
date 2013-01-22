@@ -65,18 +65,24 @@ class ClientSikuliClass(ServerSikuliClass):
         :type remote: SikuliClient
         """
         super(ClientSikuliClass, self).__init__(None)
-        for key in dir(self):
+
+        def _apply_key(key):
             try:
                 func = getattr(self, key)
+                aug = func._augment
+                runner = func.run
             except AttributeError:
-                pass
-            else:
-                try:
-                    from functools import partial, wraps
-                    run = wraps(func.run)(partial(func.run, self))
-                    setattr(self, key, run)
-                except AttributeError:
-                    pass
+                return
+
+            @wraps(func)
+            def _outer(*args, **kwargs):
+                return runner(self, *args, **kwargs)
+
+            setattr(self, key, _outer)
+
+        for key in dir(self):
+            _apply_key(key)
+
         self.remote = remote
         self.server_id = server_id
 
@@ -150,10 +156,10 @@ def run_on_remote(func):
         func._augment['inner'] = func_func
         return func
 
-    func.arg  = _outer.arg = _arg
-    func.post = _outer.post = _post
-    func.func = _outer.func = _func
-    func.run  = _outer.run = _outer
+    func.arg = _arg
+    func.post = _post
+    func.func = _func
+    func.run = _outer
     return func
 
 
@@ -162,7 +168,7 @@ def TODO(func):
     Decorator for unimplemented interfaces
     :type func: function
     """
-    func.__doc__ = """ .. todo:: Implement %r (soon) """ % func
+    func.__doc__ = """ .. todo:: Implement %r (soon) """ % func.__name__
     return func
 
 
@@ -171,7 +177,7 @@ def DEFERRED(func):
     Decorator for unimplemented interfaces
     :type func: function
     """
-    func.__doc__ = """ .. todo:: Implement %r (later) """ % func
+    func.__doc__ = """ .. todo:: Implement %r (later) """ % func.__name__
     return func
 
 
@@ -193,10 +199,10 @@ def return_from_remote(rtype):
     rt = []
 
     def _new_decorator(func):
-        decorated = run_on_remote(func)
+        func = run_on_remote(func)
 
-        @wraps(func)
-        def _inner(self, *args):
+        @func.func
+        def _inner_func(self, *args, **kwargs):
             location_id = self.remote._eval(
                 "self._new_jython_object("
                 "   self._get_jython_object(%r).%s(%s))" % (
@@ -211,8 +217,7 @@ def return_from_remote(rtype):
                           SIKULI_CLASSES[rtype])
             return rt[0](remote=self.remote, server_id=location_id)
 
-        decorated._augment['inner'] = _inner
-        return decorated
+        return func
 
     return _new_decorator
 
