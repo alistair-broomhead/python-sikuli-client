@@ -36,6 +36,8 @@ def assert_one_of(test, meth, types):
         if isinstance(test, t_):
             return
     raise TypeError("%r expected one of %r, got %r" % (meth, types, test))
+
+
 def assert_PS(PS, meth):
     """
     repetitive validation
@@ -43,4 +45,19 @@ def assert_PS(PS, meth):
     :param PS: Pattern or str
     """
     from .pattern import Pattern
+
     assert_one_of(PS, meth, [Pattern, basestring])
+
+
+def assert_PSMRL(PSMRL, meth):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param PSMRL: Pattern, str, Match, Region or Location
+    """
+    from .pattern import Pattern
+    from .region import Region
+    from .match import Match
+    from .location import Location
+
+    assert_one_of(PSMRL, meth, [Pattern, basestring, Match, Region, Location])

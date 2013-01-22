@@ -9,6 +9,7 @@ described at http://doc.sikuli.org/region.html
 """
 from .asserts import (assert_positive_int,
                       assert_PS,
+                      assert_PSMRL,
                       assert_positive_num)
 __author__ = 'Alistair Broomhead'
 from .sikuli_class import (UnimplementedSikuliClass,
@@ -85,7 +86,8 @@ class Region(SikuliClass):
     @return_from_remote('Region')
     def moveTo(self, location):
         """
-        :param location: :class:`~sikuli_client.location.Location` - the new top left corner
+        :param location: :class:`~sikuli_client.location.Location` - the new top
+            left corner
         :rtype: :class:`Region` -- the modified region object
 
         Set the position of this region regarding its top left corner to the
@@ -321,7 +323,7 @@ class Region(SikuliClass):
         :param range_px: int > 0, default = 50
         :rtype: :class:`Region`
         """
-        assert_positive_int(range_px,self.nearby)
+        assert_positive_int(range_px, self.nearby)
 
     @return_from_remote('Region')
     def above(self, range_px):
@@ -500,6 +502,7 @@ class Region(SikuliClass):
             assert_PS(PS, self.wait)
         if seconds is not None and not seconds == 'FOREVER':
             assert_positive_num(seconds, self.wait)
+
     @wait.func
     def wait(self, PS=None, seconds=None):
         """
@@ -678,81 +681,389 @@ class Region(SikuliClass):
         """
         pass
 
-    @TODO
-    def click(self):
+    @run_on_remote
+    def click(self, PSMRL, *modifiers):
         """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        Perform a mouse click on the click point using the left button.
 
-    @TODO
-    def doubleClick(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
 
-    @TODO
-    def rightClick(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        :param modifiers: key modifiers
 
-    #60%
-    @TODO
-    def highlight(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        :rtype: the number of performed clicks (actually 1). A 0 (integer null)
+            means that because of some reason, no click could be performed (in
+            case of *PS* may be :ref:`not Found <PatternNotFound>`).
 
-    @TODO
-    def hover(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
 
-    @TODO
-    def dragDrop(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        **Example:**
 
-    @TODO
-    def drag(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+        .. code-block:: python
 
-    @TODO
-    def dropAt(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+            # Windows XP
+            click("xpstart.png")
 
-    #70%
-    @TODO
-    def type(self):
-        """
-        .. todo:: Implement
-        """
-        #TODO
-        pass
+            # Windows Vista
+            click("vistastart.png")
 
-    @TODO
+            # Windows 7
+            click("w7start.png")
+
+            # Mac
+            click("apple.png")
+        """
+        assert_PSMRL(PSMRL, self.click)
+
+    @run_on_remote
+    def doubleClick(self, PSMRL, *modifiers):
+        """
+        Perform a mouse double-click on the click point using the left button.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :param modifiers: one or more key modifiers
+
+        :rtype: the number of performed double-clicks (actually 1). A 0 (
+            integer null) means that because of some reason, no click could be
+            performed (in case of *PS* may be PatternNotFound).
+
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+        """
+        assert_PSMRL(PSMRL, self.doubleClick)
+
+    @run_on_remote
+    def rightClick(self, PSMRL, *modifiers):
+        """
+        Perform a mouse click on the click point using the right button.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :param modifiers: one or more key modifiers
+
+        :rtype: the number of performed double-clicks (actually 1). A 0 (
+            integer null) means that because of some reason, no c
+
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+        """
+        assert_PSMRL(PSMRL, self.doubleClick)
+
+    @run_on_remote
+    def highlight(self, seconds=None):
+        """
+        Highlight the region for some period of time.
+
+        :param seconds: a decimal number taken as duration in seconds
+
+        The region is highlighted showing a red colored frame around it. If the
+        parameter seconds  is given, the script is suspended for the specified
+         time.
+        If no time is given, the highlighting is started and the script
+        continues.
+        When later on the same highlight call without a parameter is made, the
+        highlighting is stopped (behaves like a toggling switch).
+
+        Example::
+
+            m = find(some_image)
+
+            # the red frame will blink for about 7 - 8 seconds
+            for i in range(5):
+                m.highlight(1)
+                wait(0.5)
+
+            # a second red frame will blink as an overlay to the first one
+            m.highlight()
+            for i in range(5):
+                m.highlight(1)
+                wait(0.5)
+            m.highlight()
+
+            # the red frame will grow 5 times
+            for i in range(5):
+                m.highlight(1)
+                m = m.nearby(20)
+
+        **Note**: The red frame is just an overlay in front of all other
+        screen content and
+        stays in its place, independently from the behavior of this other
+        content,
+        which means it is not "connected" to the *content* of the defining
+        region.
+        But it will be adjusted automatically, if you change position and/or
+        dimension
+        of this region in your script, while it is highlighted.
+        """
+        pass
+    @highlight.arg
+    def highlight(self, seconds=None):
+        """
+        :param seconds: a decimal number taken as duration in seconds
+        """
+        return (seconds,) if seconds is not None else ()
+
+
+    @run_on_remote
+    def hover(self, PSMRL, *modifiers):
+        """
+        Move the mouse cursor to hover above a click point.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :param modifiers: one or more key modifiers
+
+        :rtype: the number 1 if the mousepointer could be moved to the click
+        point.
+            A 0 (integer null) returned
+            means that because of some reason, no move could be performed (in
+            case of *PS* may be :ref:`not Found <PatternNotFound>`).
+
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+        """
+        assert_PSMRL(PSMRL, self.hover)
+
+    @run_on_remote
+    def dragDrop(self, PSMRL_drag, PSMRL_drop, *modifiers):
+        """
+        Perform a drag-and-drop operation from a starting click point to the
+        target
+        click point indicated by the two PSMRLs respectively.
+
+        :param PSMRL_drag: a pattern, a string, a match, a region or a location
+            that evaluates to a click point.
+
+        :param PSMRL_drop: a pattern, a string, a match, a region or a location
+            that evaluates to a click point.
+
+        :param modifiers: one or more key modifiers
+
+        If one of the parameters is *PS*, the operation might fail due to
+        :ref:`not Found <PatternNotFound>`.
+
+        **Sideeffect**: when using *PS*, the match of the target can be
+        accessed using
+        :py:meth:`Region.getLastMatch` afterwards. If only the first
+        parameter is
+        given as *PS*, this match is returned by :py:meth:`Region
+        .getLastMatch`.
+
+        **When the operation does not perform as expected** (usually caused by
+         timing
+        problems due to delayed reactions of applications), you may adjust the
+        internal timing parameters :py:attr:`Settings.DelayAfterDrag` and
+        :py:attr:`Settings.DelayBeforeDrop` eventually combined with the
+        internal
+        timing parameter :py:attr:`Settings.MoveMouseDelay`.
+
+        Another solution might be, to use a combination of :py:meth:`Region
+        .drag`
+        and :py:meth:`Region.dropAt` combined with your own ``wait()`` usages.
+          If the mouse
+        movement from source to target is the problem, you might break up the
+        move
+        path into short steps using :py:meth:`Region.mouseMove`.
+        """
+        assert_PSMRL(PSMRL_drag, self.dragDrop)
+        assert_PSMRL(PSMRL_drop, self.dragDrop)
+
+    @run_on_remote
+    def drag(self, PSMRL):
+        """
+        Start a drag-and-drop operation by dragging at the given click point.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :rtype: the number 1 if the operation could be performed. A 0 (
+        integer null) returned
+            means that because of some reason, no move could be performed (in
+            case of *PS* may be :ref:`not Found <PatternNotFound>`).
+
+        The mousepointer is moved to the click point and the left mouse
+        button is
+        pressed and held, until another mouse action is performed (e.g. a
+        :py:meth:`Region.dropAt()`    afterwards). This is nomally used to
+        start a
+        drag-and-drop operation.
+
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+        """
+        assert_PSMRL(PSMRL, self.drag)
+
+    @run_on_remote
+    def dropAt(self, PSMRL, delay=None):
+        """
+        Complete a drag-and-drop operation by dropping a previously dragged
+        item at
+        the given target click point.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :param delay: time to wait after in seconds as decimal value
+
+        :rtype: the number 1 if the operation could be performed. A 0
+            (integer null) returned means that because of some reason, no move
+            could be performed (in case of *PS* may be PatternNotFound).
+
+        The mousepointer is moved to the click point. After waiting for delay
+        seconds the left mouse button is released. This is normally used to
+        finalize
+        a drag-and-drop operation. If it is necessary to visit one ore more
+        click
+        points after dragging and before dropping, you can use
+        :py:meth:`Region.mouseMove` inbetween.
+
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+        """
+        assert_PSMRL(PSMRL, self.dropAt)
+
+    @dropAt.arg
+    def dropAt(self, PSMRL, delay=None):
+        """
+        Complete a drag-and-drop operation by dropping a previously dragged
+        item at
+        the given target click point.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :param delay: time to wait after in seconds as decimal value
+
+        :rtype: the number 1 if the operation could be performed. A 0
+            (integer null) returned means that because of some reason, no move
+            could be performed (in case of *PS* may be PatternNotFound).
+        """
+        return (PSMRL, ) + ((delay,) if delay is not None else ())
+
+    #noinspection PyUnusedLocal,PyDocstring
+    @run_on_remote
+    def type(self, *args, **kwargs):
+        """
+        Type the text at the current focused input field or at a click point
+        specified by *PSMRL*.
+
+        :param PSMRL: a pattern, a string, a match, a region or a location that
+            evaluates to a click point.
+
+        :param text: a string to type.
+
+        :param modifiers: one or more key modifiers
+
+        :returns: the number 1 if the operation could be
+            performed, otherwise 0 (integer null), which means,
+            that because of some reason, it was not possible or the click
+            could be performed (in case of *PS* may be :ref:`not Found
+            <PatternNotFound>`).
+
+        This method simulates keyboard typing interpreting the characters of
+        text
+        based on the layout/keymap of the **standard US keyboard (QWERTY)**.
+        Special
+        keys (ENTER, TAB, BACKSPACE, ...) can be incorporated into text by
+        using the
+        constants defined in :doc:`Class Key <keys>` using the standard string
+         concatenation (+).
+
+        If *PSMRL* is given, a click on the clickpoint is performed before
+        typing, to
+        gain the focus. (Mac: it might be necessary,
+        to use :py:func:`switchApp`
+        to give focus to a target application before, to accept typed/pasted
+        characters.)
+
+        If *PSMRL* is omitted, it performs the typing on the current focused
+        visual
+        component (normally an input field or an menu entry that can be
+        selected by
+        typing something).
+
+        **Side Effect** if *PS* was used, the match can be accessed using
+        :py:meth:`Region.getLastMatch` afterwards.
+
+        **Note**: If you need to type international characters or you are using
+        layouts/keymaps other than US-QWERTY, you should use :py:meth:`Region
+        .paste`
+        instead. Since type() is rather slow because it simulates each key
+        press,
+        for longer text it is preferrable to use :py:meth:`Region.paste`.
+
+        **Best Practice**: As a general guideline, the best choice is to use
+        ``paste()``
+        for readable text and ``type()`` for action keys like TAB, ENTER, ESC,
+         ....
+        Use one ``type()`` for each key or key combination and be aware,
+        that in some cases
+        a short ``wait()`` after a ``type()`` might be necessary
+        to give the target application some time to react and be prepared
+        for the next Sikuli action.
+        """
+        # Why would anyone in their right mind put optional args in front of
+        # mandatory ones? I hope you know I hate you, whoever you are...
+        def _raise_error():
+            raise TypeError("Incorrect call signature for method %r. args=%r, "
+                            "kwargs=%r:\n%s"
+                            % (self.type, args, kwargs, self.type.__doc__))
+
+        PSMRL = None
+        text = None
+        modifiers = None
+        if kwargs:
+            for k in kwargs:
+                if k not in ('text', 'PSMRL', 'modifiers'):
+                    _raise_error()
+        if args and kwargs:
+            if 'PSMRL' in kwargs:
+                PSMRL = kwargs['PSMRL']
+            if 'text' in kwargs:
+                text = kwargs['text']
+            if 'modifiers' in kwargs:
+                modifiers = kwargs['modifiers']
+            num_unset = len([x for x in (PSMRL, text, modifiers) if x is None])
+            if len(args) > num_unset:
+                _raise_error()
+            if text is None:
+                if PSMRL is not None:
+                    text = args[0]
+                elif not isinstance(args[0], basestring):
+                    if len(args) == 1:
+                        _raise_error()
+                    elif len(args) == 2:
+                        PSMRL, text = args
+            elif not isinstance(args[0], basestring):
+                PSMR = args[0]
+            if PSMRL is not None:
+                assert_PSMRL(PSMRL, self.type)
+            return  # I'm screwwed
+        elif args:
+            if len(args) == 3:
+                (PSMRL, text, modifiers) = args
+            elif len(args) == 1:
+                text = args[0]
+            else:
+                if not isinstance(args[0], basestring):
+                    PSMRL, text = args
+                else:
+                    return  # pray to god as there's nothing I can do here...
+        else:
+            text = kwargs['text'] if 'text' in kwargs else None
+            if 'PSMRL' in kwargs:
+                PSMRL = kwargs['PSMRL']
+        if PSMRL is not None:
+            assert_PSMRL(PSMRL, self.type)
+        if text is None or not isinstance(text, basestring):
+            _raise_error()
+
+    @run_on_remote
     def paste(self):
         """
         .. todo:: Implement
@@ -760,7 +1071,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @run_on_remote
     def text(self):
         """
         .. todo:: Implement
@@ -768,7 +1079,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @run_on_remote
     def mouseDown(self):
         """
         .. todo:: Implement
@@ -776,7 +1087,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @run_on_remote
     def mouseUp(self):
         """
         .. todo:: Implement
@@ -785,7 +1096,7 @@ class Region(SikuliClass):
         pass
 
     #80%
-    @TODO
+    @run_on_remote
     def mouseMove(self):
         """
         .. todo:: Implement
@@ -793,7 +1104,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @run_on_remote
     def wheel(self):
         """
         .. todo:: Implement
@@ -801,7 +1112,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @run_on_remote
     def keyDown(self):
         """
         .. todo:: Implement
@@ -809,7 +1120,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @run_on_remote
     def keyUp(self):
         """
         .. todo:: Implement
@@ -817,7 +1128,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @DEFERRED
     def setFindFailedResponse(self):
         """
         .. todo:: Implement
@@ -826,7 +1137,7 @@ class Region(SikuliClass):
         pass
 
     #90%
-    @TODO
+    @DEFERRED
     def getFindFailedResponse(self):
         """
         .. todo:: Implement
@@ -834,7 +1145,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @DEFERRED
     def setThrowException(self):
         """
         .. todo:: Implement
@@ -842,7 +1153,7 @@ class Region(SikuliClass):
         #TODO
         pass
 
-    @TODO
+    @DEFERRED
     def getThrowException(self):
         """
         .. todo:: Implement
