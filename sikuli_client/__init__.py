@@ -15,7 +15,9 @@ Client library for interacting with Siculi from Robotframework over XML-RPC
    sikuli_client.region
    sikuli_client.screen
    sikuli_client.location
+   sikuli_client.consts
 
+   sikuli_client.asserts
    sikuli_client.classes
    sikuli_client.misc
    sikuli_client.sikuli_class
