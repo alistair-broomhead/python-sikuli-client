@@ -1,6 +1,8 @@
 """
 Extra classes that implementent miscellaneous needed functionailty
 """
+from functools import wraps
+from .sikuli_class import ClientSikuliClass, SikuliClass
 
 __author__ = 'Alistair Broomhead'
 from .pattern import Pattern
@@ -61,3 +63,176 @@ class SikuliUnreflected(object):
         #noinspection PyUnresolvedReferences
         match_id = self._eval("self._new_jython_object(self.find(%s))" % ps)
         return Match(remote=self.remote, id_=match_id)
+
+
+def dropNones(num_required, keys, *args, **kwargs):
+    """
+    Was finding this repoetitive.
+    :param num_required: how many args are required in total
+    :param keys: dict of keys and (bool) is_required (None ignores this)
+    :param args:
+    :param kwargs: some of these will not
+    """
+    if keys is None:
+        kw = {k: v for k, v in kwargs.items() if v is not None}
+    else:
+        kw = {k: v for k, v in kwargs.items()
+              if (v is not None) or (k in keys and keys[k])}
+    while len(kw) + len(args) > num_required and args[-1] is None:
+        args = args[:-1]
+    return args, kw
+
+
+def constructor(cls):
+    """
+    :param cls: class to use decorated function as constructor for
+
+    Uses func as a potential constructor for cls:
+    func should return the string which when evaluated by jython gives the
+    object we want.
+
+    .. code-block:: python
+
+        @constructor(cls)
+        def func(*args, **kwargs):
+            ...
+    """
+
+    def _wrapper(func):
+        @wraps(func)
+        def _func(*args, **kwargs):
+            return cls.remote._eval("self._new_jython_object(%s)" %
+                                    func(*args, **kwargs))
+
+        cls._constructors = cls._constructors + (_func,)
+        return _func
+
+    return _wrapper
+
+
+def return_from_remote(rtype):
+    """
+    Decorator factory returning a run_on_remote decorator which marshals and
+    unmarshals the return type as ``rtype`` where ``rtype`` must be either a
+    subclass of :class:`ClientSikuliClass`, or the string name of a
+    class in :mod:`~sikuli_client.classes`
+
+    :param rtype: return type
+
+    .. code-block:: python
+
+        @return_from_remote(rtype)
+        def func(*args, **kwargs):
+            ...
+    """
+    rt = []
+
+    def _new_decorator(func):
+        func = run_on_remote(func)
+
+        @func.func
+        def _inner_func(self, *args, **kwargs):
+            location_id = self.remote._eval(
+                "self._new_jython_object("
+                "   self._get_jython_object(%r).%s(%s))" % (
+                    self._id,
+                    func.__name__,
+                    ', '.join([s_repr(x) for x in args])))
+            if not rt:
+                from .classes import SIKULI_CLASSES
+
+                rt.append(rtype
+                          if isinstance(rtype, ClientSikuliClass) else
+                          SIKULI_CLASSES[rtype])
+            return rt[0](remote=self.remote, server_id=location_id)
+
+        return func
+
+    return _new_decorator
+
+
+def DEFERRED(func):
+    """
+    Decorator for unimplemented interfaces
+    :type func: function
+    """
+    func.__doc__ = """ .. todo:: Implement %r (later) """ % func.__name__
+    return func
+
+
+def TODO(func):
+    """
+    Decorator for unimplemented interfaces
+    :type func: function
+    """
+    func.__doc__ = """ .. todo:: Implement %r (soon) """ % func.__name__
+    return func
+
+
+def run_on_remote(func):
+    """
+    :param func: function to decorate
+
+    Runs the decorated function but discards the result, so you can use it
+    for sanity-checking but should not use it for actual processing, as
+    this will be done on the server side.
+
+    The decorated function can have a number of properties that modify the
+    way it is run, each of which should be a function itself:
+
+        ``func.arg(*args, **kwargs)``:
+            The output of this will be used as args for the inner wrapper
+        ``func.post(result)``:
+            This takes the output of the inner wrapper, and its ouput is
+            returned by the outer wrapper
+        ``func.func(*args, **kwargs)``:
+            Replaces the default inner function - should handle all interaction
+            with the server
+
+    .. code-block:: python
+
+        @run_on_remote
+        def func(*args, **kwargs):
+            ...
+    """
+    gjo = "self._get_jython_object"
+    func._augment = {
+        'inner': lambda self, *args: (self.remote._eval("%s(%r).%s(%s)"
+                                      % (gjo, self._id, func.__name__,
+                                         ', '.join([s_repr(x)for x in args]))))
+    }
+
+    @wraps(func)
+    def _outer(self, *args, **kwargs):
+        func(self, *args, **kwargs)
+        if "arg" in func._augment:
+            args, kwargs = func._augment["arg"](self, *args, **kwargs), {}
+        result = func._augment['inner'](self, *args, **kwargs)
+        if "post" in func._augment:
+            return func.post(result)
+        else:
+            return result
+
+    def _arg(arg_func):
+        func._augment['arg'] = arg_func
+        return func
+
+    def _post(post_func):
+        func._augment['post'] = post_func
+        return func
+
+    def _func(func_func):
+        func._augment['inner'] = func_func
+        return func
+
+    func.arg = _arg
+    func.post = _post
+    func.func = _func
+    func.run = _outer
+    return func
+
+
+def s_repr(obj):
+    """ :param obj: object """
+    return (repr(obj) if not isinstance(obj, SikuliClass)
+            else "self._get_jython_object(%r)" % obj._str_get)

@@ -20,6 +20,7 @@ from .match import Match
 from .pattern import Pattern
 from .region import SikuliEvent, Region
 from .screen import Screen
+from .location import Location
 
 SIKULI_CLASSES = {
     cls.__name__: cls
@@ -28,6 +29,7 @@ SIKULI_CLASSES = {
                 Match,
                 Pattern,
                 SikuliEvent, Region,
-                Screen
+                Screen,
+                Location
     ]
 }

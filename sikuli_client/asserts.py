@@ -55,9 +55,28 @@ def assert_PSMRL(PSMRL, meth):
     :param meth: calling method
     :param PSMRL: Pattern, str, Match, Region or Location
     """
-    from .pattern import Pattern
-    from .region import Region
-    from .match import Match
-    from .location import Location
+    from .classes import Pattern, Match, Region, Location
 
     assert_one_of(PSMRL, meth, [Pattern, basestring, Match, Region, Location])
+
+
+def assert_PSML(PSMRL, meth):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param PSMRL: Pattern, str, Match or Location
+    """
+    from .classes import Pattern, Match, Location
+
+    assert_one_of(PSMRL, meth, [Pattern, basestring, Match, Location])
+
+
+def assert_PSRM(PSRM, meth):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param PSRM: Pattern, str, Region or Match
+    """
+    from .classes import Pattern, Match, Region
+
+    assert_one_of(PSRM, meth, [Pattern, basestring, Region, Match])
