@@ -2,7 +2,7 @@
 Extra classes that implementent miscellaneous needed functionailty
 """
 from functools import wraps
-from .sikuli_class import ClientSikuliClass, SikuliClass
+from .sikuli_class import ClientSikuliClass
 
 __author__ = 'Alistair Broomhead'
 from .pattern import Pattern
@@ -206,7 +206,12 @@ def run_on_remote(func):
     def _outer(self, *args, **kwargs):
         func(self, *args, **kwargs)
         if "arg" in func._augment:
-            args, kwargs = func._augment["arg"](self, *args, **kwargs), {}
+            arg_kw = func._augment["arg"](self, *args, **kwargs)
+            if len(arg_kw) == 2 and (isinstance(arg_kw[0], tuple) and
+                                     isinstance(arg_kw[1], dict)):
+                args, kwargs = arg_kw
+            else:
+                args, kwargs = arg_kw, {}
         result = func._augment['inner'](self, *args, **kwargs)
         if "post" in func._augment:
             return func.post(result)
@@ -233,6 +238,8 @@ def run_on_remote(func):
 
 
 def s_repr(obj):
-    """ :param obj: object """
-    return (repr(obj) if not isinstance(obj, SikuliClass)
-            else "self._get_jython_object(%r)" % obj._str_get)
+    """
+    :param obj: object
+    """
+    return (repr(obj) if not isinstance(obj, ClientSikuliClass) else
+            obj._str_get)

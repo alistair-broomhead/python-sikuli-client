@@ -6,6 +6,7 @@ try:
     from ..sikuli_server.class_definitions.sikuli_class import (
         ServerSikuliClass, SIKULI_OBJECTS)
 except ValueError:
+    #noinspection PyUnresolvedReferences
     from SikuliServer.sikuli_server.class_definitions.sikuli_class import (
         ServerSikuliClass, SIKULI_OBJECTS)
 
@@ -55,7 +56,7 @@ class ClientSikuliClass(ServerSikuliClass):
         cls.remote = remote
         if server_id in SIKULI_OBJECTS:
             kwargs['server_id'] = server_id
-            #noinspection PyArgumentList
+        #noinspection PyArgumentList
         return object.__new__(cls, remote, *args, **kwargs)
 
     #noinspection PyUnusedLocal
@@ -85,6 +86,10 @@ class ClientSikuliClass(ServerSikuliClass):
 
         self.remote = remote
         self.server_id = server_id
+        self.remote._eval('_ref_jython_object(%r)' % self.server_id)
+
+    def __del__(self):
+        self.remote._eval('_del_jython_object(%r)' % self.server_id)
 
 
 class UnimplementedSikuliClass(ClientSikuliClass):

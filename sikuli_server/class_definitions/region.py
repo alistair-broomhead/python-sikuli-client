@@ -3,25 +3,16 @@ Classes to fulfill the roles of those described at
     http://doc.sikuli.org/region.html
 """
 __author__ = 'Alistair Broomhead'
-from .sikuli_class import UnimplementedSikuliClass, SikuliClass
-from .match import Match
+from .sikuli_class import ServerSikuliClass
 
-class SikuliEvent(UnimplementedSikuliClass):
+class SikuliEvent(ServerSikuliClass):
     """ Manages interaction with Sikuli's SikuliEvent """
     #TODO: SikuliEvent class
     # http://doc.sikuli.org/region.html#SikuliEvent
     pass
 
-class Region(SikuliClass):
+class Region(ServerSikuliClass):
     """ Manages interaction with Sikuli's Region """
-    def find(self, PS):
-        """
-        Implements an interface for
-            http://doc.sikuli.org/region.html#Region.find
-        """
-        return Match(self.obj.find(PS=PS))
-
-
     #TODO: Region class
     # http://doc.sikuli.org/region.html#Region
     pass
