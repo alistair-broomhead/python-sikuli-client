@@ -13,8 +13,6 @@ Jython script to run a robot remote library exposing the Sikuli API (and popen)
    sikuli_server.robotremoteserver
    sikuli_server.class_definitions
 """
-from functools import wraps
-
 try:
     #noinspection PyUnresolvedReferences
     from sikuli import Sikuli
@@ -59,9 +57,12 @@ class SikuliServer(object):
             def _get_cls(cls_name):
                 from .class_definitions.sikuli_class import ServerSikuliClass
 
-                @wraps(sd[cls_name])
                 class _cls(ServerSikuliClass):
                     pass
+                cls = sd[cls_name]
+                _cls.__name__ = cls.__name__
+                _cls.__doc__ = cls.__doc__
+                _cls.__module__ = cls.__module__
                 return _cls
             self.__private_globals = {}
             for key in ['App', 'Env', 'Finder', 'Match', 'Pattern', 'Region',
