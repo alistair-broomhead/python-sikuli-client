@@ -86,10 +86,17 @@ class ClientSikuliClass(ServerSikuliClass):
 
         self.remote = remote
         self.server_id = server_id
-        self.remote._eval('_ref_jython_object(%r)' % self.server_id)
+        self.remote._eval('self._ref_jython_object(%r)' % self.server_id)
+        if remote._session is not None:
+            remote._session.append(server_id)
+        else:
+            remote._out_of_session.append(server_id)
+#    def __del__(self):
+#        print "deleting", self.remote, self.server_id
+#        self.remote._del_obj(self.server_id)
 
-    def __del__(self):
-        self.remote._eval('_del_jython_object(%r)' % self.server_id)
+
+
 
 
 class UnimplementedSikuliClass(ClientSikuliClass):

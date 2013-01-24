@@ -66,8 +66,11 @@ class SikuliServer(object):
                 return _cls
             self.__private_globals = {}
             for key in ['App', 'Env', 'Finder', 'Match', 'Pattern', 'Region',
-                        'Screen', 'Settings', 'SikuliEvent', 'Vision']:
+                        'Screen', 'Settings', 'SikuliEvent']:
                 self.__private_globals[key] = _get_cls(key)
+            from .class_definitions.globals import Vision
+
+            self.__private_globals['Vision'] = Vision
         g = globals()
         g.update(self.__private_globals)
         return g
