@@ -5,7 +5,7 @@ SET OLDPATH=%PATH%
 ::
 SET PATH=%OLDPATH%;C:\Program Files (x86)\Sikuli X\libs
 SET PATH=%OLDPATH%;C:\Program Files (x86)\Java\jre6\lib
-SET JAVA="C:\Program Files (x86)\Java\jre6\bin\java.exe"
+SET JAVA="C:\Program Files\Java\jre6\bin\java.exe"
 ::
 ::  This should already be set, but if not, uncomment it
 ::
