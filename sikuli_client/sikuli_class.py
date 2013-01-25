@@ -25,7 +25,8 @@ class ClientSikuliClass(ServerSikuliClass):
         for method in cls._constructors:
             try:
                 server_id = method(*args, **kwargs)
-            except TypeError as e:
+            except BaseException as e:
+                print(e)
                 continue
             else:
                 if isinstance(_remote, SikuliClient):
