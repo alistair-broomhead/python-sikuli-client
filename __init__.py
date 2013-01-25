@@ -17,7 +17,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 """
-from .sikuli_client import SikuliClient
+from .sikuli_client import SikuliClient, sikuli_client_session
 from .sikuli_client.misc import RemoteLib
 from .sikuli_server import SikuliServer, run_sikuli_server
 __author__ = 'Alistair Broomhead'

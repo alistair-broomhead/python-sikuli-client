@@ -3,7 +3,7 @@ Base class for types based on the Sikuli native types
 """
 from functools import wraps
 try:
-    from ..sikuli_server.class_definitions.sikuli_class import (
+    from ..sikuli_server.sikuli_class import (
         ServerSikuliClass, SIKULI_OBJECTS)
 except ValueError:
     #noinspection PyUnresolvedReferences
@@ -90,7 +90,7 @@ class ClientSikuliClass(ServerSikuliClass):
         if remote._session is not None:
             remote._session.append(server_id)
         else:
-            remote._out_of_session.append(server_id)
+            remote._garbage.append(server_id)
 #    def __del__(self):
 #        print "deleting", self.remote, self.server_id
 #        self.remote._del_obj(self.server_id)
