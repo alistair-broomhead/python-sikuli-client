@@ -22,10 +22,6 @@ from .misc import (dropNones,
 __author__ = 'Alistair Broomhead'
 from .sikuli_class import (UnimplementedSikuliClass,
                            SikuliClass)
-from .location import Location
-from .screen import Screen
-
-from .match import Match
 
 
 class SikuliEvent(UnimplementedSikuliClass):
@@ -174,7 +170,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Location)
+    @return_from_remote('Location')
     def getCenter(self):
         """
         :rtype: :class:`~sikuli_client.location.Location`
@@ -183,7 +179,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Location)
+    @return_from_remote('Location')
     def getTopLeft(self):
         """
         :rtype: :class:`~sikuli_client.location.Location`
@@ -192,7 +188,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Location)
+    @return_from_remote('Location')
     def getTopRight(self):
         """
         :rtype: :class:`~sikuli_client.location.Location`
@@ -201,7 +197,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Location)
+    @return_from_remote('Location')
     def getBottomLeft(self):
         """
         :rtype: :class:`~sikuli_client.location.Location`
@@ -210,7 +206,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Location)
+    @return_from_remote('Location')
     def getBottomRight(self):
         """
         :rtype: :class:`~sikuli_client.location.Location`
@@ -219,7 +215,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Screen)
+    @return_from_remote('Screen')
     def getScreen(self):
         """
         :rtype: :class:`~sikuli_client.screen.Screen`
@@ -231,7 +227,7 @@ class Region(SikuliClass):
         """
         pass
 
-    @return_from_remote(Match)
+    @return_from_remote('Match')
     def getLastMatch(self):
         """
         :rtype: :class:`~sikuli_client.match.Match`
@@ -258,6 +254,7 @@ class Region(SikuliClass):
         location_ids = self.remote._eval(
             "[self._new_jython_object(x) for x in"
             " self._get_jython_object(%r).getLastMatches()]" % self._id)
+        from .match import Match
         return (Match(remote=self.remote, server_id=location_id)
                 for location_id in location_ids)
 
@@ -392,7 +389,7 @@ class Region(SikuliClass):
         """
         assert_positive_int(range_px, self.right)
 
-    @return_from_remote(Match)
+    @return_from_remote('Match')
     def find(self, PS):
         """
         :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
@@ -470,10 +467,11 @@ class Region(SikuliClass):
             " self._get_jython_object(%r).findAll(%s)]"
             % (self._id,
                PS._str_get if isinstance(PS, SikuliClass) else PS))
+        from .match import Match
         return (Match(remote=self.remote, server_id=match_id)
                 for match_id in match_ids)
 
-    @return_from_remote(Match)
+    @return_from_remote('Match')
     def wait(self, PS=None, seconds=None):
         """
         :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
@@ -534,6 +532,7 @@ class Region(SikuliClass):
         match_id = self.remote._eval(
             "self._new_jython_object(self._get_jython_object(%r).wait("
             "PS=%s, seconds=%s))" % (self._id, ps_str, sec_str))
+        from .match import Match
         return Match(remote=self.remote, server_id=match_id)
 
     @run_on_remote
@@ -647,6 +646,8 @@ class Region(SikuliClass):
         match_id = self.remote._eval(
             "self._new_jython_object(self._get_jython_object(%r)"
             ".exists(PS=%s, seconds=%s))" % (self._id, ps_str, sec_str))
+
+        from .match import Match
         return (Match(remote=self.remote, server_id=match_id) if match_id is not
                 None else match_id)
 
@@ -1310,7 +1311,7 @@ class Region(SikuliClass):
         """
         assert_PSRM(PSRM, self.getRegionFromPSRM)
 
-    @return_from_remote(Location)
+    @return_from_remote('Location')
     def getLocationFromPSRML(self, PSMRL):
         """
         Returns a new Location object derived from the given parameter. In
