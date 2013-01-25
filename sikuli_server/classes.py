@@ -26,7 +26,7 @@ class Vision(ServerSikuliClass):
     pass
 del ServerSikuliClass
 
-SIKULI_CLASSES = dict
+SIKULI_CLASSES = dict()
 SIKULI_CLASSES['Vision'] = Vision
 SIKULI_CLASSES['App'] = App = _get_cls('App')
 SIKULI_CLASSES['Env'] = Env = _get_cls('Env')
