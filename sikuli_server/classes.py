@@ -1,7 +1,6 @@
 """
 Server-side classes
 """
-
 from .sikuli_class import ServerSikuliClass
 
 
@@ -26,10 +25,15 @@ class Vision(ServerSikuliClass):
     """
     pass
 
-
-SIKULI_CLASSES = {'Vision': Vision}
-for key in ['App', 'Env', 'Finder', 'Match', 'Pattern', 'Region',
-            'Screen', 'Settings', 'SikuliEvent']:
-    exec 'SIKULI_CLASSES[key] = %s = _get_cls(key)'
-
+SIKULI_CLASSES = dict()
+SIKULI_CLASSES['Vision'] = Vision
+SIKULI_CLASSES['App'] = App = _get_cls('App')
+SIKULI_CLASSES['Env'] = Env = _get_cls('Env')
+SIKULI_CLASSES['Finder'] = Finder = _get_cls('Finder')
+SIKULI_CLASSES['Match'] = Match = _get_cls('Match')
+SIKULI_CLASSES['Pattern'] = Pattern = _get_cls('Pattern')
+SIKULI_CLASSES['Region'] = Region = _get_cls('Region')
+SIKULI_CLASSES['Screen'] = Screen = _get_cls('Screen')
+SIKULI_CLASSES['Settings'] = Settings = _get_cls('Settings')
+SIKULI_CLASSES['SikuliEvent'] = SikuliEvent = _get_cls('SikuliEvent')
 del ServerSikuliClass
