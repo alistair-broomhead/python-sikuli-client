@@ -24,13 +24,19 @@ class SikuliServer(object):
     """
     Class into which to dump the namespace of sikuli.Sikuli
     """
+    def _id(self):
+        i = 0
+        while True:
+            yield i
+            i += 1
+
     # Please don't use these directly
     def _new_jython_object(self, object_):
         if object_ is None:
             return object_
-        id_ = self._next_id
+        id_ = self._id.next()
         self._held_objects[id_] = [object_, 0]
-        self._next_id += 1
+        self._eval_objects.append(id_)
         return id_
 
     def _gcollect(self):
@@ -66,12 +72,17 @@ class SikuliServer(object):
         :param jython_as_string: str -- will be evaluated server-side
         """
         l = locals()
-        return eval(jython_as_string, self._private_globals, l)
+        old_eval = self._eval_objects
+        self._eval_objects = []
+        ret = eval(jython_as_string, self._private_globals, l)
+        new_eval, self._eval_objects = self._eval_objects, old_eval
+        return new_eval, ret
 
     def __init__(self):
         self.__dict__.update(Sikuli.__dict__)
         self._held_objects = {}
-        self._next_id = 0
+        self._id = type(self)._id(self)
+        self._eval_objects = []
 
 
 from robotremoteserver import RobotRemoteServer

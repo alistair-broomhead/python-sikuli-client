@@ -26,11 +26,11 @@ class ClientSikuliClass(ServerSikuliClass):
             try:
                 server_id = method(*args, **kwargs)
             except TypeError as e:
+                print e
                 continue
             else:
                 if isinstance(_remote, SikuliClient):
                     cls.remote = _remote
-                    #from pdb import set_trace; set_trace()
                 return cls(remote=remote, server_id=server_id)
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
@@ -42,6 +42,12 @@ class ClientSikuliClass(ServerSikuliClass):
     @property
     def _str_get(self):
         return "self._get_jython_object(%r)" % self.server_id
+
+    @property
+    def _on_server(self):
+        if not self._id in self.remote._eval('self._held_objects.keys()'):
+            return False
+        return True
 
     def __new__(cls, remote, server_id, *args, **kwargs):
         from .sikuli_client import SikuliClient
@@ -81,7 +87,7 @@ class ClientSikuliClass(ServerSikuliClass):
 
         self.remote = remote
         self.server_id = server_id
-        self.remote._eval('self._ref_jython_object(%r)' % self.server_id)
+        self.remote._add_obj(server_id)
         if remote._session is not None:
             remote._session.append(server_id)
         else:

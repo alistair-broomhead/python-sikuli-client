@@ -202,14 +202,13 @@ def run_on_remote(func):
                                          ', '.join([s_repr(x)for x in args]))))
     }
 
-    def _on_server(self):
-        if not self._id in self.remote._eval('self._held_objects.keys()'):
-            raise NameError('%r has been garbage collected on the server side' %
-                            self)
+
 
     @wraps(func)
     def _outer(self, *args, **kwargs):
-        _on_server(self)
+        if not self._on_server:
+            raise NameError('%r has been garbage collected on the server side'
+                            % self)
         func(self, *args, **kwargs)
         if "arg" in func._augment:
             arg_kw = func._augment["arg"](self, *args, **kwargs)

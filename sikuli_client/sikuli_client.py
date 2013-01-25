@@ -69,19 +69,31 @@ class SikuliClient(object):
 
     def _del_obj(self, id_):
         self._eval('self._del_jython_object(%r)' % int(id_))
-        s = self._session
-        o = self._garbage
-        if s is not None and id_ in s:
-            del s[s.index(id_)]
-        elif id_ in o:
-            del o[o.index(id_)]
+        if self._session is not None and id_ in self._session:
+            l = self._session
+        elif id_ in self._garbage:
+            l = self._garbage
+        else:
+            return
+        del l[l.index(id_)]
+
+    def _add_obj(self, id_):
+        self._eval('self._ref_jython_object(%r)' % int(id_))
+        (self._garbage if self._session is None else self._session).append(id_)
+
+    def _new_obj(self, id_):
+        self._eval('self._new_jython_object(%r)' % int(id_))
+        (self._garbage if self._session is None else self._session).append(id_)
 
     def _eval(self, jython_string):
         rv = self._sikuliserver.eval_jython(jython_string)
         if rv['status'] != 'PASS':
-            ex = SikuliClientException(rv['error']+'\n\n'+rv['traceback'])
+            ex = SikuliClientException(rv['error'] + '\n\n' + rv['traceback'])
             raise ex
-        return rv['return']
+        new_objects, ret = rv['return']
+        (self._garbage if self._session is None else self._session).extend(
+            new_objects)
+        return ret
 
     def __init__(self,
                  host,
@@ -117,6 +129,7 @@ class SikuliClient(object):
             self._del_obj(int(id_))
 
 
+#noinspection PyDocstring
 @contextlib.contextmanager
 def sikuli_client_session(host,
                           port=5637,
