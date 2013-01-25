@@ -2,6 +2,8 @@
 Server-side classes
 """
 
+from .sikuli_class import ServerSikuliClass
+
 
 def _get_cls(cls_name):
     #noinspection PyUnresolvedReferences
@@ -15,7 +17,6 @@ def _get_cls(cls_name):
     _cls.__doc__ = cls.__doc__
     _cls.__module__ = cls.__module__
     return _cls
-from .sikuli_class import ServerSikuliClass
 
 
 class Vision(ServerSikuliClass):
@@ -24,16 +25,11 @@ class Vision(ServerSikuliClass):
         http://doc.sikuli.org/globals.html#Vision.setParameter
     """
     pass
-del ServerSikuliClass
 
-SIKULI_CLASSES = dict()
-SIKULI_CLASSES['Vision'] = Vision
-SIKULI_CLASSES['App'] = App = _get_cls('App')
-SIKULI_CLASSES['Env'] = Env = _get_cls('Env')
-SIKULI_CLASSES['Finder'] = Finder = _get_cls('Finder')
-SIKULI_CLASSES['Match'] = Match = _get_cls('Match')
-SIKULI_CLASSES['Pattern'] = Pattern = _get_cls('Pattern')
-SIKULI_CLASSES['Region'] = Region = _get_cls('Region')
-SIKULI_CLASSES['Screen'] = Screen = _get_cls('Screen')
-SIKULI_CLASSES['Settings'] = Settings = _get_cls('Settings')
-SIKULI_CLASSES['SikuliEvent'] = SikuliEvent = _get_cls('SikuliEvent')
+
+SIKULI_CLASSES = {'Vision': Vision}
+for key in ['App', 'Env', 'Finder', 'Match', 'Pattern', 'Region',
+            'Screen', 'Settings', 'SikuliEvent']:
+    exec 'SIKULI_CLASSES[key] = %s = _get_cls(key)'
+
+del ServerSikuliClass
