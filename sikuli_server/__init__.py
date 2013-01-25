@@ -51,27 +51,10 @@ class SikuliServer(object):
     @property
     def _private_globals(self):
         if not hasattr(self, '__private_globals'):
-            #from classes import SIKULI_CLASSES
-            sd = dict(Sikuli.__dict__)
-
-            def _get_cls(cls_name):
-                from .class_definitions.sikuli_class import ServerSikuliClass
-
-                class _cls(ServerSikuliClass):
-                    pass
-                cls = sd[cls_name]
-                _cls.__name__ = cls.__name__
-                _cls.__doc__ = cls.__doc__
-                _cls.__module__ = cls.__module__
-                return _cls
+            from .classes import SIKULI_CLASSES
             self.__private_globals = {}
-            for key in ['App', 'Env', 'Finder', 'Match', 'Pattern', 'Region',
-                        'Screen', 'Settings', 'SikuliEvent']:
-                self.__private_globals[key] = _get_cls(key)
-            from .class_definitions.globals import Vision
-
-            self.__private_globals['Vision'] = Vision
-        g = globals()
+            self.__private_globals.update(SIKULI_CLASSES)
+        g = dict(globals()).copy()
         g.update(self.__private_globals)
         return g
 
@@ -97,8 +80,7 @@ from robotremoteserver import RobotRemoteServer
 class SikuliRobotRemoteServer(RobotRemoteServer):
     """ RemoteServer that deals with Sikuli types """
     def _handle_return_value(self, ret):
-        from .class_definitions.sikuli_class import (ServerSikuliClass,
-                                                     UnimplementedSikuliClass)
+        from .sikuli_class import (ServerSikuliClass, UnimplementedSikuliClass)
         if isinstance(ret, ServerSikuliClass):
             return ret._marshallable()
         else:
