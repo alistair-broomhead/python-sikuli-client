@@ -1,6 +1,7 @@
 """
 Server-side classes
 """
+from .sikuli_class import ServerSikuliClass
 
 
 def _get_cls(cls_name):
@@ -15,7 +16,6 @@ def _get_cls(cls_name):
     _cls.__doc__ = cls.__doc__
     _cls.__module__ = cls.__module__
     return _cls
-from .sikuli_class import ServerSikuliClass
 
 
 class Vision(ServerSikuliClass):
