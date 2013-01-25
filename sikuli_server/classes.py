@@ -24,7 +24,6 @@ class Vision(ServerSikuliClass):
         http://doc.sikuli.org/globals.html#Vision.setParameter
     """
     pass
-del ServerSikuliClass
 
 SIKULI_CLASSES = dict()
 SIKULI_CLASSES['Vision'] = Vision
@@ -37,3 +36,4 @@ SIKULI_CLASSES['Region'] = Region = _get_cls('Region')
 SIKULI_CLASSES['Screen'] = Screen = _get_cls('Screen')
 SIKULI_CLASSES['Settings'] = Settings = _get_cls('Settings')
 SIKULI_CLASSES['SikuliEvent'] = SikuliEvent = _get_cls('SikuliEvent')
+del ServerSikuliClass
