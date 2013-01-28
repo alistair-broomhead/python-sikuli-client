@@ -3,6 +3,16 @@ Repetitive asserts
 """
 
 
+def assert_int(int_, meth):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param int_: int
+    """
+    if not isinstance(int_, int):
+        raise TypeError("%r expected integer, got %r" % (meth, int_))
+
+
 def assert_positive_int(pos_int, meth):
     """
     repetitive validation
@@ -12,6 +22,27 @@ def assert_positive_int(pos_int, meth):
     if not (isinstance(pos_int, int) and pos_int > 0):
         raise TypeError("%r expected positive integer, got %r" % (meth,
                                                                   pos_int))
+
+
+def assert_positive_ints(pos_ints, meth, names=None):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param pos_ints: iterable of int > 0
+    :param names: iterable names of args (optional)
+    """
+    if names is None:
+        iterable = (str(x),y for x,y in enumerate(pos_ints))
+    elif len(names) >= len(pos_ints):
+        iterable = zip(names, pos_ints)
+    else:
+        e_names = dict(enumerate(names))
+        iterable = ((str(i) if i not in e_names else e_names[i], p)
+                    for i, p in enumerate(pos_ints))
+    for n, pos_int in iterable:
+        if not (isinstance(pos_int, int) and pos_int > 0):
+            raise TypeError("%r's argument '%s' expected positive integer"
+                            ", got %r" % (meth, n, pos_int))
 
 
 def assert_positive_num(pos_num, meth):
@@ -80,3 +111,14 @@ def assert_PSRM(PSRM, meth):
     from .classes import Pattern, Match, Region
 
     assert_one_of(PSRM, meth, [Pattern, basestring, Region, Match])
+
+
+def assert_Region(region, meth):
+    """
+    repetitive validation
+    :param meth: calling method
+    :param region: Region
+    """
+    from .classes import Region
+    if not isinstance(region, Region):
+        raise TypeError("%r expected Region, got %r" % (meth, region))
