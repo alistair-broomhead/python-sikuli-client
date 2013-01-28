@@ -38,6 +38,44 @@ class SikuliClient(object):
     _session = None
     _garbage = []
 
+    def Region(self, *args, **kwargs):
+        """
+        Create a new :class:`~region.Region` connected to this SikuliClient
+        :param args: args to pass to :class:`~region.Region` contructor
+        :param kwargs: kwargs to pass to :class:`~region.Region` contructor
+        :rtype : :class:`~region.Region`
+        """
+        from .region import Region
+        return Region.mknew(self, *args, **kwargs)
+
+    def Location(self, *args, **kwargs):
+        """
+        Create a new :class:`~location.Location` connected to this SikuliClient
+        :param args: args to pass to :class:`~location.Location` contructor
+        :param kwargs: kwargs to pass to :class:`~location.Location` contructor
+        :rtype : :class:`~location.Location`
+        """
+        from .location import Location
+
+        return Location.mknew(self, *args, **kwargs)
+
+    def Screen(self, *args, **kwargs):
+        """
+        Create a new :class:`~screen.Screen` connected to this SikuliClient
+        :param args: args to pass to :class:`~screen.Screen` contructor
+        :param kwargs: kwargs to pass to :class:`~screen.Screen` contructor
+        :rtype : :class:`~screen.Screen`
+        """
+        from .screen import Screen
+
+        return Screen.mknew(self, *args, **kwargs)
+
+    @property
+    def _current_pool(self):
+        if self._session is None:
+            return self._garbage
+        return self._session
+
     def _new_session(self):
         if self._session is None:
             self._session = []
@@ -79,11 +117,9 @@ class SikuliClient(object):
 
     def _add_obj(self, id_):
         self._eval('self._ref_jython_object(%r)' % int(id_))
-        (self._garbage if self._session is None else self._session).append(id_)
 
     def _new_obj(self, id_):
         self._eval('self._new_jython_object(%r)' % int(id_))
-        (self._garbage if self._session is None else self._session).append(id_)
 
     def _eval(self, jython_string):
         rv = self._sikuliserver.eval_jython(jython_string)
@@ -91,8 +127,7 @@ class SikuliClient(object):
             ex = SikuliClientException(rv['error'] + '\n\n' + rv['traceback'])
             raise ex
         new_objects, ret = rv['return']
-        (self._garbage if self._session is None else self._session).extend(
-            new_objects)
+        self._current_pool.extend(new_objects)
         return ret
 
     def __init__(self,
@@ -125,8 +160,9 @@ class SikuliClient(object):
             self._del_obj(id_)
 
     def __clearall__(self):
-        for id_ in self._eval('self._held_objects'):
-            self._del_obj(int(id_))
+        for id_, n in self._eval('self._held_objects').items():
+            for _ in range(n):
+                self._del_obj(int(id_))
 
 
 #noinspection PyDocstring
