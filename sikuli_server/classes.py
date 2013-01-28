@@ -6,15 +6,26 @@ from .sikuli_class import ServerSikuliClass
 
 def _get_cls(cls_name):
     #noinspection PyUnresolvedReferences
-    from sikuli import Sikuli
+    try:
+        from sikuli import Sikuli
+    except ImportError, e:
+        print e
+        class Sikuli(object):
+            """ to satisfy sphinx """
+            pass
 
     class _cls(ServerSikuliClass):
         pass
 
-    cls = dict(Sikuli.__dict__)[cls_name]
-    _cls.__name__ = cls.__name__
-    _cls.__doc__ = cls.__doc__
-    _cls.__module__ = cls.__module__
+    try:
+        cls = dict(Sikuli.__dict__)[cls_name]
+        _cls.__name__ = cls.__name__
+        _cls.__doc__ = cls.__doc__
+        _cls.__module__ = cls.__module__
+    except KeyError, e:
+        print e
+        _cls.__name__ = cls_name
+        _cls.__module__ = "sikuli.Sikuli"
     return _cls
 
 
