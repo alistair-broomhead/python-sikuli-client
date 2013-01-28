@@ -31,7 +31,7 @@ class ClientSikuliClass(ServerSikuliClass):
             else:
                 if isinstance(_remote, SikuliClient):
                     cls.remote = _remote
-                return cls(remote=remote, server_id=server_id)
+                return cls(remote=remote, server_id=server_id, is_new=True)
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
 
@@ -50,17 +50,11 @@ class ClientSikuliClass(ServerSikuliClass):
         return True
 
     def __new__(cls, remote, server_id, *args, **kwargs):
-        from .sikuli_client import SikuliClient
-
-        assert isinstance(remote, SikuliClient)
         cls.remote = remote
-        if server_id in SIKULI_OBJECTS:
-            kwargs['server_id'] = server_id
-        #noinspection PyArgumentList
         return object.__new__(cls, remote, *args, **kwargs)
 
     #noinspection PyUnusedLocal
-    def __init__(self, remote, server_id, *args, **kwargs):
+    def __init__(self, remote, server_id, is_new=False, *args, **kwargs):
         """
         :type server_id: int
         :type remote: SikuliClient
@@ -88,12 +82,11 @@ class ClientSikuliClass(ServerSikuliClass):
         self.remote = remote
         self.server_id = server_id
         self.remote._add_obj(server_id)
-        if remote._session is not None:
-            remote._session.append(server_id)
-        else:
-            remote._garbage.append(server_id)
+        if not is_new:
+            self.remote._current_pool.append(server_id)
 
 
+#noinspection PyArgumentList
 class UnimplementedSikuliClass(ClientSikuliClass):
     """ Base class for unimplemented types based on the Sikuli native types """
 
