@@ -32,7 +32,7 @@ def assert_positive_ints(pos_ints, meth, names=None):
     :param names: iterable names of args (optional)
     """
     if names is None:
-        iterable = (str(x),y for x,y in enumerate(pos_ints))
+        iterable = ((str(x), y) for (x, y) in enumerate(pos_ints))
     elif len(names) >= len(pos_ints):
         iterable = zip(names, pos_ints)
     else:
