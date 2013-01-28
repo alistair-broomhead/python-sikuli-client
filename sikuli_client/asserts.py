@@ -6,6 +6,7 @@ Repetitive asserts
 def assert_int(int_, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param int_: int
     """
@@ -16,6 +17,7 @@ def assert_int(int_, meth):
 def assert_positive_int(pos_int, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param pos_int: int > 0
     """
@@ -27,6 +29,7 @@ def assert_positive_int(pos_int, meth):
 def assert_positive_ints(pos_ints, meth, names=None):
     """
     repetitive validation
+
     :param meth: calling method
     :param pos_ints: iterable of int > 0
     :param names: iterable names of args (optional)
@@ -48,6 +51,7 @@ def assert_positive_ints(pos_ints, meth, names=None):
 def assert_positive_num(pos_num, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param pos_num: number > 0
     """
@@ -59,6 +63,7 @@ def assert_positive_num(pos_num, meth):
 def assert_one_of(test, meth, types):
     """
     repetitive validation
+
     :param meth: calling method
     :param test: one of types
     :param types: list of types
@@ -72,6 +77,7 @@ def assert_one_of(test, meth, types):
 def assert_PS(PS, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param PS: Pattern or str
     """
@@ -83,6 +89,7 @@ def assert_PS(PS, meth):
 def assert_PSMRL(PSMRL, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param PSMRL: Pattern, str, Match, Region or Location
     """
@@ -94,6 +101,7 @@ def assert_PSMRL(PSMRL, meth):
 def assert_PSML(PSMRL, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param PSMRL: Pattern, str, Match or Location
     """
@@ -105,6 +113,7 @@ def assert_PSML(PSMRL, meth):
 def assert_PSRM(PSRM, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param PSRM: Pattern, str, Region or Match
     """
@@ -116,6 +125,7 @@ def assert_PSRM(PSRM, meth):
 def assert_Region(region, meth):
     """
     repetitive validation
+
     :param meth: calling method
     :param region: Region
     """

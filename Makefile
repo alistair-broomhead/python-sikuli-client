@@ -5,12 +5,14 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = _build
+SOURCEDIR     = docs
+BUILDDIR      = docs/_build
+HTMLDOCSDIR   = docs/html
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
@@ -40,16 +42,21 @@ help:
 
 clean:
 	-rm -rf $(BUILDDIR)/*
+	-rm -rf $(HTMLDOCSDIR)
+ 
+pre-commit:
+	make clean
+	python $(SOURCEDIR)/regen.py
+	make html
+	git add $(HTMLDOCSDIR)/*
+	git add $(HTMLDOCSDIR)/_sources
+	git add $(HTMLDOCSDIR)/_static
+	git add $(HTMLDOCSDIR)/_modules
 
-
-htmldocs:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) ../htmldocs
-	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(HTMLDOCSDIR)
 	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+	@echo "Build finished. The HTML pages are in $(HTMLDOCSDIR)."
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

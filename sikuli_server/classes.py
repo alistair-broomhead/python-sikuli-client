@@ -3,17 +3,18 @@ Server-side classes
 """
 from .sikuli_class import ServerSikuliClass
 
+try:
+    from sikuli import Sikuli
+except ImportError, e:
+    print e
+
+    class Sikuli(object):
+        """ to satisfy sphinx """
+        pass
+
 
 def _get_cls(cls_name):
     #noinspection PyUnresolvedReferences
-    try:
-        from sikuli import Sikuli
-    except ImportError, e:
-        print e
-        class Sikuli(object):
-            """ to satisfy sphinx """
-            pass
-
     class _cls(ServerSikuliClass):
         pass
 
