@@ -1,0 +1,269 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>location &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="index.html" />
+    <link rel="up" title="sikuli_client" href="sikuli_client.html" />
+    <link rel="next" title="match" href="sikuli_client.match.html" />
+    <link rel="prev" title="globals" href="sikuli_client.globals.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.match.html" title="match"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.globals.html" title="globals"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-sikuli_client.location">
+<span id="location"></span><h1><tt class="xref py py-mod docutils literal"><span class="pre">location</span></tt><a class="headerlink" href="#module-sikuli_client.location" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>Classes to fulfill the roles of those described at</dt>
+<dd><a class="reference external" href="http://doc.sikuli.org/location.html">http://doc.sikuli.org/location.html</a></dd>
+</dl>
+<dl class="class">
+<dt id="sikuli_client.location.Location">
+<em class="property">class </em><tt class="descclassname">sikuli_client.location.</tt><tt class="descname">Location</tt><big>(</big><em>remote</em>, <em>server_id</em>, <em>is_new=False</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages interaction with Sikuli&#8217;s Location, reflecting
+<a class="reference external" href="http://doc.sikuli.org/location.html#Location">http://doc.sikuli.org/location.html#Location</a></p>
+<dl class="method">
+<dt id="sikuli_client.location.Location.above">
+<tt class="descname">above</tt><big>(</big><em>dy</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.above"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.above" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a new location which is dy pixels vertically above the current
+location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dy</strong> &#8211; int &gt; 0</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.below">
+<tt class="descname">below</tt><big>(</big><em>dy</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.below"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.below" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a new location which is dy pixels vertically below the current
+location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dy</strong> &#8211; int &gt; 0</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.getX">
+<tt class="descname">getX</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.getX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.getX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the respective attribute of the location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.getY">
+<tt class="descname">getY</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.getY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.getY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the respective attribute of the location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.left">
+<tt class="descname">left</tt><big>(</big><em>dx</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a new location which is dx pixels horizontally to the left of the
+current location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dx</strong> &#8211; int &gt; 0</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.offset">
+<tt class="descname">offset</tt><big>(</big><em>dx</em>, <em>dy</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a new location which is dx and dy pixels away horizontally and
+vertically from the current location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dx</strong> &#8211; int</li>
+<li><strong>dy</strong> &#8211; int</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Location</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.right">
+<tt class="descname">right</tt><big>(</big><em>dx</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.right"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a new location which is dx pixels horizontally to the right of the
+current location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dx</strong> &#8211; int &gt; 0</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.location.Location.setLocation">
+<tt class="descname">setLocation</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/location.html#Location.setLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.location.Location.setLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the location of this object to the specified coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; int &gt; 0</li>
+<li><strong>y</strong> &#8211; int &gt; 0</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sikuli_client.globals.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">globals</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sikuli_client.match.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">match</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/sikuli_client.location.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.match.html" title="match"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.globals.html" title="globals"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

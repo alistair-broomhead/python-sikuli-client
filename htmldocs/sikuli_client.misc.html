@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>misc &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="index.html" />
+    <link rel="up" title="sikuli_client" href="sikuli_client.html" />
+    <link rel="next" title="pattern" href="sikuli_client.pattern.html" />
+    <link rel="prev" title="match" href="sikuli_client.match.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.pattern.html" title="pattern"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.match.html" title="match"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-sikuli_client.misc">
+<span id="misc"></span><h1><tt class="xref py py-mod docutils literal"><span class="pre">misc</span></tt><a class="headerlink" href="#module-sikuli_client.misc" title="Permalink to this headline">¶</a></h1>
+<p>Extra classes that implementent miscellaneous needed functionailty</p>
+<dl class="function">
+<dt id="sikuli_client.misc.DEFERRED">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">DEFERRED</tt><big>(</big><em>func</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#DEFERRED"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.DEFERRED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for unimplemented interfaces
+:type func: function</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="sikuli_client.misc.RemoteLib">
+<em class="property">class </em><tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">RemoteLib</tt><big>(</big><em>remote</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#RemoteLib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.RemoteLib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-exposes a classes keywords wrapped by robotremotelibrary.py</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="sikuli_client.misc.SikuliUnreflected">
+<em class="property">class </em><tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">SikuliUnreflected</tt><big>(</big><em>remote</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#SikuliUnreflected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.SikuliUnreflected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Custom keyword handlers rather than those reflected over RPC</p>
+<dl class="method">
+<dt id="sikuli_client.misc.SikuliUnreflected.find">
+<tt class="descname">find</tt><big>(</big><em>PS</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#SikuliUnreflected.find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.SikuliUnreflected.find" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PS</strong> &#8211; <a class="reference internal" href="sikuli_client.pattern.html#sikuli_client.pattern.Pattern" title="sikuli_client.pattern.Pattern"><tt class="xref py py-class docutils literal"><span class="pre">Pattern</span></tt></a> or str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Find a particular GUI element, which is seen as the given image or
+just plain text. The given file name of an image specifies the
+element&#8217;s appearance. It searches within the region and returns the best
+match, which shows a similarity greater than the minimum similarity
+given by the pattern. If no similarity was set for the pattern by
+<tt class="xref py py-meth docutils literal"><span class="pre">sikuli_client.pattern.Pattern.similar()</span></tt> before, a default minimum
+similarity of 0.7 is set automatically.</p>
+<p>If autoWaitTimeout is set to a non-zero value, find() just acts as a
+wait().</p>
+<p><strong>Side Effect</strong> <em>lastMatch</em>: the best match can be accessed using
+<a class="reference internal" href="sikuli_client.region.html#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.misc.TODO">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">TODO</tt><big>(</big><em>func</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#TODO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.TODO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for unimplemented interfaces
+:type func: function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.misc.constructor">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">constructor</tt><big>(</big><em>cls</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#constructor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.constructor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cls</strong> &#8211; class to use decorated function as constructor for</td>
+</tr>
+</tbody>
+</table>
+<p>Uses func as a potential constructor for cls:
+func should return the string which when evaluated by jython gives the
+object we want.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@constructor</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.misc.dropNones">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">dropNones</tt><big>(</big><em>num_required</em>, <em>keys</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#dropNones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.dropNones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Was finding this repoetitive.
+:param num_required: how many args are required in total
+:param keys: dict of keys and (bool) is_required (None ignores this)
+:param args:
+:param kwargs: some of these will not</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.misc.return_from_remote">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">return_from_remote</tt><big>(</big><em>rtype</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#return_from_remote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.return_from_remote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator factory returning a run_on_remote decorator which marshals and
+unmarshals the return type as <tt class="docutils literal"><span class="pre">rtype</span></tt> where <tt class="docutils literal"><span class="pre">rtype</span></tt> must be either a
+subclass of <tt class="xref py py-class docutils literal"><span class="pre">ClientSikuliClass</span></tt>, or the string name of a
+class in <a class="reference internal" href="sikuli_client.classes.html#module-sikuli_client.classes" title="sikuli_client.classes"><tt class="xref py py-mod docutils literal"><span class="pre">classes</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rtype</strong> &#8211; return type</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@return_from_remote</span><span class="p">(</span><span class="n">rtype</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.misc.run_on_remote">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">run_on_remote</tt><big>(</big><em>func</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#run_on_remote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.run_on_remote" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>func</strong> &#8211; function to decorate</td>
+</tr>
+</tbody>
+</table>
+<p>Runs the decorated function but discards the result, so you can use it
+for sanity-checking but should not use it for actual processing, as
+this will be done on the server side.</p>
+<p>The decorated function can have a number of properties that modify the
+way it is run, each of which should be a function itself:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">func.arg(*args,</span> <span class="pre">**kwargs)</span></tt>:</dt>
+<dd>The output of this will be used as args for the inner wrapper</dd>
+<dt><tt class="docutils literal"><span class="pre">func.post(result)</span></tt>:</dt>
+<dd>This takes the output of the inner wrapper, and its ouput is
+returned by the outer wrapper</dd>
+<dt><tt class="docutils literal"><span class="pre">func.func(*args,</span> <span class="pre">**kwargs)</span></tt>:</dt>
+<dd>Replaces the default inner function - should handle all interaction
+with the server</dd>
+</dl>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@run_on_remote</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.misc.s_repr">
+<tt class="descclassname">sikuli_client.misc.</tt><tt class="descname">s_repr</tt><big>(</big><em>obj</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/misc.html#s_repr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.misc.s_repr" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>obj</strong> &#8211; object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sikuli_client.match.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">match</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sikuli_client.pattern.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pattern</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/sikuli_client.misc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.pattern.html" title="pattern"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.match.html" title="match"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
