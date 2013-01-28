@@ -161,7 +161,7 @@ class SikuliClient(object):
 
     def __clearall__(self):
         for id_, n in self._eval('self._held_objects').items():
-            for _ in range(n):
+            for _ in range(n[1]):
                 self._del_obj(int(id_))
 
 

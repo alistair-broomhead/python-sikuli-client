@@ -45,8 +45,8 @@ class Screen(ClientSikuliClass):
         :rtype: (int, int, int, int)
         """
         gb = "self._get_jython_object(%r).getBounds()" % self._id
-        self.remote._eval("[[x.x, x.y, x.width, x.height] for x in [%s]][0]" %
-                          gb)
+        return self.remote._eval("[(x.x, x.y, x.width, x.height) "
+                                 "for x in [%s]][0]" % gb)
 
     @run_on_remote
     def capture(self, *args):
