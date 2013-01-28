@@ -1,0 +1,1431 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_client.region &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for sikuli_client.region</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">:class:`Region` and :class:`SikuliEvent` classes to fulfill the roles of those</span>
+<span class="sd">described at http://doc.sikuli.org/region.html</span>
+
+<span class="sd">.. toctree::</span>
+<span class="sd">   :maxdepth: 2</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.asserts</span> <span class="kn">import</span> <span class="p">(</span><span class="n">assert_positive_int</span><span class="p">,</span>
+                      <span class="n">assert_PS</span><span class="p">,</span>
+                      <span class="n">assert_PSMRL</span><span class="p">,</span>
+                      <span class="n">assert_positive_num</span><span class="p">,</span>
+                      <span class="n">assert_PSRM</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="p">(</span><span class="n">dropNones</span><span class="p">,</span>
+                   <span class="n">constructor</span><span class="p">,</span>
+                   <span class="n">return_from_remote</span><span class="p">,</span>
+                   <span class="n">DEFERRED</span><span class="p">,</span>
+                   <span class="n">TODO</span><span class="p">,</span>
+                   <span class="n">run_on_remote</span><span class="p">)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Alistair Broomhead&#39;</span>
+<span class="kn">from</span> <span class="nn">.sikuli_class</span> <span class="kn">import</span> <span class="p">(</span><span class="n">UnimplementedSikuliClass</span><span class="p">,</span>
+                           <span class="n">SikuliClass</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SikuliEvent"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.SikuliEvent">[docs]</a><span class="k">class</span> <span class="nc">SikuliEvent</span><span class="p">(</span><span class="n">UnimplementedSikuliClass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages interaction with Sikuli&#39;s SikuliEvent, reflecting</span>
+<span class="sd">    http://doc.sikuli.org/region.html#SikuliEvent</span>
+
+<span class="sd">    .. todo:: Implement</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c">#TODO: SikuliEvent class</span>
+    <span class="k">pass</span>
+
+
+<span class="c">#noinspection PyUnusedLocal</span></div>
+<div class="viewcode-block" id="Region"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region">[docs]</a><span class="k">class</span> <span class="nc">Region</span><span class="p">(</span><span class="n">SikuliClass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages interaction with Sikuli&#39;s Region, reflecting</span>
+<span class="sd">    http://doc.sikuli.org/region.html#Region</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setX"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setX">[docs]</a>    <span class="k">def</span> <span class="nf">setX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param num: number - the new value</span>
+
+<span class="sd">        Set the respective attribute of the region to the new value. This</span>
+<span class="sd">        effectively moves the region around and/or changes its dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setY"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setY">[docs]</a>    <span class="k">def</span> <span class="nf">setY</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param num: number - the new value</span>
+
+<span class="sd">        Set the respective attribute of the region to the new value. This</span>
+<span class="sd">        effectively moves the region around and/or changes its dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setW"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setW">[docs]</a>    <span class="k">def</span> <span class="nf">setW</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param num: number - the new value</span>
+
+<span class="sd">        Set the respective attribute of the region to the new value. This</span>
+<span class="sd">        effectively moves the region around and/or changes its dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setH"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setH">[docs]</a>    <span class="k">def</span> <span class="nf">setH</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param num: number - the new value</span>
+
+<span class="sd">        Set the respective attribute of the region to the new value. This</span>
+<span class="sd">        effectively moves the region around and/or changes its dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.moveTo"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.moveTo">[docs]</a>    <span class="k">def</span> <span class="nf">moveTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param location: :class:`~sikuli_client.location.Location` - the new top</span>
+<span class="sd">            left corner</span>
+<span class="sd">        :rtype: :class:`Region` -- the modified region object</span>
+
+<span class="sd">        Set the position of this region regarding its top left corner to the</span>
+<span class="sd">        given location (the x and y values are modified).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setROI"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setROI">[docs]</a>    <span class="k">def</span> <span class="nf">setROI</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param x: number</span>
+<span class="sd">        :param y: number</span>
+<span class="sd">        :param w: number</span>
+<span class="sd">        :param h: number</span>
+
+<span class="sd">        Set position and dimension to new values. The motivation for this alias</span>
+<span class="sd">        is to make scripts more readable: setROI() is intended to restrict the</span>
+<span class="sd">        search to a smaller area to speed up processing searches (region of</span>
+<span class="sd">        interest).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setRect"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setRect">[docs]</a>    <span class="k">def</span> <span class="nf">setRect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param x: number</span>
+<span class="sd">        :param y: number</span>
+<span class="sd">        :param w: number</span>
+<span class="sd">        :param h: number</span>
+
+<span class="sd">        Set position and dimension to new values. The motivation for this alias</span>
+<span class="sd">        is to make scripts more readable: setRect() should be used to redefine a</span>
+<span class="sd">        region (which could be enlarging it).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.morphTo"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.morphTo">[docs]</a>    <span class="k">def</span> <span class="nf">morphTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param region: :class:`Region`</span>
+
+<span class="sd">        Set the position and dimension of this region to the</span>
+<span class="sd">        corresponding values of the region given as parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.getX"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getX">[docs]</a>    <span class="k">def</span> <span class="nf">getX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        Get the respective attribute of the region.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.getY"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getY">[docs]</a>    <span class="k">def</span> <span class="nf">getY</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        Get the respective attribute of the region.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.getW"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getW">[docs]</a>    <span class="k">def</span> <span class="nf">getW</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        Get the respective attribute of the region.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.getH"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getH">[docs]</a>    <span class="k">def</span> <span class="nf">getH</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        Get the respective attribute of the region.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Location&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getCenter"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getCenter">[docs]</a>    <span class="k">def</span> <span class="nf">getCenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.location.Location`</span>
+
+<span class="sd">        Get the center of the region.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Location&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getTopLeft"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getTopLeft">[docs]</a>    <span class="k">def</span> <span class="nf">getTopLeft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.location.Location`</span>
+
+<span class="sd">        Get the location of the region&#39;s respective corner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Location&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getTopRight"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getTopRight">[docs]</a>    <span class="k">def</span> <span class="nf">getTopRight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.location.Location`</span>
+
+<span class="sd">        Get the location of the region&#39;s respective corner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Location&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getBottomLeft"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getBottomLeft">[docs]</a>    <span class="k">def</span> <span class="nf">getBottomLeft</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.location.Location`</span>
+
+<span class="sd">        Get the location of the region&#39;s respective corner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Location&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getBottomRight"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getBottomRight">[docs]</a>    <span class="k">def</span> <span class="nf">getBottomRight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.location.Location`</span>
+
+<span class="sd">        Get the location of the region&#39;s respective corner.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Screen&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getScreen"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getScreen">[docs]</a>    <span class="k">def</span> <span class="nf">getScreen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.screen.Screen`</span>
+
+<span class="sd">        Returns the screen object that contains this region.</span>
+
+<span class="sd">        This method only makes sense in Multi Monitor Environments, since it</span>
+<span class="sd">        always returns the default screen in a single monitor environment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Match&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getLastMatch"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getLastMatch">[docs]</a>    <span class="k">def</span> <span class="nf">getLastMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.match.Match`</span>
+
+<span class="sd">        All successful find operations (explicit like find() or implicit like</span>
+<span class="sd">        click()), store the best match in the lastMatch attribute of the region</span>
+<span class="sd">        that was searched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">getLastMatches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: generator</span>
+
+<span class="sd">        findAll() stores all found matches into lastMatches attribute of the</span>
+<span class="sd">        region that was searched as a generator.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@getLastMatches.func</span>
+<div class="viewcode-block" id="Region.getLastMatches"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getLastMatches">[docs]</a>    <span class="k">def</span> <span class="nf">getLastMatches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; :rtype: generator &quot;&quot;&quot;</span>
+        <span class="n">location_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span>
+            <span class="s">&quot;[self._new_jython_object(x) for x in&quot;</span>
+            <span class="s">&quot; self._get_jython_object(</span><span class="si">%r</span><span class="s">).getLastMatches()]&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">.match</span> <span class="kn">import</span> <span class="n">Match</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Match</span><span class="p">(</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">server_id</span><span class="o">=</span><span class="n">location_id</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">location_id</span> <span class="ow">in</span> <span class="n">location_ids</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.setAutoWaitTimeout"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setAutoWaitTimeout">[docs]</a>    <span class="k">def</span> <span class="nf">setAutoWaitTimeout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param seconds: float - The internal granularity is milliseconds.</span>
+
+<span class="sd">        Set the maximum waiting time for all subsequent find operations.</span>
+
+<span class="sd">        This method enables all find operations to wait for the given pattern to</span>
+<span class="sd">        appear until the specified amount of time has elapsed. The default is</span>
+<span class="sd">        3.0 seconds. This method is intended for users to override this default</span>
+<span class="sd">        setting. As such it lets Region.find() work like Region.wait(), without</span>
+<span class="sd">        being able to set an individual timeout value for a specific find</span>
+<span class="sd">        operation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.getAutoWaitTimeout"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getAutoWaitTimeout">[docs]</a>    <span class="k">def</span> <span class="nf">getAutoWaitTimeout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: float</span>
+
+<span class="sd">        Get the current value of the maximum waiting time for find operations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.offset"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.offset">[docs]</a>    <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new Region object, whose upper left corner is relocated adding</span>
+<span class="sd">        the location&#39;s x and y value to the respective values of the given</span>
+<span class="sd">        region. Width and height are the same. So this clones a region at a</span>
+<span class="sd">        different place.</span>
+
+<span class="sd">        :param location: :class:`~sikuli_client.location.Location`</span>
+<span class="sd">        :rtype: :class:`Region`</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            new_reg = reg.offset(Location(xoff, yoff)) # same as</span>
+<span class="sd">            new_reg = Region(reg.x + xoff, reg.y + yoff, reg.w, reg.h)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.inside"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.inside">[docs]</a>    <span class="k">def</span> <span class="nf">inside</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the same object. Retained for upward compatibility.</span>
+
+<span class="sd">        This method can be used to make scripts more readable.</span>
+<span class="sd">        ``region.inside().find()`` is totally equivalent to ``region.find()``.</span>
+
+<span class="sd">        :rtype: :class:`Region`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.nearby"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.nearby">[docs]</a>    <span class="k">def</span> <span class="nf">nearby</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_px</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new Region that includes the nearby neighbourhood of the</span>
+<span class="sd">        the current region. The new region is defined by extending the</span>
+<span class="sd">        current region&#39;s dimensions in all directions by range number of</span>
+<span class="sd">        pixels. The center of the new region remains the same.</span>
+
+<span class="sd">        :param range_px: int &gt; 0, default = 50</span>
+<span class="sd">        :rtype: :class:`Region`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_positive_int</span><span class="p">(</span><span class="n">range_px</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearby</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.above"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.above">[docs]</a>    <span class="k">def</span> <span class="nf">above</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_px</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new :py:class:`Region` that is defined above the current</span>
+<span class="sd">        region&#39;s</span>
+<span class="sd">        top border with a height of *range* number of pixels.</span>
+<span class="sd">        So it does not include the current    region.</span>
+<span class="sd">        If *range* is omitted, it reaches to the top</span>
+<span class="sd">        of the screen. The new region has the same width and x-position as the</span>
+<span class="sd">        current region.</span>
+
+<span class="sd">        :param range_px: a positive integer defining the new height</span>
+<span class="sd">        :rtype: a :class:`Region` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_positive_int</span><span class="p">(</span><span class="n">range_px</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">above</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.below"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.below">[docs]</a>    <span class="k">def</span> <span class="nf">below</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_px</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new :py:class:`Region` that is defined below the current</span>
+<span class="sd">        region&#39;s</span>
+<span class="sd">        bottom border with a height of *range* number of pixels.</span>
+<span class="sd">        So it does not include the current    region.</span>
+<span class="sd">        If *range* is omitted, it reaches to the bottom</span>
+<span class="sd">        of the screen. The new region has the same width and x-position as the</span>
+<span class="sd">        current region.</span>
+
+<span class="sd">        :param range_px: a positive integer defining the new height</span>
+<span class="sd">        :rtype: a :class:`Region` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_positive_int</span><span class="p">(</span><span class="n">range_px</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">below</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.left"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.left">[docs]</a>    <span class="k">def</span> <span class="nf">left</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_px</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new :py:class:`Region` that is defined left of the current</span>
+<span class="sd">        region&#39;s</span>
+<span class="sd">        left border with a width of *range* number of pixels.</span>
+<span class="sd">        So it does not include the current    region.</span>
+<span class="sd">        If *range* is omitted, it reaches to the left border</span>
+<span class="sd">        of the screen. The new region has the same height and y-position as the</span>
+<span class="sd">        current region.</span>
+
+<span class="sd">        :param range_px: a positive integer defining the new width</span>
+<span class="sd">        :rtype: a :py:class:`Region` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_positive_int</span><span class="p">(</span><span class="n">range_px</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.right"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.right">[docs]</a>    <span class="k">def</span> <span class="nf">right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">range_px</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new :py:class:`Region` that is defined right of the current</span>
+<span class="sd">        region&#39;s right border with a width of *range* number of pixels.</span>
+<span class="sd">        So it does not include the current  region.</span>
+<span class="sd">        If *range* is omitted, it reaches to the right border</span>
+<span class="sd">        of the screen. The new region has the same height and y-position as the</span>
+<span class="sd">        current region.</span>
+
+<span class="sd">        :param range_px: a positive integer defining the new width</span>
+<span class="sd">        :rtype: a :py:class:`Region` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_positive_int</span><span class="p">(</span><span class="n">range_px</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Match&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.find"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.find">[docs]</a>    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        :rtype: a :class:`~sikuli_client.match.Match` object that contains the</span>
+<span class="sd">            best match or fails if PatternNotFound</span>
+
+<span class="sd">        Find a particular GUI element, which is seen as the given image or</span>
+<span class="sd">        just plain text. The given file name of an image specifies the</span>
+<span class="sd">        element&#39;s</span>
+<span class="sd">        appearance. It searches within the region and returns the best match,</span>
+<span class="sd">        which shows a similarity greater than the minimum similarity given by</span>
+<span class="sd">        the pattern. If no similarity was set for the pattern by</span>
+<span class="sd">        :py:meth:`Pattern.similar` before, a default minimum similarity of 0.7</span>
+<span class="sd">        is set automatically.</span>
+
+<span class="sd">        If autoWaitTimeout is set to a non-zero value, find() just acts as a</span>
+<span class="sd">        wait().</span>
+
+<span class="sd">        **Side Effect** *lastMatch*: the best match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PS</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">findAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        :rtype: one or more :class:`~sikuli_client.match.Match` objects as an</span>
+<span class="sd">            iterator object or fails if PatternNotFound</span>
+
+<span class="sd">        Repeatedly find ALL instances of a pattern, until no match can be</span>
+<span class="sd">        found anymore, that meets the requirements for a single</span>
+<span class="sd">        :py:meth:`Region.find()` with the specified pattern.</span>
+
+<span class="sd">        By default, the returned matches are sorted by the similiarty.</span>
+<span class="sd">        If you need them ordered by their positions, say the Y coordinates,</span>
+<span class="sd">        you have to use Python&#39;s `sorted &lt;http://wiki.python</span>
+<span class="sd">        .org/moin/HowTo/Sorting/&gt;`_ function. Here is a example of sorting the</span>
+<span class="sd">        matches from top to bottom.</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            def by_y(match):</span>
+<span class="sd">               return match.y</span>
+
+<span class="sd">            icons = findAll(&quot;png_icon.png&quot;)</span>
+<span class="sd">            # sort the icons by their y coordinates and put them into a new</span>
+<span class="sd">            sorted_icons = sorted(icons, key=by_y)</span>
+<span class="sd">            # another shorter version is using lambda.</span>
+<span class="sd">            sorted_icons = sorted(icons, key=lambda m:m.y)</span>
+<span class="sd">            for icon in sorted_icons:</span>
+<span class="sd">               pass # do whatever you want to do with the sorted icons</span>
+
+
+
+<span class="sd">        **Side Effect** *lastMatches*: a reference to the returned iterator</span>
+<span class="sd">        object containing the</span>
+<span class="sd">        found matches is stored with the region that was searched. It can be</span>
+<span class="sd">        accessed using getLastMatches() afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PS</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">find</span><span class="p">)</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@findAll.func</span>
+<div class="viewcode-block" id="Region.findAll"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.findAll">[docs]</a>    <span class="k">def</span> <span class="nf">findAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :rtype: generator</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">match_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span>
+            <span class="s">&quot;[self._new_jython_object(x) for x in&quot;</span>
+            <span class="s">&quot; self._get_jython_object(</span><span class="si">%r</span><span class="s">).findAll(</span><span class="si">%s</span><span class="s">)]&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span>
+               <span class="n">PS</span><span class="o">.</span><span class="n">_str_get</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">SikuliClass</span><span class="p">)</span> <span class="k">else</span> <span class="n">PS</span><span class="p">))</span>
+        <span class="kn">from</span> <span class="nn">.match</span> <span class="kn">import</span> <span class="n">Match</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Match</span><span class="p">(</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">server_id</span><span class="o">=</span><span class="n">match_id</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">match_id</span> <span class="ow">in</span> <span class="n">match_ids</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Match&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        :param seconds: a number, which can have a fraction, as maximum waiting</span>
+<span class="sd">            time in seconds. The internal granularity is milliseconds. If not</span>
+<span class="sd">            specified, the auto wait timeout value set by</span>
+<span class="sd">            :py:meth:`Region.setAutoWaitTimeout` is used. Use the string</span>
+<span class="sd">            *&#39;FOREVER&#39;* to wait for an infinite time.</span>
+<span class="sd">        :rtype: a :class:`~sikuli_client.match.Match` object that contains the</span>
+<span class="sd">            best match or fails if PatternNotFound</span>
+
+<span class="sd">        If *PS* is not specified, the script just pauses for the specified</span>
+<span class="sd">        amount of time. It is still possible to use ``sleep(seconds)`` instead,</span>
+<span class="sd">        but this is deprecated.</span>
+
+<span class="sd">        If *PS* is specified, it keeps searching the given pattern in the</span>
+<span class="sd">        region until the image appears ( would have been found with</span>
+<span class="sd">        :py:meth:`Region.find`) or the specified amount of time has elapsed. At</span>
+<span class="sd">        least one find operation is performed, even if 0 seconds is</span>
+<span class="sd">        specified.)</span>
+
+<span class="sd">        **Side Effect** *lastMatch*: the best match can be accessed using</span>
+<span class="sd">        :meth:`Region.getLastMatch` afterwards.</span>
+
+<span class="sd">        Note: You may adjust the scan rate (how often a search during the wait</span>
+<span class="sd">        takes place) by setting :py:attr:`Settings.WaitScanRate` appropriately.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">PS</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">assert_PS</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">seconds</span> <span class="o">==</span> <span class="s">&#39;FOREVER&#39;</span><span class="p">:</span>
+            <span class="n">assert_positive_num</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="p">)</span>
+
+    <span class="nd">@wait.func</span>
+<div class="viewcode-block" id="Region.wait"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.wait">[docs]</a>    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        :param seconds: a number, which can have a fraction, as maximum waiting</span>
+<span class="sd">            time in seconds. The internal granularity is milliseconds. If not</span>
+<span class="sd">            specified, the auto wait timeout value set by</span>
+<span class="sd">            :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant</span>
+<span class="sd">            *FOREVER* to wait for an infinite time.</span>
+<span class="sd">        :rtype: a :class:`~sikuli_client.match.Match` object that contains the</span>
+<span class="sd">            best match or fails if PatternNotFound</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">PS</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">ps_str</span> <span class="o">=</span> <span class="n">PS</span><span class="o">.</span><span class="n">_str_get</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">SikuliClass</span><span class="p">)</span> <span class="k">else</span> <span class="n">PS</span>
+        <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getAutoWaitTimeout</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="n">seconds</span>
+        <span class="n">match_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span>
+            <span class="s">&quot;self._new_jython_object(self._get_jython_object(</span><span class="si">%r</span><span class="s">).wait(&quot;</span>
+            <span class="s">&quot;PS=</span><span class="si">%s</span><span class="s">, seconds=</span><span class="si">%s</span><span class="s">))&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="n">ps_str</span><span class="p">,</span> <span class="n">sec_str</span><span class="p">))</span>
+        <span class="kn">from</span> <span class="nn">.match</span> <span class="kn">import</span> <span class="n">Match</span>
+        <span class="k">return</span> <span class="n">Match</span><span class="p">(</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">server_id</span><span class="o">=</span><span class="n">match_id</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">waitVanish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        :param seconds: a number, which can have a fraction, as maximum waiting</span>
+<span class="sd">            time in seconds. The internal granularity is milliseconds. If not</span>
+<span class="sd">            specified, the auto wait timeout value set by</span>
+<span class="sd">            :py:meth:`Region.setAutoWaitTimeout` is used. Use the string</span>
+<span class="sd">            *&#39;FOREVER&#39;* to wait for an infinite time.</span>
+<span class="sd">        :rtype: *True* if the pattern vanishes within the specified waiting</span>
+<span class="sd">            time, or *False* if the pattern stays visible after the waiting</span>
+<span class="sd">            time has elapsed.</span>
+
+<span class="sd">        This method keeps searching the given pattern in the region until the</span>
+<span class="sd">        image vanishes (can not be found with :py:meth:`Region.find` any</span>
+<span class="sd">        longer) or the specified amount of time has elapsed. At least one find</span>
+<span class="sd">        operation is performed, even if 0 seconds is specified.</span>
+
+<span class="sd">        **Note**: You may adjust the scan rate (how often a search during the</span>
+<span class="sd">        wait</span>
+<span class="sd">        takes place) by setting :py:attr:`Settings.WaitScanRate` appropriately.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PS</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">waitVanish</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">seconds</span> <span class="o">==</span> <span class="s">&#39;FOREVER&#39;</span><span class="p">:</span>
+            <span class="n">assert_positive_num</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">waitVanish</span><span class="p">)</span>
+
+    <span class="nd">@wait.func</span>
+<div class="viewcode-block" id="Region.waitVanish"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.waitVanish">[docs]</a>    <span class="k">def</span> <span class="nf">waitVanish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string</span>
+<span class="sd">            (path to an image file or just plain text)</span>
+<span class="sd">        :param seconds: a number, which can have a fraction, as maximum waiting</span>
+<span class="sd">            time in seconds. The internal granularity is milliseconds. If not</span>
+<span class="sd">            specified, the auto wait timeout value set by</span>
+<span class="sd">            :py:meth:`Region.setAutoWaitTimeout` is used. Use the string</span>
+<span class="sd">            *&#39;FOREVER&#39;* to wait for an infinite time.</span>
+<span class="sd">        :rtype: *True* if the pattern vanishes within the specified waiting</span>
+<span class="sd">            time, or *False* if the pattern stays visible after the waiting</span>
+<span class="sd">            time has elapsed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ps_str</span> <span class="o">=</span> <span class="n">PS</span><span class="o">.</span><span class="n">_str_get</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">SikuliClass</span><span class="p">)</span> <span class="k">else</span> <span class="n">PS</span>
+        <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getAutoWaitTimeout</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="n">seconds</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&quot;self._get_jython_object(</span><span class="si">%r</span><span class="s">).waitVanish(PS=</span><span class="si">%s</span><span class="s">,&quot;</span>
+                                 <span class="s">&quot; seconds=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="n">ps_str</span><span class="p">,</span> <span class="n">sec_str</span><span class="p">))</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check whether the give pattern is visible on the screen.</span>
+
+<span class="sd">        :param PS: a :py:class:`Pattern` object or a string (path to an image</span>
+<span class="sd">            file or just plain text)</span>
+<span class="sd">        :param seconds: a number, which can have a fraction, as maximum waiting</span>
+<span class="sd">            time in seconds. The internal granularity is milliseconds. If not</span>
+<span class="sd">            specified, the auto wait timeout value set by</span>
+<span class="sd">            :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant</span>
+<span class="sd">            *FOREVER* to wait for an infinite time.</span>
+<span class="sd">        :rtype: a :class:`~sikuli_client.match.Match` object that contains the</span>
+<span class="sd">            best match or fails if PatternNotFound. None is returned, if nothing</span>
+<span class="sd">            is found within the specified waiting time.</span>
+
+<span class="sd">        Does exactly the same as :py:meth:`Region.wait()`, but no exception is</span>
+<span class="sd">        raised in case of FindFailed. So it can be used to symplify scripting</span>
+<span class="sd">        in case that you only want to know wether something is there or not to</span>
+<span class="sd">        decide how to proceed in your workflow. So it is typically used with an</span>
+<span class="sd">        if statement.  At least one find operation is performed, even if 0</span>
+<span class="sd">        seconds is specified. So specifying 0 seconds saves some time, in case</span>
+<span class="sd">        there is no need to wait, since its your intention to get the</span>
+<span class="sd">        information &quot;not found&quot; directly.</span>
+
+<span class="sd">        **Side Effect** *lastMatch*: the best match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+
+<span class="sd">        **Note**: You may adjust the scan rate (how often a search during the</span>
+<span class="sd">        wait</span>
+<span class="sd">        takes place) by setting :py:attr:`Settings.WaitScanRate` appropriately.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PS</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">seconds</span> <span class="o">==</span> <span class="s">&#39;FOREVER&#39;</span><span class="p">:</span>
+            <span class="n">assert_positive_num</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">)</span>
+
+    <span class="nd">@exists.func</span>
+<div class="viewcode-block" id="Region.exists"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.exists">[docs]</a>    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PS: a :py:class:`Pattern` object or a string (path to an image</span>
+<span class="sd">            file or just plain text)</span>
+<span class="sd">        :param seconds: a number, which can have a fraction, as maximum waiting</span>
+<span class="sd">            time in seconds. The internal granularity is milliseconds. If not</span>
+<span class="sd">            specified, the auto wait timeout value set by</span>
+<span class="sd">            :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant</span>
+<span class="sd">            *FOREVER* to wait for an infinite time.</span>
+<span class="sd">        :rtype: a :class:`~sikuli_client.match.Match` object that contains the</span>
+<span class="sd">            best match or fails if PatternNotFound. None is returned, if nothing</span>
+<span class="sd">            is found within the specified waiting time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ps_str</span> <span class="o">=</span> <span class="n">PS</span><span class="o">.</span><span class="n">_str_get</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">SikuliClass</span><span class="p">)</span> <span class="k">else</span> <span class="n">PS</span>
+        <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getAutoWaitTimeout</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seconds</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sec_str</span> <span class="o">=</span> <span class="n">seconds</span>
+        <span class="n">match_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span>
+            <span class="s">&quot;self._new_jython_object(self._get_jython_object(</span><span class="si">%r</span><span class="s">)&quot;</span>
+            <span class="s">&quot;.exists(PS=</span><span class="si">%s</span><span class="s">, seconds=</span><span class="si">%s</span><span class="s">))&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="n">ps_str</span><span class="p">,</span> <span class="n">sec_str</span><span class="p">))</span>
+
+        <span class="kn">from</span> <span class="nn">.match</span> <span class="kn">import</span> <span class="n">Match</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Match</span><span class="p">(</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">server_id</span><span class="o">=</span><span class="n">match_id</span><span class="p">)</span> <span class="k">if</span> <span class="n">match_id</span> <span class="ow">is</span> <span class="ow">not</span>
+                <span class="bp">None</span> <span class="k">else</span> <span class="n">match_id</span><span class="p">)</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.onAppear"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.onAppear">[docs]</a>    <span class="k">def</span> <span class="nf">onAppear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.onVanish"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.onVanish">[docs]</a>    <span class="k">def</span> <span class="nf">onVanish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.onChange"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.onChange">[docs]</a>    <span class="k">def</span> <span class="nf">onChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.observe"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.observe">[docs]</a>    <span class="k">def</span> <span class="nf">observe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.stopObserver"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.stopObserver">[docs]</a>    <span class="k">def</span> <span class="nf">stopObserver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a mouse click on the click point using the left button.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: key modifiers</span>
+
+<span class="sd">        :rtype: the number of performed clicks (actually 1). A 0 (integer null)</span>
+<span class="sd">            means that because of some reason, no click could be performed (in</span>
+<span class="sd">            case of *PS* may be PatternNotFound).</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+
+<span class="sd">        **Example:**</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            # Windows XP</span>
+<span class="sd">            click(&quot;xpstart.png&quot;)</span>
+
+<span class="sd">            # Windows Vista</span>
+<span class="sd">            click(&quot;vistastart.png&quot;)</span>
+
+<span class="sd">            # Windows 7</span>
+<span class="sd">            click(&quot;w7start.png&quot;)</span>
+
+<span class="sd">            # Mac</span>
+<span class="sd">            click(&quot;apple.png&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">click</span><span class="p">)</span>
+
+    <span class="nd">@click.arg</span>
+<div class="viewcode-block" id="Region.click"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.click">[docs]</a>    <span class="k">def</span> <span class="nf">click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: key modifiers</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">doubleClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a mouse double-click on the click point using the left button.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+
+<span class="sd">        :rtype: the number of performed double-clicks (actually 1). A 0 (</span>
+<span class="sd">            integer null) means that because of some reason, no click could be</span>
+<span class="sd">            performed (in case of *PS* may be PatternNotFound).</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">doubleClick</span><span class="p">)</span>
+
+    <span class="nd">@doubleClick.arg</span>
+<div class="viewcode-block" id="Region.doubleClick"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.doubleClick">[docs]</a>    <span class="k">def</span> <span class="nf">doubleClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.rightClick"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.rightClick">[docs]</a>    <span class="k">def</span> <span class="nf">rightClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="o">*</span><span class="n">modifiers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a mouse click on the click point using the right button.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+
+<span class="sd">        :rtype: the number of performed double-clicks (actually 1). A 0 (</span>
+<span class="sd">            integer null) means that because of some reason, no c</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">doubleClick</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Highlight the region for some period of time.</span>
+
+<span class="sd">        :param seconds: a decimal number taken as duration in seconds</span>
+
+<span class="sd">        The region is highlighted showing a red colored frame around it. If the</span>
+<span class="sd">        parameter seconds  is given, the script is suspended for the specified</span>
+<span class="sd">        time. If no time is given, the highlighting is started and the script</span>
+<span class="sd">        continues.</span>
+
+<span class="sd">        When later on the same highlight call without a parameter is made, the</span>
+<span class="sd">        highlighting is stopped (behaves like a toggling switch).</span>
+
+<span class="sd">        Example::</span>
+
+<span class="sd">            m = find(some_image)</span>
+
+<span class="sd">            # the red frame will blink for about 7 - 8 seconds</span>
+<span class="sd">            for i in range(5):</span>
+<span class="sd">                m.highlight(1)</span>
+<span class="sd">                wait(0.5)</span>
+
+<span class="sd">            # a second red frame will blink as an overlay to the first one</span>
+<span class="sd">            m.highlight()</span>
+<span class="sd">            for i in range(5):</span>
+<span class="sd">                m.highlight(1)</span>
+<span class="sd">                wait(0.5)</span>
+<span class="sd">            m.highlight()</span>
+
+<span class="sd">            # the red frame will grow 5 times</span>
+<span class="sd">            for i in range(5):</span>
+<span class="sd">                m.highlight(1)</span>
+<span class="sd">                m = m.nearby(20)</span>
+
+<span class="sd">        **Note**: The red frame is just an overlay in front of all other screen</span>
+<span class="sd">        content and stays in its place, independently from the behavior of this</span>
+<span class="sd">        other content, which means it is not &quot;connected&quot; to the *content* of the</span>
+<span class="sd">        defining region. But it will be adjusted automatically, if you change</span>
+<span class="sd">        position and/or dimension of this region in your script, while it is</span>
+<span class="sd">        highlighted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@highlight.arg</span>
+<div class="viewcode-block" id="Region.highlight"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.highlight">[docs]</a>    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param seconds: a decimal number taken as duration in seconds</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">seconds</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">hover</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move the mouse cursor to hover above a click point.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+
+<span class="sd">        :rtype: the number 1 if the mousepointer could be moved to the click</span>
+<span class="sd">            point. A 0 (integer null) returned means that because of some</span>
+<span class="sd">            reason, no move could be performed (in case of *PS* may be</span>
+<span class="sd">            PatternNotFound).</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hover</span><span class="p">)</span>
+
+    <span class="nd">@hover.arg</span>
+<div class="viewcode-block" id="Region.hover"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.hover">[docs]</a>    <span class="k">def</span> <span class="nf">hover</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">modifiers</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">dragDrop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL_drag</span><span class="p">,</span> <span class="n">PSMRL_drop</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Perform a drag-and-drop operation from a starting click point to the</span>
+<span class="sd">        target click point indicated by the two PSMRLs respectively.</span>
+
+<span class="sd">        :param PSMRL_drag: a pattern, a string, a match, a region or a location</span>
+<span class="sd">            that evaluates to a click point.</span>
+
+<span class="sd">        :param PSMRL_drop: a pattern, a string, a match, a region or a location</span>
+<span class="sd">            that evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+
+<span class="sd">        If one of the parameters is *PS*, the operation might fail due to</span>
+<span class="sd">        PatternNotFound.</span>
+
+<span class="sd">        **Sideeffect**: when using *PS*, the match of the target can be accessed</span>
+<span class="sd">        using :py:meth:`Region.getLastMatch` afterwards. If only the first</span>
+<span class="sd">        parameter is given as *PS*, this match is returned by</span>
+<span class="sd">        :py:meth:`Region.getLastMatch`.</span>
+
+<span class="sd">        **When the operation does not perform as expected** (usually caused by</span>
+<span class="sd">        timing problems due to delayed reactions of applications), you may</span>
+<span class="sd">        adjust the internal timing parameters :py:attr:`Settings.DelayAfterDrag`</span>
+<span class="sd">        and :py:attr:`Settings.DelayBeforeDrop` eventually combined with the</span>
+<span class="sd">        internal timing parameter :py:attr:`Settings.MoveMouseDelay`.</span>
+
+<span class="sd">        Another solution might be, to use a combination of</span>
+<span class="sd">        :py:meth:`Region.drag` and :py:meth:`Region.dropAt` combined with your</span>
+<span class="sd">        own ``wait()`` usages. If the mouse movement from source to target is</span>
+<span class="sd">        the problem, you might break up the move path into short steps using</span>
+<span class="sd">        :py:meth:`Region.mouseMove`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL_drag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dragDrop</span><span class="p">)</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL_drop</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dragDrop</span><span class="p">)</span>
+
+    <span class="nd">@dragDrop.arg</span>
+<div class="viewcode-block" id="Region.dragDrop"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.dragDrop">[docs]</a>    <span class="k">def</span> <span class="nf">dragDrop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL_drag</span><span class="p">,</span> <span class="n">PSMRL_drop</span><span class="p">,</span> <span class="n">modifiers</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PSMRL_drag: a pattern, a string, a match, a region or a location</span>
+<span class="sd">            that evaluates to a click point.</span>
+
+<span class="sd">        :param PSMRL_drop: a pattern, a string, a match, a region or a location</span>
+<span class="sd">            that evaluates to a click point.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">PSMRL_drag</span><span class="p">,</span> <span class="n">PSMRL_drop</span><span class="p">,</span> <span class="n">modifiers</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.drag"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.drag">[docs]</a>    <span class="k">def</span> <span class="nf">drag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start a drag-and-drop operation by dragging at the given click point.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed. A 0 (integer</span>
+<span class="sd">            null) returned means that because of some reason, no move could be</span>
+<span class="sd">            performed (in case of *PS* may be PatternNotFound).</span>
+
+<span class="sd">        The mousepointer is moved to the click point and the left mouse</span>
+<span class="sd">        button is pressed and held, until another mouse action is performed</span>
+<span class="sd">        (e.g. a :py:meth:`Region.dropAt()` afterwards). This is nomally used to</span>
+<span class="sd">        start a drag-and-drop operation.</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drag</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">dropAt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Complete a drag-and-drop operation by dropping a previously dragged</span>
+<span class="sd">        item at</span>
+<span class="sd">        the given target click point.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param delay: time to wait after in seconds as decimal value</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed. A 0</span>
+<span class="sd">            (integer null) returned means that because of some reason, no move</span>
+<span class="sd">            could be performed (in case of *PS* may be PatternNotFound).</span>
+
+<span class="sd">        The mousepointer is moved to the click point. After waiting for delay</span>
+<span class="sd">        seconds the left mouse button is released. This is normally used to</span>
+<span class="sd">        finalize</span>
+<span class="sd">        a drag-and-drop operation. If it is necessary to visit one ore more</span>
+<span class="sd">        click</span>
+<span class="sd">        points after dragging and before dropping, you can use</span>
+<span class="sd">        :py:meth:`Region.mouseMove` inbetween.</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropAt</span><span class="p">)</span>
+
+    <span class="nd">@dropAt.arg</span>
+<div class="viewcode-block" id="Region.dropAt"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.dropAt">[docs]</a>    <span class="k">def</span> <span class="nf">dropAt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Complete a drag-and-drop operation by dropping a previously dragged</span>
+<span class="sd">        item at</span>
+<span class="sd">        the given target click point.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param delay: time to wait after in seconds as decimal value</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed. A 0</span>
+<span class="sd">            (integer null) returned means that because of some reason, no move</span>
+<span class="sd">            could be performed (in case of *PS* may be PatternNotFound).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span>
+
+    <span class="c">#noinspection PyUnusedLocal,PyDocstring</span></div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.type"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.type">[docs]</a>    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Type the text at the current focused input field or at a click point</span>
+<span class="sd">        specified by *PSMRL*.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param text: a string to type.</span>
+
+<span class="sd">        :param modifiers: one or more key modifiers</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be</span>
+<span class="sd">            performed, otherwise 0 (integer null), which means,</span>
+<span class="sd">            that because of some reason, it was not possible or the click</span>
+<span class="sd">            could be performed (in case of *PS* may be PatternNotFound).</span>
+
+<span class="sd">        This method simulates keyboard typing interpreting the characters of</span>
+<span class="sd">        text</span>
+<span class="sd">        based on the layout/keymap of the **standard US keyboard (QWERTY)**.</span>
+<span class="sd">        Special keys (ENTER, TAB, BACKSPACE, ...) can be incorporated into text</span>
+<span class="sd">        by using the constants defined in</span>
+<span class="sd">        `Class Key &lt;http://doc.sikuli.org/keys.html&gt;`_ using the standard</span>
+<span class="sd">        string concatenation (+).</span>
+
+<span class="sd">        If *PSMRL* is given, a click on the clickpoint is performed before</span>
+<span class="sd">        typing, to gain the focus. (Mac: it might be necessary, to use</span>
+<span class="sd">        :py:func:`switchApp` to give focus to a target application before, to</span>
+<span class="sd">        accept typed/pasted characters.)</span>
+
+<span class="sd">        If *PSMRL* is omitted, it performs the typing on the current focused</span>
+<span class="sd">        visual component (normally an input field or an menu entry that can be</span>
+<span class="sd">        selected by typing something).</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+
+<span class="sd">        **Note**: If you need to type international characters or you are using</span>
+<span class="sd">        layouts/keymaps other than US-QWERTY, you should use</span>
+<span class="sd">        :py:meth:`Region.paste` instead. Since type() is rather slow because it</span>
+<span class="sd">        simulates each key press, for longer text it is preferrable to use</span>
+<span class="sd">        :py:meth:`Region.paste`.</span>
+
+<span class="sd">        **Best Practice**: As a general guideline, the best choice is to use</span>
+<span class="sd">        ``paste()`` for readable text and ``type()`` for action keys like TAB,</span>
+<span class="sd">        ENTER, ESC, ....</span>
+<span class="sd">        Use one ``type()`` for each key or key combination and be aware,</span>
+<span class="sd">        that in some cases a short ``wait()`` after a ``type()`` might be</span>
+<span class="sd">        necessary to give the target application some time to react and be</span>
+<span class="sd">        prepared for the next Sikuli action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Why would anyone in their right mind put optional args in front of</span>
+        <span class="c"># mandatory ones? I hope you know I hate you, whoever you are...</span>
+        <span class="k">def</span> <span class="nf">_raise_error</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Incorrect call signature for method </span><span class="si">%r</span><span class="s">. args=</span><span class="si">%r</span><span class="s">, &quot;</span>
+                            <span class="s">&quot;kwargs=</span><span class="si">%r</span><span class="s">:</span><span class="se">\n</span><span class="si">%s</span><span class="s">&quot;</span>
+                            <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">__doc__</span><span class="p">))</span>
+
+        <span class="n">PSMRL</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">modifiers</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">,</span> <span class="s">&#39;PSMRL&#39;</span><span class="p">,</span> <span class="s">&#39;modifiers&#39;</span><span class="p">):</span>
+                    <span class="n">_raise_error</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s">&#39;PSMRL&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">PSMRL</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;PSMRL&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s">&#39;modifiers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">modifiers</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;modifiers&#39;</span><span class="p">]</span>
+            <span class="n">num_unset</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">modifiers</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_unset</span><span class="p">:</span>
+                <span class="n">_raise_error</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">PSMRL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">basestring</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">_raise_error</span><span class="p">()</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">basestring</span><span class="p">):</span>
+                <span class="n">PSMR</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">PSMRL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+            <span class="k">return</span>  <span class="c"># I&#39;m screwwed</span>
+        <span class="k">elif</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">modifiers</span><span class="p">)</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">basestring</span><span class="p">):</span>
+                    <span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span> <span class="o">=</span> <span class="n">args</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span>  <span class="c"># pray to god as there&#39;s nothing I can do here...</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="s">&#39;PSMRL&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">PSMRL</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;PSMRL&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">PSMRL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="n">_raise_error</span><span class="p">()</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">paste</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Paste the text at a click point.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param text: text to paste</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed, otherwise 0</span>
+<span class="sd">            (integer null), which means,</span>
+<span class="sd">            that because of some reason, it was not possible or the click</span>
+<span class="sd">            could be performed (in case of *PS* may be PatternNotFound).</span>
+
+<span class="sd">        Pastes *text* using the clipboard (OS-level shortcut (Ctrl-V or</span>
+<span class="sd">        Cmd-V)). So</span>
+<span class="sd">        afterwards your clipboard contains *text*. ``paste()`` is a temporary</span>
+<span class="sd">        solution for</span>
+<span class="sd">        typing international characters or typing on keyboard layouts other</span>
+<span class="sd">        than</span>
+<span class="sd">        US-QWERTY.</span>
+
+<span class="sd">        If *PSMRL* is given, a click on the clickpoint is performed before</span>
+<span class="sd">        typing, to</span>
+<span class="sd">        gain the focus. (Mac: it might be necessary,</span>
+<span class="sd">        to use :py:func:`switchApp`</span>
+<span class="sd">        to give focus to a target application before, to accept typed/pasted</span>
+<span class="sd">        characters.)</span>
+
+<span class="sd">        If *PSMRL* is omitted, it performs the paste on the current focused</span>
+<span class="sd">        component</span>
+<span class="sd">        (normally an input field).</span>
+
+<span class="sd">        **Side Effect** if *PS* was used, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards.</span>
+
+<span class="sd">        **Note**: Special keys (ENTER, TAB, BACKSPACE, ...) cannot be used</span>
+<span class="sd">        with ``paste()``.</span>
+<span class="sd">        If needed, you have to split your complete text into two or more</span>
+<span class="sd">        ``paste()``</span>
+<span class="sd">        and use ``type()`` for typing the special keys inbetween.</span>
+<span class="sd">        Characters like \\n    (enter/new line) and \\t (tab) should work as</span>
+<span class="sd">        expected with ``paste()``,</span>
+<span class="sd">        but be aware of timing problems, when using e.g. intervening \\t to</span>
+<span class="sd">        jump</span>
+<span class="sd">        to the next input field of a form.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@paste.arg</span>
+<div class="viewcode-block" id="Region.paste"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.paste">[docs]</a>    <span class="k">def</span> <span class="nf">paste</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :param text: text to paste</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.text"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.text">[docs]</a>    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract the text contained in the region using OCR.</span>
+
+<span class="sd">        :rtype: the text as a string.</span>
+
+<span class="sd">        **Note**: Since this feature is still in an **experimental state**,</span>
+<span class="sd">        be aware, that in some cases it might not work as expected. If you face</span>
+<span class="sd">        any problems look at the</span>
+<span class="sd">        `Questions &amp; Answers / FAQ&#39;s &lt;https://answers.launchpad .net/sikuli&gt;`_</span>
+<span class="sd">        and the `Bugs &lt;https://answers.launchpad.net/sikuli&gt;`_.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.mouseDown"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.mouseDown">[docs]</a>    <span class="k">def</span> <span class="nf">mouseDown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Press the mouse *button* down.</span>
+
+<span class="sd">        :param button: one or a combination of the button constants</span>
+<span class="sd">            ``Button.LEFT``, ``Button.MIDDLE``, ``Button.RIGHT``.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation is performed successfully, and</span>
+<span class="sd">            zero if otherwise.</span>
+
+<span class="sd">        The mouse button or buttons specified by *button* are pressed until</span>
+<span class="sd">        another</span>
+<span class="sd">        mouse action is performed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">mouseUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Release the mouse button previously pressed.</span>
+
+<span class="sd">        :param button: one or a combination of the button constants</span>
+<span class="sd">            ``Button.LEFT``, ``Button.MIDDLE``, ``Button.RIGHT``.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation is performed successfully, and</span>
+<span class="sd">            zero if otherwise.</span>
+
+<span class="sd">        The button specified by *button* is released. If *button* is omitted,</span>
+<span class="sd">        all currently pressed buttons are released.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.mouseUp"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.mouseUp">[docs]</a>    <span class="k">def</span> <span class="nf">mouseUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param button: one or a combination of the button constants</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dropNones</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">button</span><span class="p">)</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.mouseMove"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.mouseMove">[docs]</a>    <span class="k">def</span> <span class="nf">mouseMove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Move the mouse pointer to a location indicated by PSRML.</span>
+
+<span class="sd">        :param PSMRL: a pattern, a string, a match, a region or a location that</span>
+<span class="sd">            evaluates to a click point.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed. If using *PS*</span>
+<span class="sd">            (which invokes an implicity find operation), find fails and you have</span>
+<span class="sd">            switched off FindFailed exception, a 0 (integer null) is returned.</span>
+<span class="sd">            Otherwise, the script is stopped with a FindFailed exception.</span>
+
+<span class="sd">        **Sideeffects**: when using *PS*, the match can be accessed using</span>
+<span class="sd">        :py:meth:`Region.getLastMatch` afterwards</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mouseMove</span><span class="p">)</span>
+</div>
+    <span class="nd">@TODO</span>
+<div class="viewcode-block" id="Region.wheel"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.wheel">[docs]</a>    <span class="k">def</span> <span class="nf">wheel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+<div class="viewcode-block" id="Region.keyDown"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.keyDown">[docs]</a>    <span class="k">def</span> <span class="nf">keyDown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Press and hold the specified key(s) until released by a later call to</span>
+<span class="sd">        :py:meth:`Region.keyUp`.</span>
+
+<span class="sd">        :param key: one or more keys (use the consts of class Key). A</span>
+<span class="sd">            list of keys is a concatenation of several key constants using &quot;+&quot;.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed and 0 if</span>
+<span class="sd">            otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@run_on_remote</span>
+    <span class="k">def</span> <span class="nf">keyUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Release given keys. If no key is given, all currently pressed keys are</span>
+<span class="sd">        released.</span>
+
+<span class="sd">        :param key: one or more keys (use the consts of class Key). A</span>
+<span class="sd">            list of keys is a concatenation of several key constants using &quot;+&quot;.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed and 0 if</span>
+<span class="sd">            otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@keyUp.arg</span>
+<div class="viewcode-block" id="Region.keyUp"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.keyUp">[docs]</a>    <span class="k">def</span> <span class="nf">keyUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Release given keys. If no key is given, all currently pressed keys are</span>
+<span class="sd">        released.</span>
+
+<span class="sd">        :param key: one or more keys (use the consts of class Key). A</span>
+<span class="sd">            list of keys is a concatenation of several key constants using &quot;+&quot;.</span>
+
+<span class="sd">        :rtype: the number 1 if the operation could be performed and 0 if</span>
+<span class="sd">            otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">dropNones</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.setFindFailedResponse"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setFindFailedResponse">[docs]</a>    <span class="k">def</span> <span class="nf">setFindFailedResponse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.getFindFailedResponse"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getFindFailedResponse">[docs]</a>    <span class="k">def</span> <span class="nf">getFindFailedResponse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.setThrowException"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.setThrowException">[docs]</a>    <span class="k">def</span> <span class="nf">setThrowException</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@DEFERRED</span>
+<div class="viewcode-block" id="Region.getThrowException"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getThrowException">[docs]</a>    <span class="k">def</span> <span class="nf">getThrowException</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. todo:: Implement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getRegionFromPSRM"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getRegionFromPSRM">[docs]</a>    <span class="k">def</span> <span class="nf">getRegionFromPSRM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSRM</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new Region object derived from the given parameter. In case</span>
+<span class="sd">        of PS, internally a find() is done inside this region. If found,</span>
+<span class="sd">        the match is returned. In case RM, just a copy of the given region is</span>
+<span class="sd">        returned.</span>
+
+<span class="sd">        :param PSRM: a Pattern, String, Region or Match object</span>
+<span class="sd">        :rtype: a new Region object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSRM</span><span class="p">(</span><span class="n">PSRM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRegionFromPSRM</span><span class="p">)</span>
+</div>
+    <span class="nd">@return_from_remote</span><span class="p">(</span><span class="s">&#39;Location&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Region.getLocationFromPSRML"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.getLocationFromPSRML">[docs]</a>    <span class="k">def</span> <span class="nf">getLocationFromPSRML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new Location object derived from the given parameter. In</span>
+<span class="sd">        case of PS, internally a find() is done inside this region. If found,</span>
+<span class="sd">        the match&#39;s target offset position is returned. In case RM,</span>
+<span class="sd">        just a copy of the given region&#39;s respective location (center or</span>
+<span class="sd">        target offset) is returned.</span>
+
+<span class="sd">        :param PSMRL: a Pattern, String, Region, Match or Location object</span>
+<span class="sd">        :rtype: a new Location object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLocationFromPSRML</span><span class="p">)</span>
+
+</div></div>
+<span class="nd">@constructor</span><span class="p">(</span><span class="n">Region</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_region_constructor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;Sikuli.Region(</span><span class="si">%r</span><span class="s">, </span><span class="si">%r</span><span class="s">, </span><span class="si">%r</span><span class="s">, </span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+
+
+<span class="nd">@constructor</span><span class="p">(</span><span class="n">Region</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_region_constructor</span><span class="p">(</span><span class="n">region</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;Sikuli.Region(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">region</span><span class="o">.</span><span class="n">_str_get</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_client.sikuli_client &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for sikuli_client.sikuli_client</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">SikuliClient is an XMLRPC client for SikuliServer - an instance of SikuliClient</span>
+<span class="sd">should be held by each client-side instance of SikuliClass in order to allow it</span>
+<span class="sd">to interact with the server-side class.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Alistair Broomhead&#39;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+
+<span class="n">JSON_FILENAME</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="s">&quot;keywords.json&quot;</span>
+<span class="p">)</span>
+
+<span class="n">KEYWORDS</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">JSON_FILENAME</span><span class="p">))</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="k">del</span> <span class="n">json</span>
+<span class="n">DEFAULT_EXPOSED</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="o">.</span><span class="n">union</span><span class="p">(</span>
+    <span class="n">KEYWORDS</span><span class="p">[</span><span class="s">&#39;APPS&#39;</span><span class="p">],</span>
+    <span class="n">KEYWORDS</span><span class="p">[</span><span class="s">&#39;RGN_LOW_INPUT&#39;</span><span class="p">],</span>
+    <span class="n">KEYWORDS</span><span class="p">[</span><span class="s">&#39;RGN_FIND&#39;</span><span class="p">],</span>
+    <span class="n">KEYWORDS</span><span class="p">[</span><span class="s">&#39;RGN_INTERACT&#39;</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="SikuliClientException"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClientException">[docs]</a><span class="k">class</span> <span class="nc">SikuliClientException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Exception raised if SikuliClient cannot complete an _eval &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="SikuliClient"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient">[docs]</a><span class="k">class</span> <span class="nc">SikuliClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Client for sikuliserver to expose a more limited set of keywords to rf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_session</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_garbage</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="SikuliClient.Region"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.Region">[docs]</a>    <span class="k">def</span> <span class="nf">Region</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new :class:`~region.Region` connected to this SikuliClient</span>
+<span class="sd">        :param args: args to pass to :class:`~region.Region` contructor</span>
+<span class="sd">        :param kwargs: kwargs to pass to :class:`~region.Region` contructor</span>
+<span class="sd">        :rtype : :class:`~region.Region`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.region</span> <span class="kn">import</span> <span class="n">Region</span>
+        <span class="k">return</span> <span class="n">Region</span><span class="o">.</span><span class="n">mknew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SikuliClient.Location"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.Location">[docs]</a>    <span class="k">def</span> <span class="nf">Location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new :class:`~location.Location` connected to this SikuliClient</span>
+<span class="sd">        :param args: args to pass to :class:`~location.Location` contructor</span>
+<span class="sd">        :param kwargs: kwargs to pass to :class:`~location.Location` contructor</span>
+<span class="sd">        :rtype : :class:`~location.Location`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.location</span> <span class="kn">import</span> <span class="n">Location</span>
+
+        <span class="k">return</span> <span class="n">Location</span><span class="o">.</span><span class="n">mknew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SikuliClient.Screen"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.Screen">[docs]</a>    <span class="k">def</span> <span class="nf">Screen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new :class:`~screen.Screen` connected to this SikuliClient</span>
+<span class="sd">        :param args: args to pass to :class:`~screen.Screen` contructor</span>
+<span class="sd">        :param kwargs: kwargs to pass to :class:`~screen.Screen` contructor</span>
+<span class="sd">        :rtype : :class:`~screen.Screen`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.screen</span> <span class="kn">import</span> <span class="n">Screen</span>
+
+        <span class="k">return</span> <span class="n">Screen</span><span class="o">.</span><span class="n">mknew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_current_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
+
+    <span class="k">def</span> <span class="nf">_new_session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">_collect_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">was_not_in_session</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">was_not_in_session</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">_collect_garbage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@contextlib.contextmanager</span>
+<div class="viewcode-block" id="SikuliClient.session"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.session">[docs]</a>    <span class="k">def</span> <span class="nf">session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">was_not_in_session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_session</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">sikuli_client_session</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_collect_session</span><span class="p">(</span><span class="n">was_not_in_session</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+    <span class="k">def</span> <span class="nf">_del_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._del_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
+        <span class="k">elif</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">del</span> <span class="n">l</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">id_</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_add_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._ref_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_new_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._new_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jython_string</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="o">.</span><span class="n">eval_jython</span><span class="p">(</span><span class="n">jython_string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;PASS&#39;</span><span class="p">:</span>
+            <span class="n">ex</span> <span class="o">=</span> <span class="n">SikuliClientException</span><span class="p">(</span><span class="n">rv</span><span class="p">[</span><span class="s">&#39;error&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;traceback&#39;</span><span class="p">])</span>
+            <span class="k">raise</span> <span class="n">ex</span>
+        <span class="n">new_objects</span><span class="p">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;return&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_pool</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_objects</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">host</span><span class="p">,</span>
+                 <span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">,</span>
+                 <span class="n">include</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">exclude</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">include</span><span class="p">)</span> <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="nb">frozenset</span><span class="p">()</span>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span> <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="nb">frozenset</span><span class="p">()</span>
+        <span class="kn">from</span> <span class="nn">xmlrpclib</span> <span class="kn">import</span> <span class="n">ServerProxy</span>
+        <span class="kn">from</span> <span class="nn">.misc</span> <span class="kn">import</span> <span class="n">RemoteLib</span><span class="p">,</span> <span class="n">SikuliUnreflected</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+                            <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+                            <span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">,</span>
+                            <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span> <span class="o">=</span> <span class="n">RemoteLib</span><span class="p">(</span>
+            <span class="n">ServerProxy</span><span class="p">(</span><span class="s">&quot;http://</span><span class="si">%s</span><span class="s">:</span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unreflected</span> <span class="o">=</span> <span class="n">SikuliUnreflected</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keywords</span> <span class="o">=</span> <span class="n">DEFAULT_EXPOSED</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">include</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keywords</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unreflected</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__clearall__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._held_objects&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
+
+
+<span class="c">#noinspection PyDocstring</span></div>
+<span class="nd">@contextlib.contextmanager</span>
+<div class="viewcode-block" id="sikuli_client_session"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.sikuli_client_session">[docs]</a><span class="k">def</span> <span class="nf">sikuli_client_session</span><span class="p">(</span><span class="n">host</span><span class="p">,</span>
+                          <span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">,</span>
+                          <span class="n">include</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                          <span class="n">exclude</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a new SikuliClient for your session, making sure all server-side gc</span>
+<span class="sd">    is performed on context exit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">SikuliClient</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span>
+                     <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+                     <span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">,</span>
+                     <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">s</span>
+    <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">_garbage</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

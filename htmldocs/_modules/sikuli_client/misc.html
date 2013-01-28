@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_client.misc &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for sikuli_client.misc</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Extra classes that implementent miscellaneous needed functionailty</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">.sikuli_class</span> <span class="kn">import</span> <span class="n">ClientSikuliClass</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Alistair Broomhead&#39;</span>
+<span class="kn">from</span> <span class="nn">.pattern</span> <span class="kn">import</span> <span class="n">Pattern</span>
+<span class="kn">from</span> <span class="nn">.match</span> <span class="kn">import</span> <span class="n">Match</span>
+
+
+<div class="viewcode-block" id="RemoteLib"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.RemoteLib">[docs]</a><span class="k">class</span> <span class="nc">RemoteLib</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Re-exposes a classes keywords wrapped by robotremotelibrary.py &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lib</span> <span class="o">=</span> <span class="n">remote</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lib</span><span class="o">.</span><span class="n">get_keyword_names</span><span class="p">():</span>
+            <span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lib</span><span class="o">.</span><span class="n">run_keyword</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+
+            <span class="n">_</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_</span>
+            <span class="k">return</span> <span class="n">_</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="SikuliUnreflected"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.SikuliUnreflected">[docs]</a><span class="k">class</span> <span class="nc">SikuliUnreflected</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Custom keyword handlers rather than those reflected over RPC &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :type remote: SikuliServer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote</span> <span class="o">=</span> <span class="n">remote</span>
+
+<div class="viewcode-block" id="SikuliUnreflected.find"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.SikuliUnreflected.find">[docs]</a>    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param PS: :class:`~sikuli_client.pattern.Pattern` or str</span>
+<span class="sd">        :rtype: :class:`~sikuli_client.match.Match`</span>
+
+<span class="sd">        Find a particular GUI element, which is seen as the given image or</span>
+<span class="sd">        just plain text. The given file name of an image specifies the</span>
+<span class="sd">        element&#39;s appearance. It searches within the region and returns the best</span>
+<span class="sd">        match, which shows a similarity greater than the minimum similarity</span>
+<span class="sd">        given by the pattern. If no similarity was set for the pattern by</span>
+<span class="sd">        :meth:`sikuli_client.pattern.Pattern.similar` before, a default minimum</span>
+<span class="sd">        similarity of 0.7 is set automatically.</span>
+
+<span class="sd">        If autoWaitTimeout is set to a non-zero value, find() just acts as a</span>
+<span class="sd">        wait().</span>
+
+<span class="sd">        **Side Effect** *lastMatch*: the best match can be accessed using</span>
+<span class="sd">        :meth:`~sikuli_client.region.Region.getLastMatch` afterwards.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">Pattern</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">Pattern</span><span class="p">)</span>
+            <span class="n">ps</span> <span class="o">=</span> <span class="s">&quot;self._get_jython_object(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">PS</span><span class="o">.</span><span class="n">remote_id</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ps</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">PS</span><span class="p">)</span>
+        <span class="c">#noinspection PyUnresolvedReferences</span>
+        <span class="n">match_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&quot;self._new_jython_object(self.find(</span><span class="si">%s</span><span class="s">))&quot;</span> <span class="o">%</span> <span class="n">ps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Match</span><span class="p">(</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="n">match_id</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="dropNones"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.dropNones">[docs]</a><span class="k">def</span> <span class="nf">dropNones</span><span class="p">(</span><span class="n">num_required</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Was finding this repoetitive.</span>
+<span class="sd">    :param num_required: how many args are required in total</span>
+<span class="sd">    :param keys: dict of keys and (bool) is_required (None ignores this)</span>
+<span class="sd">    :param args:</span>
+<span class="sd">    :param kwargs: some of these will not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">keys</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">kw</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kw</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+              <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span> <span class="ow">and</span> <span class="n">keys</span><span class="p">[</span><span class="n">k</span><span class="p">])}</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_required</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">kw</span>
+
+</div>
+<div class="viewcode-block" id="constructor"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.constructor">[docs]</a><span class="k">def</span> <span class="nf">constructor</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param cls: class to use decorated function as constructor for</span>
+
+<span class="sd">    Uses func as a potential constructor for cls:</span>
+<span class="sd">    func should return the string which when evaluated by jython gives the</span>
+<span class="sd">    object we want.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        @constructor(cls)</span>
+<span class="sd">        def func(*args, **kwargs):</span>
+<span class="sd">            ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&quot;self._new_jython_object(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span>
+                                    <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+        <span class="n">cls</span><span class="o">.</span><span class="n">_constructors</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_constructors</span> <span class="o">+</span> <span class="p">(</span><span class="n">_func</span><span class="p">,)</span>
+        <span class="k">return</span> <span class="n">_func</span>
+
+    <span class="k">return</span> <span class="n">_wrapper</span>
+
+</div>
+<div class="viewcode-block" id="return_from_remote"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.return_from_remote">[docs]</a><span class="k">def</span> <span class="nf">return_from_remote</span><span class="p">(</span><span class="n">rtype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator factory returning a run_on_remote decorator which marshals and</span>
+<span class="sd">    unmarshals the return type as ``rtype`` where ``rtype`` must be either a</span>
+<span class="sd">    subclass of :class:`ClientSikuliClass`, or the string name of a</span>
+<span class="sd">    class in :mod:`~sikuli_client.classes`</span>
+
+<span class="sd">    :param rtype: return type</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        @return_from_remote(rtype)</span>
+<span class="sd">        def func(*args, **kwargs):</span>
+<span class="sd">            ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_new_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">run_on_remote</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+        <span class="nd">@func.func</span>
+        <span class="k">def</span> <span class="nf">_inner_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">location_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span>
+                <span class="s">&quot;self._new_jython_object(&quot;</span>
+                <span class="s">&quot;   self._get_jython_object(</span><span class="si">%r</span><span class="s">).</span><span class="si">%s</span><span class="s">(</span><span class="si">%s</span><span class="s">))&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span>
+                    <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                    <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s_repr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">])))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">rt</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">SIKULI_CLASSES</span>
+
+                <span class="n">rt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtype</span>
+                          <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">ClientSikuliClass</span><span class="p">)</span> <span class="k">else</span>
+                          <span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="n">rtype</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">rt</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">server_id</span><span class="o">=</span><span class="n">location_id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">return</span> <span class="n">_new_decorator</span>
+
+</div>
+<div class="viewcode-block" id="DEFERRED"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.DEFERRED">[docs]</a><span class="k">def</span> <span class="nf">DEFERRED</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for unimplemented interfaces</span>
+<span class="sd">    :type func: function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; .. todo:: Implement </span><span class="si">%r</span><span class="s"> (later) &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="k">return</span> <span class="n">func</span>
+
+</div>
+<div class="viewcode-block" id="TODO"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.TODO">[docs]</a><span class="k">def</span> <span class="nf">TODO</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for unimplemented interfaces</span>
+<span class="sd">    :type func: function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; .. todo:: Implement </span><span class="si">%r</span><span class="s"> (soon) &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="k">return</span> <span class="n">func</span>
+
+</div>
+<div class="viewcode-block" id="run_on_remote"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.run_on_remote">[docs]</a><span class="k">def</span> <span class="nf">run_on_remote</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param func: function to decorate</span>
+
+<span class="sd">    Runs the decorated function but discards the result, so you can use it</span>
+<span class="sd">    for sanity-checking but should not use it for actual processing, as</span>
+<span class="sd">    this will be done on the server side.</span>
+
+<span class="sd">    The decorated function can have a number of properties that modify the</span>
+<span class="sd">    way it is run, each of which should be a function itself:</span>
+
+<span class="sd">        ``func.arg(*args, **kwargs)``:</span>
+<span class="sd">            The output of this will be used as args for the inner wrapper</span>
+<span class="sd">        ``func.post(result)``:</span>
+<span class="sd">            This takes the output of the inner wrapper, and its ouput is</span>
+<span class="sd">            returned by the outer wrapper</span>
+<span class="sd">        ``func.func(*args, **kwargs)``:</span>
+<span class="sd">            Replaces the default inner function - should handle all interaction</span>
+<span class="sd">            with the server</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        @run_on_remote</span>
+<span class="sd">        def func(*args, **kwargs):</span>
+<span class="sd">            ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gjo</span> <span class="o">=</span> <span class="s">&quot;self._get_jython_object&quot;</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">_augment</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;inner&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">(</span><span class="si">%r</span><span class="s">).</span><span class="si">%s</span><span class="s">(</span><span class="si">%s</span><span class="s">)&quot;</span>
+                                      <span class="o">%</span> <span class="p">(</span><span class="n">gjo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                                         <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s_repr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]))))</span>
+    <span class="p">}</span>
+
+
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_outer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_server</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%r</span><span class="s"> has been garbage collected on the server side&#39;</span>
+                            <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&quot;arg&quot;</span> <span class="ow">in</span> <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">:</span>
+            <span class="n">arg_kw</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">[</span><span class="s">&quot;arg&quot;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arg_kw</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">arg_kw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span>
+                                     <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg_kw</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)):</span>
+                <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">arg_kw</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">arg_kw</span><span class="p">,</span> <span class="p">{}</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">[</span><span class="s">&#39;inner&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&quot;post&quot;</span> <span class="ow">in</span> <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">[</span><span class="s">&quot;post&quot;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span> <span class="nf">_arg</span><span class="p">(</span><span class="n">arg_func</span><span class="p">):</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">[</span><span class="s">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg_func</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="nf">_post</span><span class="p">(</span><span class="n">post_func</span><span class="p">):</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">[</span><span class="s">&#39;post&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post_func</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="nf">_func</span><span class="p">(</span><span class="n">func_func</span><span class="p">):</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_augment</span><span class="p">[</span><span class="s">&#39;inner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_func</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="n">func</span><span class="o">.</span><span class="n">arg</span> <span class="o">=</span> <span class="n">_arg</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">post</span> <span class="o">=</span> <span class="n">_post</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">_func</span>
+    <span class="n">func</span><span class="o">.</span><span class="n">run</span> <span class="o">=</span> <span class="n">_outer</span>
+    <span class="k">return</span> <span class="n">func</span>
+
+</div>
+<div class="viewcode-block" id="s_repr"><a class="viewcode-back" href="../../sikuli_client.misc.html#sikuli_client.misc.s_repr">[docs]</a><span class="k">def</span> <span class="nf">s_repr</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param obj: object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ClientSikuliClass</span><span class="p">)</span> <span class="k">else</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_str_get</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

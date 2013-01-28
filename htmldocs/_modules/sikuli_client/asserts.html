@@ -1,0 +1,219 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_client.asserts &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for sikuli_client.asserts</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Repetitive asserts</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="assert_int"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_int">[docs]</a><span class="k">def</span> <span class="nf">assert_int</span><span class="p">(</span><span class="n">int_</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param int_: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">int_</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s"> expected integer, got </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">meth</span><span class="p">,</span> <span class="n">int_</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="assert_positive_int"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_positive_int">[docs]</a><span class="k">def</span> <span class="nf">assert_positive_int</span><span class="p">(</span><span class="n">pos_int</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param pos_int: int &gt; 0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pos_int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pos_int</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s"> expected positive integer, got </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">meth</span><span class="p">,</span>
+                                                                  <span class="n">pos_int</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="assert_positive_ints"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_positive_ints">[docs]</a><span class="k">def</span> <span class="nf">assert_positive_ints</span><span class="p">(</span><span class="n">pos_ints</span><span class="p">,</span> <span class="n">meth</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param pos_ints: iterable of int &gt; 0</span>
+<span class="sd">    :param names: iterable names of args (optional)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos_ints</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_ints</span><span class="p">):</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">pos_ints</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">e_names</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">))</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">e_names</span> <span class="k">else</span> <span class="n">e_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pos_ints</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">pos_int</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pos_int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pos_int</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s">&#39;s argument &#39;</span><span class="si">%s</span><span class="s">&#39; expected positive integer&quot;</span>
+                            <span class="s">&quot;, got </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">meth</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">pos_int</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="assert_positive_num"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_positive_num">[docs]</a><span class="k">def</span> <span class="nf">assert_positive_num</span><span class="p">(</span><span class="n">pos_num</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param pos_num: number &gt; 0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">pos_num</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pos_num</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span>
+                               <span class="nb">isinstance</span><span class="p">(</span><span class="n">pos_num</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s"> expected positive integer, got </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">meth</span><span class="p">,</span>
+                                                                  <span class="n">pos_num</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="assert_one_of"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_one_of">[docs]</a><span class="k">def</span> <span class="nf">assert_one_of</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">meth</span><span class="p">,</span> <span class="n">types</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param test: one of types</span>
+<span class="sd">    :param types: list of types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">t_</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">t_</span><span class="p">):</span>
+            <span class="k">return</span>
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s"> expected one of </span><span class="si">%r</span><span class="s">, got </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">meth</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">test</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="assert_PS"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_PS">[docs]</a><span class="k">def</span> <span class="nf">assert_PS</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param PS: Pattern or str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.pattern</span> <span class="kn">import</span> <span class="n">Pattern</span>
+
+    <span class="n">assert_one_of</span><span class="p">(</span><span class="n">PS</span><span class="p">,</span> <span class="n">meth</span><span class="p">,</span> <span class="p">[</span><span class="n">Pattern</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="assert_PSMRL"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_PSMRL">[docs]</a><span class="k">def</span> <span class="nf">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param PSMRL: Pattern, str, Match, Region or Location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">Pattern</span><span class="p">,</span> <span class="n">Match</span><span class="p">,</span> <span class="n">Region</span><span class="p">,</span> <span class="n">Location</span>
+
+    <span class="n">assert_one_of</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="n">meth</span><span class="p">,</span> <span class="p">[</span><span class="n">Pattern</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">,</span> <span class="n">Match</span><span class="p">,</span> <span class="n">Region</span><span class="p">,</span> <span class="n">Location</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="assert_PSML"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_PSML">[docs]</a><span class="k">def</span> <span class="nf">assert_PSML</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param PSMRL: Pattern, str, Match or Location</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">Pattern</span><span class="p">,</span> <span class="n">Match</span><span class="p">,</span> <span class="n">Location</span>
+
+    <span class="n">assert_one_of</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="n">meth</span><span class="p">,</span> <span class="p">[</span><span class="n">Pattern</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">,</span> <span class="n">Match</span><span class="p">,</span> <span class="n">Location</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="assert_PSRM"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_PSRM">[docs]</a><span class="k">def</span> <span class="nf">assert_PSRM</span><span class="p">(</span><span class="n">PSRM</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param PSRM: Pattern, str, Region or Match</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">Pattern</span><span class="p">,</span> <span class="n">Match</span><span class="p">,</span> <span class="n">Region</span>
+
+    <span class="n">assert_one_of</span><span class="p">(</span><span class="n">PSRM</span><span class="p">,</span> <span class="n">meth</span><span class="p">,</span> <span class="p">[</span><span class="n">Pattern</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">,</span> <span class="n">Region</span><span class="p">,</span> <span class="n">Match</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="assert_Region"><a class="viewcode-back" href="../../sikuli_client.asserts.html#sikuli_client.asserts.assert_Region">[docs]</a><span class="k">def</span> <span class="nf">assert_Region</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">meth</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    repetitive validation</span>
+<span class="sd">    :param meth: calling method</span>
+<span class="sd">    :param region: Region</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">Region</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">Region</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%r</span><span class="s"> expected Region, got </span><span class="si">%r</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">meth</span><span class="p">,</span> <span class="n">region</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

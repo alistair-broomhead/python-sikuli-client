@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_server &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for sikuli_server</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`sikuli_server`</span>
+<span class="sd">========================================</span>
+
+<span class="sd">Jython script to run a robot remote library exposing the Sikuli API (and popen)</span>
+
+
+<span class="sd">.. toctree::</span>
+<span class="sd">   :maxdepth: 2</span>
+<span class="sd">   :glob:</span>
+
+<span class="sd">   sikuli_server.classes</span>
+<span class="sd">   sikuli_server.robotremoteserver</span>
+<span class="sd">   sikuli_server.sikuli_class</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c">#noinspection PyUnresolvedReferences</span>
+    <span class="kn">from</span> <span class="nn">sikuli</span> <span class="kn">import</span> <span class="n">Sikuli</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="SikuliServer"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer">[docs]</a><span class="k">class</span> <span class="nc">SikuliServer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class into which to dump the namespace of sikuli.Sikuli</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">i</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c"># Please don&#39;t use these directly</span>
+    <span class="k">def</span> <span class="nf">_new_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">object_</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">object_</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">object_</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">id_</span>
+
+    <span class="k">def</span> <span class="nf">_gcollect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_del_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gcollect</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_ref_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gcollect</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_private_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;__private_globals&#39;</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">SIKULI_CLASSES</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__private_globals</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__private_globals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">SIKULI_CLASSES</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__private_globals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span>
+
+<div class="viewcode-block" id="SikuliServer.eval_jython"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.eval_jython">[docs]</a>    <span class="k">def</span> <span class="nf">eval_jython</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jython_as_string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gives a quick and dirty way to run jython directly on the SiculiServer -</span>
+<span class="sd">        not intended for direct use, but for giving an interface for building a</span>
+<span class="sd">        remote API</span>
+<span class="sd">        :param jython_as_string: str -- will be evaluated server-side</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+        <span class="n">old_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+        <span class="n">new_eval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span><span class="p">,</span> <span class="n">old_eval</span>
+        <span class="k">return</span> <span class="n">new_eval</span><span class="p">,</span> <span class="n">ret</span>
+</div>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">Sikuli</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="p">[]</span>
+
+</div>
+<span class="kn">from</span> <span class="nn">robotremoteserver</span> <span class="kn">import</span> <span class="n">RobotRemoteServer</span>
+
+
+<div class="viewcode-block" id="SikuliRobotRemoteServer"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliRobotRemoteServer">[docs]</a><span class="k">class</span> <span class="nc">SikuliRobotRemoteServer</span><span class="p">(</span><span class="n">RobotRemoteServer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; RemoteServer that deals with Sikuli types &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_handle_return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.sikuli_class</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ServerSikuliClass</span><span class="p">,</span> <span class="n">UnimplementedSikuliClass</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">ServerSikuliClass</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ret</span><span class="o">.</span><span class="n">_marshallable</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">RobotRemoteServer</span><span class="o">.</span><span class="n">_handle_return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">,</span> <span class="n">allow_stop</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
+        <span class="n">RobotRemoteServer</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                   <span class="n">library</span><span class="o">=</span><span class="n">SikuliServer</span><span class="p">(),</span>
+                                   <span class="n">host</span><span class="o">=</span><span class="n">gethostname</span><span class="p">(),</span>
+                                   <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span>
+                                   <span class="n">allow_stop</span><span class="o">=</span><span class="n">allow_stop</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="run_sikuli_server"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.run_sikuli_server">[docs]</a><span class="k">def</span> <span class="nf">run_sikuli_server</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; runs the server &quot;&quot;&quot;</span>
+    <span class="n">SikuliRobotRemoteServer</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">)</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">run_sikuli_server</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

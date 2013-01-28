@@ -1,0 +1,147 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_server.classes &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../../index.html" />
+    <link rel="up" title="sikuli_server" href="../sikuli_server.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../sikuli_server.html" accesskey="U">sikuli_server</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for sikuli_server.classes</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Server-side classes</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.sikuli_class</span> <span class="kn">import</span> <span class="n">ServerSikuliClass</span>
+
+
+<span class="k">def</span> <span class="nf">_get_cls</span><span class="p">(</span><span class="n">cls_name</span><span class="p">):</span>
+    <span class="c">#noinspection PyUnresolvedReferences</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">sikuli</span> <span class="kn">import</span> <span class="n">Sikuli</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">e</span>
+        <span class="k">class</span> <span class="nc">Sikuli</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; to satisfy sphinx &quot;&quot;&quot;</span>
+            <span class="k">pass</span>
+
+    <span class="k">class</span> <span class="nc">_cls</span><span class="p">(</span><span class="n">ServerSikuliClass</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cls</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Sikuli</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)[</span><span class="n">cls_name</span><span class="p">]</span>
+        <span class="n">_cls</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">_cls</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="n">_cls</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__module__</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">e</span>
+        <span class="n">_cls</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">cls_name</span>
+        <span class="n">_cls</span><span class="o">.</span><span class="n">__module__</span> <span class="o">=</span> <span class="s">&quot;sikuli.Sikuli&quot;</span>
+    <span class="k">return</span> <span class="n">_cls</span>
+
+
+<div class="viewcode-block" id="Vision"><a class="viewcode-back" href="../../sikuli_server.classes.html#sikuli_server.classes.Vision">[docs]</a><span class="k">class</span> <span class="nc">Vision</span><span class="p">(</span><span class="n">ServerSikuliClass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages interaction with Sikuli&#39;s Vision:</span>
+<span class="sd">        http://doc.sikuli.org/globals.html#Vision.setParameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</div>
+<span class="n">SIKULI_CLASSES</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Vision&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vision</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;App&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">App</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;App&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Env&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Env</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Env&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Finder&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Finder</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Finder&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Match&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Match</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Match&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Pattern&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pattern</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Pattern&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Region</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Region&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Screen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Screen</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Screen&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;Settings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Settings</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;Settings&#39;</span><span class="p">)</span>
+<span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="s">&#39;SikuliEvent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SikuliEvent</span> <span class="o">=</span> <span class="n">_get_cls</span><span class="p">(</span><span class="s">&#39;SikuliEvent&#39;</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">ServerSikuliClass</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../sikuli_server.html" >sikuli_server</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>sikuli_server &mdash; SikuliServer 0.1.6 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.6',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.6 documentation" href="index.html" />
+    <link rel="next" title="classes" href="sikuli_server.classes.html" />
+    <link rel="prev" title="Welcome to SikuliServer‘s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_server.classes.html" title="classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SikuliServer‘s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="module-sikuli_server"></span><div class="section" id="sikuli-server">
+<h1><a class="reference internal" href="#module-sikuli_server" title="sikuli_server"><tt class="xref py py-mod docutils literal"><span class="pre">sikuli_server</span></tt></a><a class="headerlink" href="#sikuli-server" title="Permalink to this headline">¶</a></h1>
+<p>Jython script to run a robot remote library exposing the Sikuli API (and popen)</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sikuli_server.classes.html"><tt class="docutils literal"><span class="pre">classes</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sikuli_server.robotremoteserver.html"><tt class="docutils literal"><span class="pre">robotremoteserver</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sikuli_server.sikuli_class.html"><tt class="docutils literal"><span class="pre">sikuli_class</span></tt></a></li>
+</ul>
+</div>
+<dl class="class">
+<dt id="sikuli_server.SikuliRobotRemoteServer">
+<em class="property">class </em><tt class="descclassname">sikuli_server.</tt><tt class="descname">SikuliRobotRemoteServer</tt><big>(</big><em>port=5637</em>, <em>allow_stop=True</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliRobotRemoteServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliRobotRemoteServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>RemoteServer that deals with Sikuli types</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="sikuli_server.SikuliServer">
+<em class="property">class </em><tt class="descclassname">sikuli_server.</tt><tt class="descname">SikuliServer</tt><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class into which to dump the namespace of sikuli.Sikuli</p>
+<dl class="method">
+<dt id="sikuli_server.SikuliServer.eval_jython">
+<tt class="descname">eval_jython</tt><big>(</big><em>jython_as_string</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.eval_jython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.eval_jython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a quick and dirty way to run jython directly on the SiculiServer -
+not intended for direct use, but for giving an interface for building a
+remote API
+:param jython_as_string: str &#8211; will be evaluated server-side</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_server.run_sikuli_server">
+<tt class="descclassname">sikuli_server.</tt><tt class="descname">run_sikuli_server</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#run_sikuli_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.run_sikuli_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>runs the server</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SikuliServer</span></tt>&#8216;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sikuli_server.classes.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">classes</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/sikuli_server.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_server.classes.html" title="classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SikuliServer‘s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
