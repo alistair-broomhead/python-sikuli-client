@@ -78,7 +78,7 @@ class Location(ClientSikuliClass):
         assert_int(dx, self.offset)
         assert_int(dy, self.offset)
 
-    @run_on_remote
+    @return_from_remote('Location')
     def above(self, dy):
         """
         Get a new location which is dy pixels vertically above the current
@@ -89,7 +89,7 @@ class Location(ClientSikuliClass):
         """
         assert_positive_int(dy, self.above)
 
-    @run_on_remote
+    @return_from_remote('Location')
     def below(self, dy):
         """
         Get a new location which is dy pixels vertically below the current
@@ -100,7 +100,7 @@ class Location(ClientSikuliClass):
         """
         assert_positive_int(dy, self.below)
 
-    @run_on_remote
+    @return_from_remote('Location')
     def left(self, dx):
         """
         Get a new location which is dx pixels horizontally to the left of the
@@ -111,7 +111,7 @@ class Location(ClientSikuliClass):
         """
         assert_positive_int(dx, self.left)
 
-    @run_on_remote
+    @return_from_remote('Location')
     def right(self, dx):
         """
         Get a new location which is dx pixels horizontally to the right of the
