@@ -219,7 +219,7 @@ def run_on_remote(func):
                 args, kwargs = arg_kw, {}
         result = func._augment['inner'](self, *args, **kwargs)
         if "post" in func._augment:
-            return func.post(result)
+            return func._augment["post"](self, result)
         else:
             return result
 
