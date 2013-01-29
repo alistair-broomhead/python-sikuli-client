@@ -1,4 +1,4 @@
-:mod:`consts`
+:mod:`Consts`
 ========================
-.. automodule:: sikuli_client.consts
+.. automodule:: sikuli_client.Consts
    :members:
