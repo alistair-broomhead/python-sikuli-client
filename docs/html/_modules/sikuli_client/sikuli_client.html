@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sikuli_client.sikuli_client &mdash; SikuliServer 0.1.6 documentation</title>
+    <title>sikuli_client.sikuli_client &mdash; SikuliServer 0.1.7 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.6',
+        VERSION:     '0.1.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.6 documentation" href="../../index.html" />
+    <link rel="top" title="SikuliServer 0.1.7 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -55,6 +55,8 @@
 <span class="sd">should be held by each client-side instance of SikuliClass in order to allow it</span>
 <span class="sd">to interact with the server-side class.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">SikuliServer.sikuli_client.exceptions</span> <span class="kn">import</span> <span class="n">SikuliClientException</span>
+
 <span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Alistair Broomhead&#39;</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -78,11 +80,6 @@
     <span class="n">KEYWORDS</span><span class="p">[</span><span class="s">&#39;RGN_INTERACT&#39;</span><span class="p">])</span>
 
 
-<div class="viewcode-block" id="SikuliClientException"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClientException">[docs]</a><span class="k">class</span> <span class="nc">SikuliClientException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Exception raised if SikuliClient cannot complete an _eval &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
-
-</div>
 <div class="viewcode-block" id="SikuliClient"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient">[docs]</a><span class="k">class</span> <span class="nc">SikuliClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Client for sikuliserver to expose a more limited set of keywords to rf</span>
@@ -95,7 +92,7 @@
 <span class="sd">        Create a new :class:`~region.Region` connected to this SikuliClient</span>
 <span class="sd">        :param args: args to pass to :class:`~region.Region` contructor</span>
 <span class="sd">        :param kwargs: kwargs to pass to :class:`~region.Region` contructor</span>
-<span class="sd">        :rtype : :class:`~region.Region`</span>
+<span class="sd">        :rtype : SikuliServer.sikuli_client.Region</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.region</span> <span class="kn">import</span> <span class="n">Region</span>
         <span class="k">return</span> <span class="n">Region</span><span class="o">.</span><span class="n">mknew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -105,7 +102,7 @@
 <span class="sd">        Create a new :class:`~location.Location` connected to this SikuliClient</span>
 <span class="sd">        :param args: args to pass to :class:`~location.Location` contructor</span>
 <span class="sd">        :param kwargs: kwargs to pass to :class:`~location.Location` contructor</span>
-<span class="sd">        :rtype : :class:`~location.Location`</span>
+<span class="sd">        :rtype : SikuliServer.sikuli_client.Location</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.location</span> <span class="kn">import</span> <span class="n">Location</span>
 
@@ -116,7 +113,7 @@
 <span class="sd">        Create a new :class:`~screen.Screen` connected to this SikuliClient</span>
 <span class="sd">        :param args: args to pass to :class:`~screen.Screen` contructor</span>
 <span class="sd">        :param kwargs: kwargs to pass to :class:`~screen.Screen` contructor</span>
-<span class="sd">        :rtype : :class:`~screen.Screen`</span>
+<span class="sd">        :rtype : SikuliServer.sikuli_client.Screen</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">.screen</span> <span class="kn">import</span> <span class="n">Screen</span>
 
@@ -268,7 +265,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">SikuliServer 0.1.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

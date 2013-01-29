@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sikuli_client.pattern &mdash; SikuliServer 0.1.7 documentation</title>
+    <title>sikuli_client.exceptions &mdash; SikuliServer 0.1.7 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -49,18 +49,20 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>Source code for sikuli_client.pattern</h1><div class="highlight"><pre>
+  <h1>Source code for sikuli_client.exceptions</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Classes to fulfill the roles of those described at</span>
-<span class="sd">    http://doc.sikuli.org/pattern.html</span>
+<span class="sd">Exceptions for use in sikuli_client</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="n">__author__</span> <span class="o">=</span> <span class="s">&#39;Alistair Broomhead&#39;</span>
-<span class="kn">from</span> <span class="nn">.sikuli_class</span> <span class="kn">import</span> <span class="n">UnimplementedSikuliClass</span>
 
-<div class="viewcode-block" id="Pattern"><a class="viewcode-back" href="../../sikuli_client.pattern.html#sikuli_client.pattern.Pattern">[docs]</a><span class="k">class</span> <span class="nc">Pattern</span><span class="p">(</span><span class="n">UnimplementedSikuliClass</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Manages interaction with Sikuli&#39;s Pattern &quot;&quot;&quot;</span>
-    <span class="c">#TODO: Finder</span>
-    <span class="c"># http://doc.sikuli.org/pattern.html#Pattern</span>
+
+<div class="viewcode-block" id="SikuliClientException"><a class="viewcode-back" href="../../sikuli_client.exceptions.html#sikuli_client.exceptions.SikuliClientException">[docs]</a><span class="k">class</span> <span class="nc">SikuliClientException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Exception raised if SikuliClient cannot complete an _eval &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="FindFailed"><a class="viewcode-back" href="../../sikuli_client.exceptions.html#sikuli_client.exceptions.FindFailed">[docs]</a><span class="k">class</span> <span class="nc">FindFailed</span><span class="p">(</span><span class="n">SikuliClientException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Find operation failed &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 </pre></div>
 

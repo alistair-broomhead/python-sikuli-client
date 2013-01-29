@@ -48,10 +48,8 @@ pre-commit:
 	make clean
 	python $(SOURCEDIR)/regen.py
 	make html
-	git add $(HTMLDOCSDIR)/*
-	git add $(HTMLDOCSDIR)/_sources
-	git add $(HTMLDOCSDIR)/_static
-	git add $(HTMLDOCSDIR)/_modules
+	git add $(SOURCEDIR)/
+	git add $(HTMLDOCSDIR)/
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(HTMLDOCSDIR)
