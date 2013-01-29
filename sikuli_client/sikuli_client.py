@@ -3,6 +3,8 @@ SikuliClient is an XMLRPC client for SikuliServer - an instance of SikuliClient
 should be held by each client-side instance of SikuliClass in order to allow it
 to interact with the server-side class.
 """
+from SikuliServer.sikuli_client.exceptions import SikuliClientException
+
 __author__ = 'Alistair Broomhead'
 
 import json
@@ -26,11 +28,6 @@ DEFAULT_EXPOSED = frozenset.union(
     KEYWORDS['RGN_INTERACT'])
 
 
-class SikuliClientException(Exception):
-    """ Exception raised if SikuliClient cannot complete an _eval """
-    pass
-
-
 class SikuliClient(object):
     """
     Client for sikuliserver to expose a more limited set of keywords to rf
@@ -43,7 +40,7 @@ class SikuliClient(object):
         Create a new :class:`~region.Region` connected to this SikuliClient
         :param args: args to pass to :class:`~region.Region` contructor
         :param kwargs: kwargs to pass to :class:`~region.Region` contructor
-        :rtype : :class:`~region.Region`
+        :rtype : SikuliServer.sikuli_client.Region
         """
         from .region import Region
         return Region.mknew(self, *args, **kwargs)
@@ -53,7 +50,7 @@ class SikuliClient(object):
         Create a new :class:`~location.Location` connected to this SikuliClient
         :param args: args to pass to :class:`~location.Location` contructor
         :param kwargs: kwargs to pass to :class:`~location.Location` contructor
-        :rtype : :class:`~location.Location`
+        :rtype : SikuliServer.sikuli_client.Location
         """
         from .location import Location
 
@@ -64,7 +61,7 @@ class SikuliClient(object):
         Create a new :class:`~screen.Screen` connected to this SikuliClient
         :param args: args to pass to :class:`~screen.Screen` contructor
         :param kwargs: kwargs to pass to :class:`~screen.Screen` contructor
-        :rtype : :class:`~screen.Screen`
+        :rtype : SikuliServer.sikuli_client.Screen
         """
         from .screen import Screen
 

@@ -13,3 +13,4 @@ Client library for interacting with Siculi from Robotframework over XML-RPC
 """
 from .sikuli_client import SikuliClient, sikuli_client_session
 from .classes import *
+from .exceptions import *
