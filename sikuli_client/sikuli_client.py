@@ -103,6 +103,7 @@ class SikuliClient(object):
         return
 
     def _del_obj(self, id_):
+        #if
         self._eval('self._del_jython_object(%r)' % int(id_))
         if self._session is not None and id_ in self._session:
             l = self._session
@@ -125,6 +126,16 @@ class SikuliClient(object):
             raise ex
         new_objects, ret = rv['return']
         self._current_pool.extend(new_objects)
+        return ret
+
+    def _eval_foreach(self, jython_string, args):
+        rv = self._sikuliserver.eval_foreach(jython_string, args)
+        if rv['status'] != 'PASS':
+            ex = SikuliClientException(rv['error'] + '\n\n' + rv['traceback'])
+            raise ex
+        new_objects, ret = rv['return']
+        self._current_pool.extend([x for x in new_objects if str(x) in
+                                   self._eval('self._held_objects')])
         return ret
 
     def __init__(self,

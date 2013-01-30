@@ -76,6 +76,26 @@
 <em class="property">class </em><tt class="descclassname">sikuli_server.</tt><tt class="descname">SikuliServer</tt><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class into which to dump the namespace of sikuli.Sikuli</p>
 <dl class="method">
+<dt id="sikuli_server.SikuliServer.eval_foreach">
+<tt class="descname">eval_foreach</tt><big>(</big><em>jython_as_string</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.eval_foreach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.eval_foreach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a quick and dirty way to run jython directly on the SiculiServer -
+not intended for direct use, but for giving an interface for building a
+remote API. Exceptions will be returned as a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>jython_as_string</strong> &#8211; str &#8211; will be evaluated server-side</li>
+<li><strong>args</strong> &#8211; iterable of things to have in the local namspace as &#8216;arg&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="sikuli_server.SikuliServer.eval_jython">
 <tt class="descname">eval_jython</tt><big>(</big><em>jython_as_string</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.eval_jython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.eval_jython" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gives a quick and dirty way to run jython directly on the SiculiServer -

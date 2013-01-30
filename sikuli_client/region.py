@@ -1325,6 +1325,23 @@ class Region(SikuliClass):
         """
         assert_PSMRL(PSMRL, self.getLocationFromPSRML)
 
+    def find_one_of(self, images):
+        """
+        :param images: list of strings giving paths to images
+        :return: found images
+        """
+        from .match import Match
+        match_ids = self.remote._eval_foreach(
+            "self._new_jython_object(self._get_jython_object(%r).find(arg))"
+            % self._id,
+            images)
+        matches = []
+        for match_id in match_ids:
+            try:
+                matches.append(Match(remote=self.remote, server_id=match_id))
+            except BaseException:
+                pass
+        return matches
 
 @constructor(Region)
 def _region_constructor(x, y, w, h):

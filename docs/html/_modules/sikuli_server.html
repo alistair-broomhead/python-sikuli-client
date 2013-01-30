@@ -92,19 +92,22 @@
         <span class="k">return</span> <span class="n">id_</span>
 
     <span class="k">def</span> <span class="nf">_gcollect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_del_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gcollect</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_ref_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gcollect</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_get_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_private_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -127,6 +130,40 @@
         <span class="n">old_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+        <span class="n">new_eval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span><span class="p">,</span> <span class="n">old_eval</span>
+        <span class="k">return</span> <span class="n">new_eval</span><span class="p">,</span> <span class="n">ret</span>
+</div>
+<div class="viewcode-block" id="SikuliServer.eval_foreach"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.eval_foreach">[docs]</a>    <span class="k">def</span> <span class="nf">eval_foreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jython_as_string</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gives a quick and dirty way to run jython directly on the SiculiServer -</span>
+<span class="sd">        not intended for direct use, but for giving an interface for building a</span>
+<span class="sd">        remote API. Exceptions will be returned as a string.</span>
+
+<span class="sd">        :param jython_as_string: str -- will be evaluated server-side</span>
+<span class="sd">        :param args: iterable of things to have in the local namspace as &#39;arg&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">old_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">Lock</span>
+        <span class="n">ret_l</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">_e</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+            <span class="n">l_</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">l</span><span class="p">[</span><span class="s">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l_</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">ret_l</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">ret_l</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="n">threads</span> <span class="o">=</span> <span class="p">[</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_e</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="n">new_eval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span><span class="p">,</span> <span class="n">old_eval</span>
         <span class="k">return</span> <span class="n">new_eval</span><span class="p">,</span> <span class="n">ret</span>
 </div>
