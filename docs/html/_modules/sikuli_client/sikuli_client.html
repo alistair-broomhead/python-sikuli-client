@@ -155,6 +155,7 @@
         <span class="k">return</span>
 </div>
     <span class="k">def</span> <span class="nf">_del_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
+        <span class="c">#if</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._del_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">:</span>
             <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
@@ -177,6 +178,16 @@
             <span class="k">raise</span> <span class="n">ex</span>
         <span class="n">new_objects</span><span class="p">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;return&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_pool</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_objects</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">def</span> <span class="nf">_eval_foreach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jython_string</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="o">.</span><span class="n">eval_foreach</span><span class="p">(</span><span class="n">jython_string</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;PASS&#39;</span><span class="p">:</span>
+            <span class="n">ex</span> <span class="o">=</span> <span class="n">SikuliClientException</span><span class="p">(</span><span class="n">rv</span><span class="p">[</span><span class="s">&#39;error&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;traceback&#39;</span><span class="p">])</span>
+            <span class="k">raise</span> <span class="n">ex</span>
+        <span class="n">new_objects</span><span class="p">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;return&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_pool</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_objects</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._held_objects&#39;</span><span class="p">)])</span>
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>

@@ -40,19 +40,22 @@ class SikuliServer(object):
         return id_
 
     def _gcollect(self):
-        for id_ in (k for k, v in self._held_objects.items() if v[1] < 1):
+        for id_ in (int(k) for k, v in self._held_objects.items() if v[1] < 1):
             del self._held_objects[id_]
 
     def _del_jython_object(self, id_):
-        self._held_objects[id_][1] -= 1
+        id_ = int(id_)
+        if id_ in self._held_objects:
+            self._held_objects[id_][1] -= 1
         self._gcollect()
 
     def _ref_jython_object(self, id_):
+        id_ = int(id_)
         self._held_objects[id_][1] += 1
         self._gcollect()
 
     def _get_jython_object(self, id_):
-        return self._held_objects[id_][0]
+        return self._held_objects[int(id_)][0]
 
     @property
     def _private_globals(self):
@@ -75,6 +78,40 @@ class SikuliServer(object):
         old_eval = self._eval_objects
         self._eval_objects = []
         ret = eval(jython_as_string, self._private_globals, l)
+        new_eval, self._eval_objects = self._eval_objects, old_eval
+        return new_eval, ret
+
+    def eval_foreach(self, jython_as_string, args):
+        """
+        Gives a quick and dirty way to run jython directly on the SiculiServer -
+        not intended for direct use, but for giving an interface for building a
+        remote API. Exceptions will be returned as a string.
+
+        :param jython_as_string: str -- will be evaluated server-side
+        :param args: iterable of things to have in the local namspace as 'arg'
+        """
+        l = locals().copy()
+        old_eval = self._eval_objects
+        self._eval_objects = []
+        from threading import Thread, Lock
+        ret_l = Lock()
+        ret = []
+
+        def _e(arg):
+            l_ = l.copy()
+            l['arg'] = arg
+            try:
+                r = eval(jython_as_string, self._private_globals, l_)
+            except BaseException, r:
+                pass
+            ret_l.acquire()
+            ret.append(r)
+            ret_l.release()
+        threads = [Thread(target=_e, args=(x,)) for x in args]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
         new_eval, self._eval_objects = self._eval_objects, old_eval
         return new_eval, ret
 
