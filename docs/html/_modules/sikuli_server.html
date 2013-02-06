@@ -76,6 +76,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class into which to dump the namespace of sikuli.Sikuli</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
@@ -113,6 +114,7 @@
     <span class="k">def</span> <span class="nf">_private_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;__private_globals&#39;</span><span class="p">):</span>
             <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">SIKULI_CLASSES</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">__private_globals</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__private_globals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">SIKULI_CLASSES</span><span class="p">)</span>
         <span class="n">g</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">globals</span><span class="p">())</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -146,24 +148,31 @@
         <span class="n">old_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">Lock</span>
-        <span class="n">ret_l</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">def</span> <span class="nf">_e</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+        <span class="n">ret_l</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">_e</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
             <span class="n">l_</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">l</span><span class="p">[</span><span class="s">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l_</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
-                <span class="k">pass</span>
+                <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stderr</span>
+                <span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Could not run </span><span class="si">%r</span><span class="s"> given arg=</span><span class="si">%r</span><span class="s">:</span>
+<span class="si">%r</span><span class="s"></span>
+<span class="s">&quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
             <span class="n">ret_l</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-            <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">ret</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">arg</span><span class="p">)]</span> <span class="o">=</span> <span class="n">r</span>
             <span class="n">ret_l</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-        <span class="n">threads</span> <span class="o">=</span> <span class="p">[</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_e</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
-            <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+        <span class="n">threads</span> <span class="o">=</span> <span class="p">[</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_e</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">arg</span><span class="p">,))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span>
+                   <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">)]</span>
+        <span class="n">start_thread</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="n">join_thread</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="nb">map</span><span class="p">(</span><span class="n">start_thread</span><span class="p">,</span> <span class="n">threads</span><span class="p">)</span>
+        <span class="nb">map</span><span class="p">(</span><span class="n">join_thread</span><span class="p">,</span> <span class="n">threads</span><span class="p">)</span>
         <span class="n">new_eval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span><span class="p">,</span> <span class="n">old_eval</span>
         <span class="k">return</span> <span class="n">new_eval</span><span class="p">,</span> <span class="n">ret</span>
 </div>
@@ -179,8 +188,10 @@
 
 <div class="viewcode-block" id="SikuliRobotRemoteServer"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliRobotRemoteServer">[docs]</a><span class="k">class</span> <span class="nc">SikuliRobotRemoteServer</span><span class="p">(</span><span class="n">RobotRemoteServer</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; RemoteServer that deals with Sikuli types &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">_handle_return_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ret</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">.sikuli_class</span> <span class="kn">import</span> <span class="p">(</span><span class="n">ServerSikuliClass</span><span class="p">,</span> <span class="n">UnimplementedSikuliClass</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">ServerSikuliClass</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">ret</span><span class="o">.</span><span class="n">_marshallable</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -188,6 +199,7 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">,</span> <span class="n">allow_stop</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
+
         <span class="n">RobotRemoteServer</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                    <span class="n">library</span><span class="o">=</span><span class="n">SikuliServer</span><span class="p">(),</span>
                                    <span class="n">host</span><span class="o">=</span><span class="n">gethostname</span><span class="p">(),</span>
@@ -198,6 +210,7 @@
 <div class="viewcode-block" id="run_sikuli_server"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.run_sikuli_server">[docs]</a><span class="k">def</span> <span class="nf">run_sikuli_server</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; runs the server &quot;&quot;&quot;</span>
     <span class="n">SikuliRobotRemoteServer</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">)</span>
+
 </div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">run_sikuli_server</span><span class="p">()</span>
