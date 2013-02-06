@@ -48,12 +48,10 @@ class SikuliServer(object):
         id_ = int(id_)
         if id_ in self._held_objects:
             self._held_objects[id_][1] -= 1
-        self._gcollect()
 
     def _ref_jython_object(self, id_):
         id_ = int(id_)
         self._held_objects[id_][1] += 1
-        self._gcollect()
 
     def _get_jython_object(self, id_):
         return self._held_objects[int(id_)][0]
@@ -105,7 +103,7 @@ class SikuliServer(object):
             l['arg'] = arg
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
-            except BaseException, r:
+            except Sikuli.SikuliException, r:
                 from sys import stderr
                 stderr.write("""
 Could not run %r given arg=%r:
