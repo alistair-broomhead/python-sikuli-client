@@ -100,12 +100,10 @@
         <span class="n">id_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_gcollect</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_ref_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
         <span class="n">id_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_gcollect</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_get_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
@@ -157,7 +155,7 @@
             <span class="n">l</span><span class="p">[</span><span class="s">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l_</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">Sikuli</span><span class="o">.</span><span class="n">SikuliException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stderr</span>
                 <span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
 <span class="s">Could not run </span><span class="si">%r</span><span class="s"> given arg=</span><span class="si">%r</span><span class="s">:</span>

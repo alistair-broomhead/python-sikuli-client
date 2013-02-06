@@ -144,7 +144,11 @@ def return_from_remote(rtype):
                 rt.append(rtype
                           if isinstance(rtype, ClientSikuliClass) else
                           SIKULI_CLASSES[rtype])
-            return rt[0](remote=self.remote, server_id=location_id)
+            cls = rt[0]
+            from robot.api import logger
+            ho = self.remote._eval("self._held_objects")
+            logger.info({k: ho[k] for k in sorted(ho.keys())})
+            return cls(remote=self.remote, server_id=str(location_id))
 
         return func
 

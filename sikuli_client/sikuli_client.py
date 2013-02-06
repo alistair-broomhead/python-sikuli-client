@@ -112,6 +112,7 @@ class SikuliClient(object):
         else:
             return
         del l[l.index(id_)]
+        self._eval('self._gcollect()')
 
     def _add_obj(self, id_):
         self._eval('self._ref_jython_object(%r)' % int(id_))
