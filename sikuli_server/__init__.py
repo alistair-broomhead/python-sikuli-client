@@ -24,6 +24,7 @@ class SikuliServer(object):
     """
     Class into which to dump the namespace of sikuli.Sikuli
     """
+
     def _id(self):
         i = 0
         while True:
@@ -61,6 +62,7 @@ class SikuliServer(object):
     def _private_globals(self):
         if not hasattr(self, '__private_globals'):
             from .classes import SIKULI_CLASSES
+
             self.__private_globals = {}
             self.__private_globals.update(SIKULI_CLASSES)
         g = dict(globals()).copy()
@@ -94,24 +96,31 @@ class SikuliServer(object):
         old_eval = self._eval_objects
         self._eval_objects = []
         from threading import Thread, Lock
-        ret_l = Lock()
-        ret = []
 
-        def _e(arg):
+        ret_l = Lock()
+        ret = dict()
+
+        def _e(i, arg):
             l_ = l.copy()
             l['arg'] = arg
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
             except BaseException, r:
-                pass
+                from sys import stderr
+                stderr.write("""
+Could not run %r given arg=%r:
+%r
+""" % (jython_as_string, arg, r))
             ret_l.acquire()
-            ret.append(r)
+            ret[(i, arg)] = r
             ret_l.release()
-        threads = [Thread(target=_e, args=(x,)) for x in args]
-        for t in threads:
-            t.start()
-        for t in threads:
-            t.join()
+
+        threads = [Thread(target=_e, args=(i, arg,)) for i, arg in
+                   enumerate(args)]
+        start_thread = lambda t: t.start()
+        join_thread = lambda t: t.join()
+        map(start_thread, threads)
+        map(join_thread, threads)
         new_eval, self._eval_objects = self._eval_objects, old_eval
         return new_eval, ret
 
@@ -127,8 +136,10 @@ from robotremoteserver import RobotRemoteServer
 
 class SikuliRobotRemoteServer(RobotRemoteServer):
     """ RemoteServer that deals with Sikuli types """
+
     def _handle_return_value(self, ret):
         from .sikuli_class import (ServerSikuliClass, UnimplementedSikuliClass)
+
         if isinstance(ret, ServerSikuliClass):
             return ret._marshallable()
         else:
@@ -136,6 +147,7 @@ class SikuliRobotRemoteServer(RobotRemoteServer):
 
     def __init__(self, port=5637, allow_stop=True):
         from socket import gethostname
+
         RobotRemoteServer.__init__(self,
                                    library=SikuliServer(),
                                    host=gethostname(),
@@ -146,6 +158,7 @@ class SikuliRobotRemoteServer(RobotRemoteServer):
 def run_sikuli_server():
     """ runs the server """
     SikuliRobotRemoteServer(port=5637)
+
 
 if __name__ == "__main__":
     run_sikuli_server()

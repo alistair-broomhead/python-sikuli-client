@@ -1335,10 +1335,10 @@ class Region(SikuliClass):
             "self._new_jython_object(self._get_jython_object(%r).find(arg))"
             % self._id,
             images)
-        matches = []
-        for match_id in match_ids:
+        matches = {}
+        for k, match_id in match_ids:
             try:
-                matches.append(Match(remote=self.remote, server_id=match_id))
+                matches[k] = Match(remote=self.remote, server_id=match_id)
             except BaseException:
                 pass
         return matches
