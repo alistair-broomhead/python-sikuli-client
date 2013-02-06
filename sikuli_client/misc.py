@@ -148,7 +148,9 @@ def return_from_remote(rtype):
             from robot.api import logger
             ho = self.remote._eval("self._held_objects")
             logger.info({k: ho[k] for k in sorted(ho.keys())})
-            return cls(remote=self.remote, server_id=str(location_id))
+            obj = cls(remote=self.remote, server_id=str(location_id))
+            obj.remote._del_obj(location_id)
+            return obj
 
         return func
 
