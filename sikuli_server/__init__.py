@@ -36,7 +36,7 @@ class SikuliServer(object):
         if object_ is None:
             return object_
         id_ = self._id.next()
-        self._held_objects[id_] = [object_, 0]
+        self._held_objects[id_] = [object_, 1]
         self._eval_objects.append(id_)
         return id_
 

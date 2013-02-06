@@ -31,7 +31,9 @@ class ClientSikuliClass(ServerSikuliClass):
             else:
                 if isinstance(_remote, SikuliClient):
                     cls.remote = _remote
-                return cls(remote=remote, server_id=server_id, is_new=True)
+                obj = cls(remote=remote, server_id=server_id, is_new=True)
+                obj.remote._del_obj(server_id)
+                return obj
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
 
@@ -51,7 +53,8 @@ class ClientSikuliClass(ServerSikuliClass):
 
     def __new__(cls, remote, server_id, *args, **kwargs):
         cls.remote = remote
-        return object.__new__(cls, remote, *args, **kwargs)
+        obj = object.__new__(cls, remote, *args, **kwargs)
+        return obj
 
     #noinspection PyUnusedLocal
     def __init__(self, remote, server_id, is_new=False, *args, **kwargs):
