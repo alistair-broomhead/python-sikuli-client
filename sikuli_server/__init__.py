@@ -133,7 +133,7 @@ class SikuliServer(object):
 
         def _e(i, arg):
             l_ = l.copy()
-            l['arg'] = arg
+            l_['arg'] = arg
 
             txt = ('\n%s\n[%r] Evaluated %r with arg as %r\n%s\n'
                    % ('-' * 80, i, jython_as_string, arg, '-' * 80))
