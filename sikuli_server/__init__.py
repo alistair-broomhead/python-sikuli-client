@@ -155,7 +155,7 @@ class SikuliServer(object):
 
         def _write_ret(i, arg, v):
             ret_l.acquire()
-            ret[(i, arg)] = v
+            ret[i] = [arg, v]
             ret_l.release()
 
         def _e(i, arg):
