@@ -108,19 +108,20 @@ class SikuliClient(object):
         return
 
     def _del_obj(self, id_):
-        #if
-        self._eval('self._del_jython_object(%r)' % int(id_))
-        if self._session is not None and id_ in self._session:
-            l = self._session
-        elif id_ in self._garbage:
-            l = self._garbage
-        else:
-            return
-        del l[l.index(id_)]
-        self._eval('self._gcollect()')
+        self._sikuliserver.jython_object_addrefs(id_, -1)
+        # self._eval('self._del_jython_object(%r)' % int(id_))
+        # if self._session is not None and id_ in self._session:
+        #     l = self._session
+        # elif id_ in self._garbage:
+        #     l = self._garbage
+        # else:
+        #     return
+        # del l[l.index(id_)]
+        # self._eval('self._gcollect()')
 
     def _add_obj(self, id_):
-        self._eval('self._ref_jython_object(%r)' % int(id_))
+        self._sikuliserver.jython_object_addrefs(id_, 1)
+        #self._eval('self._ref_jython_object(%r)' % int(id_))
 
     def _new_obj(self, id_):
         self._eval('self._new_jython_object(%r)' % int(id_))
