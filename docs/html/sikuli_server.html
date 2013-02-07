@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &mdash; SikuliServer 0.1.7 documentation</title>
+    <title>sikuli_server &mdash; SikuliServer 0.1.7 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" /> 
+    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" />
+    <link rel="next" title="classes" href="sikuli_server.classes.html" />
+    <link rel="prev" title="Welcome to SikuliServer‘s documentation!" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,6 +37,15 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_server.classes.html" title="classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SikuliServer‘s documentation!"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -44,13 +55,77 @@
         <div class="bodywrapper">
           <div class="body">
             
-  
+  <span class="target" id="module-sikuli_server"></span><div class="section" id="sikuli-server">
+<h1><a class="reference internal" href="#module-sikuli_server" title="sikuli_server"><tt class="xref py py-mod docutils literal"><span class="pre">sikuli_server</span></tt></a><a class="headerlink" href="#sikuli-server" title="Permalink to this headline">¶</a></h1>
+<p>Jython script to run a robot remote library exposing the Sikuli API (and popen)</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sikuli_server.classes.html"><tt class="docutils literal"><span class="pre">classes</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sikuli_server.robotremoteserver.html"><tt class="docutils literal"><span class="pre">robotremoteserver</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="sikuli_server.sikuli_class.html"><tt class="docutils literal"><span class="pre">sikuli_class</span></tt></a></li>
+</ul>
+</div>
+<dl class="class">
+<dt id="sikuli_server.SikuliRobotRemoteServer">
+<em class="property">class </em><tt class="descclassname">sikuli_server.</tt><tt class="descname">SikuliRobotRemoteServer</tt><big>(</big><em>port=5637</em>, <em>allow_stop=True</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliRobotRemoteServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliRobotRemoteServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>RemoteServer that deals with Sikuli types</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="sikuli_server.SikuliServer">
+<em class="property">class </em><tt class="descclassname">sikuli_server.</tt><tt class="descname">SikuliServer</tt><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class into which to dump the namespace of sikuli.Sikuli</p>
+<dl class="method">
+<dt id="sikuli_server.SikuliServer.eval_foreach">
+<tt class="descname">eval_foreach</tt><big>(</big><em>jython_as_string</em>, <em>args</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.eval_foreach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.eval_foreach" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a quick and dirty way to run jython directly on the SiculiServer -
+not intended for direct use, but for giving an interface for building a
+remote API. Exceptions will be returned as a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>jython_as_string</strong> &#8211; str &#8211; will be evaluated server-side</li>
+<li><strong>args</strong> &#8211; iterable of things to have in the local namspace as &#8216;arg&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_server.SikuliServer.eval_jython">
+<tt class="descname">eval_jython</tt><big>(</big><em>jython_as_string</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.eval_jython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.eval_jython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a quick and dirty way to run jython directly on the SiculiServer -
+not intended for direct use, but for giving an interface for building a
+remote API
+:param jython_as_string: str &#8211; will be evaluated server-side</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_server.run_sikuli_server">
+<tt class="descclassname">sikuli_server.</tt><tt class="descname">run_sikuli_server</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#run_sikuli_server"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.run_sikuli_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>runs the server</p>
+</dd></dl>
+
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">SikuliServer</span></tt>&#8216;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sikuli_server.classes.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">classes</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/sikuli_server.txt"
@@ -79,6 +154,15 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_server.classes.html" title="classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SikuliServer‘s documentation!"
+             >previous</a> |</li>
         <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
       </ul>
     </div>
