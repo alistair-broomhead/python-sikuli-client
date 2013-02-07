@@ -1346,11 +1346,14 @@ class Region(SikuliClass):
         from robot.api import logger
         matches = {}
         for k, match_id in match_ids.items():
-            try:
-                matches[k] = Match(remote=self.remote, server_id=match_id)
-                logger.info("Found %r" % k)
-            except BaseException:
-                pass
+            if match_id is None:
+                logger.info("Did not find %r" % k)
+            else:
+                try:
+                    matches[k] = Match(remote=self.remote, server_id=match_id)
+                    logger.info("Found %r" % k)
+                except BaseException:
+                    pass
         return matches
 
 @constructor(Region)

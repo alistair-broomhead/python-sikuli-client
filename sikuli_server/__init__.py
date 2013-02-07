@@ -130,8 +130,10 @@ class SikuliServer(object):
         ret_l = Lock()
         ret = dict()
 
-
         def _e(i, arg):
+            ret_l.acquire()
+            ret[(i, arg)] = None
+            ret_l.release()
             l_ = l.copy()
             l_['arg'] = arg
 
