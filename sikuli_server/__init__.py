@@ -17,7 +17,6 @@ Jython script to run a robot remote library exposing the Sikuli API (and popen)
 from os.path import abspath
 
 lfn = abspath("./log.txt")
-from robot.api import logger
 
 logger.warn(lfn)
 
