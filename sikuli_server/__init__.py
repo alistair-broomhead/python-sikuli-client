@@ -66,6 +66,24 @@ class SikuliServer(object):
         for id_ in (int(k) for k, v in self._held_objects.items() if v[1] < 1):
             del self._held_objects[id_]
 
+    def jython_object_addrefs(self, id_, refs):
+        """
+        Adds `refs` to the number of held references to held_objects[id_]. If
+        negative the number of references counted will be decreased, and if it
+        dips below zero the object will have its final reference removed so it
+        can be collected.
+        """
+        id_, refs = int(id_), int(refs)
+        if id_ not in self._held_objects:
+            return None
+        obj = self._held_objects[id_]
+        if refs != 0:
+            obj[1] += refs
+        if obj[1] > 0:
+            return obj[0]
+        del self._held_objects[id_], obj
+        return None
+
     def _del_jython_object(self, id_):
         id_ = int(id_)
         if id_ in self._held_objects:
@@ -78,7 +96,6 @@ class SikuliServer(object):
     def _get_jython_object(self, id_):
         return self._held_objects[int(id_)][0]
 
-    @property
     def held_objects(self):
         """ Copy of the map of held objects """
         return self._held_objects.copy()

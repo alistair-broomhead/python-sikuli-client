@@ -104,10 +104,19 @@ remote API
 :param jython_as_string: str &#8211; will be evaluated server-side</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="sikuli_server.SikuliServer.held_objects">
-<tt class="descname">held_objects</tt><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.held_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.held_objects" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">held_objects</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.held_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.held_objects" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy of the map of held objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_server.SikuliServer.jython_object_addrefs">
+<tt class="descname">jython_object_addrefs</tt><big>(</big><em>id_</em>, <em>refs</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.jython_object_addrefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.jython_object_addrefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds <cite>refs</cite> to the number of held references to held_objects[<a href="#id1"><span class="problematic" id="id2">id_</span></a>]. If
+negative the number of references counted will be decreased, and if it
+dips below zero the object will have its final reference removed so it
+can be collected.</p>
 </dd></dl>
 
 <dl class="method">

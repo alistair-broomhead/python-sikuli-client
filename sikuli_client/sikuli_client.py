@@ -73,6 +73,11 @@ class SikuliClient(object):
             return self._garbage
         return self._session
 
+    @property
+    def server_held_objects(self):
+        """ Get the mapping of objects seen on the server """
+        return self._sikuliserver.held_objects()['return']
+
     def _new_session(self):
         if self._session is None:
             self._session = []
@@ -135,8 +140,8 @@ class SikuliClient(object):
             ex = SikuliClientException(rv['error'] + '\n\n' + rv['traceback'])
             raise ex
         new_objects, ret = rv['return']
-        self._current_pool.extend([x for x in new_objects if str(x) in
-                                   self._sikuliserver.held_objects])
+        self._current_pool.extend([x for x in new_objects
+                                   if str(x) in self.server_held_objects])
         return ret
 
     def __init__(self,
@@ -169,7 +174,7 @@ class SikuliClient(object):
             self._del_obj(id_)
 
     def __clearall__(self):
-        for id_, n in self._sikuliserver.held_objects.items():
+        for id_, n in self.server_held_objects.items():
             for _ in range(n[1]):
                 self._del_obj(int(id_))
 

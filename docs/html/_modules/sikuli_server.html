@@ -118,6 +118,24 @@
         <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span>
 
+<div class="viewcode-block" id="SikuliServer.jython_object_addrefs"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.jython_object_addrefs">[docs]</a>    <span class="k">def</span> <span class="nf">jython_object_addrefs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">refs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds `refs` to the number of held references to held_objects[id_]. If</span>
+<span class="sd">        negative the number of references counted will be decreased, and if it</span>
+<span class="sd">        dips below zero the object will have its final reference removed so it</span>
+<span class="sd">        can be collected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">id_</span><span class="p">,</span> <span class="n">refs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">id_</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">refs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">refs</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="n">id_</span><span class="p">],</span> <span class="n">obj</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
     <span class="k">def</span> <span class="nf">_del_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
         <span class="n">id_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">:</span>
@@ -130,7 +148,6 @@
     <span class="k">def</span> <span class="nf">_get_jython_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="nd">@property</span>
 <div class="viewcode-block" id="SikuliServer.held_objects"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.held_objects">[docs]</a>    <span class="k">def</span> <span class="nf">held_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Copy of the map of held objects &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
