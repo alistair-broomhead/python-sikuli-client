@@ -1364,3 +1364,10 @@ def _region_constructor(x, y, w, h):
 @constructor(Region)
 def _region_constructor(region):
     return "Sikuli.Region(%s)" % region._str_get
+
+
+@constructor(Region)
+def _region_constructor():
+    return ('Sikuli.Region('
+            '   *(lambda x: [x.x, x.y, x.width, x.height])('
+            '       Sikuli.SCREEN.getBounds()))')

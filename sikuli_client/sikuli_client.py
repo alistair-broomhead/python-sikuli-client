@@ -68,6 +68,12 @@ class SikuliClient(object):
         return Screen.mknew(self, *args, **kwargs)
 
     @property
+    def screen_bounds(self):
+        """ Get access to the bounds of the default screen """
+        return self._eval('(lambda x: [x.x, x.y, x.width, x.height])'
+                          '(Sikuli.SCREEN.getBounds())')
+
+    @property
     def _current_pool(self):
         if self._session is None:
             return self._garbage

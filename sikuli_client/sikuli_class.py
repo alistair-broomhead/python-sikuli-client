@@ -47,7 +47,8 @@ class ClientSikuliClass(ServerSikuliClass):
 
     @property
     def _on_server(self):
-        if not self._id in self.remote._eval('self._held_objects.keys()'):
+        if not int(self._id) in (int(id_)
+                                 for id_ in self.remote.server_held_objects):
             return False
         return True
 
