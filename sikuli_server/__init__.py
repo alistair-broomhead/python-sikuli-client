@@ -93,7 +93,7 @@ class SikuliServer(object):
         _writelog('Evaluated %r' % jython_as_string)
         try:
             ret = eval(jython_as_string, self._private_globals, l)
-            _writelog('Returned %r' % ret)
+            _writelog('Returned %r' % (ret,))
         except BaseException, e:
             _writelog('Exception %r' % e)
             raise e
@@ -125,7 +125,7 @@ class SikuliServer(object):
             _writelog('Evaluated %r' % jython_as_string)
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
-                _writelog('Returned %r' % r)
+                _writelog('Returned %r' % (r,))
             except Sikuli.SikuliException, r:
                 _writelog('Exception %r' % r)
                 from sys import stderr

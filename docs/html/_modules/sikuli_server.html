@@ -145,7 +145,7 @@
         <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Evaluated </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">jython_as_string</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-            <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Returned </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ret</span><span class="p">)</span>
+            <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Returned </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ret</span><span class="p">,))</span>
         <span class="k">except</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Exception </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">e</span>
@@ -177,7 +177,7 @@
             <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Evaluated </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">jython_as_string</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l_</span><span class="p">)</span>
-                <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Returned </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="p">)</span>
+                <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Returned </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,))</span>
             <span class="k">except</span> <span class="n">Sikuli</span><span class="o">.</span><span class="n">SikuliException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
                 <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Exception </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="p">)</span>
                 <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stderr</span>
