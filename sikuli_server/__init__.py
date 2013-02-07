@@ -89,6 +89,9 @@ class SikuliServer(object):
         g.update(self.__private_globals)
         return g
 
+    def min_similar(self, sim):
+        Sikuli.Settings.MinSimilarity = sim
+
     def eval_jython(self, jython_as_string):
         """
         Gives a quick and dirty way to run jython directly on the SiculiServer -
@@ -140,9 +143,7 @@ class SikuliServer(object):
             except BaseException, r:
                 _writelog('%s[%r] Exception %r' % (txt, i, r))
             ret_l.acquire()
-            k = (i, arg)
-            ret[k] = r
-            _writelog(repr('%r: %r' % (k, r)))
+            ret[(i, arg)] = r
             ret_l.release()
 
         threads = [Thread(target=_e, args=(i, arg,)) for i, arg in
