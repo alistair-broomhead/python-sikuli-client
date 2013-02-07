@@ -125,10 +125,10 @@ def return_from_remote(rtype):
         def func(*args, **kwargs):
             ...
     """
-    rt = []
 
     def _new_decorator(func):
         func = run_on_remote(func)
+        rt = []
 
         @func.func
         def _inner_func(self, *args, **kwargs):
@@ -141,15 +141,13 @@ def return_from_remote(rtype):
             if not rt:
                 from .classes import SIKULI_CLASSES
 
-                rt.append(rtype
-                          if isinstance(rtype, ClientSikuliClass) else
-                          SIKULI_CLASSES[rtype])
-            cls = rt[0]
-            from robot.api import logger
-            ho = self.remote._eval("self._held_objects")
-            logger.info({k: ho[k] for k in sorted(ho.keys())})
+                cls = (rtype if isinstance(rtype, ClientSikuliClass) else
+                       SIKULI_CLASSES[rtype])
+                rt.append(cls)
+            else:
+                cls = rt[0]
             obj = cls(remote=self.remote, server_id=str(location_id))
-            obj.remote._del_obj(location_id)
+            #obj.remote._del_obj(location_id)
             return obj
 
         return func

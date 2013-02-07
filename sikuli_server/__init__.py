@@ -33,7 +33,10 @@ def _writelog(txt):
     while not logfile.closed:
         logfile.close()
     lfn_l.release()
-_writelog(lfn)
+logfile = open(lfn, "w")
+logfile.write('')
+while not logfile.closed:
+    logfile.close()
 
 
 class SikuliServer(object):
@@ -93,8 +96,7 @@ class SikuliServer(object):
         l = locals()
         old_eval = self._eval_objects
         self._eval_objects = []
-        _writelog('')
-        _writelog('Evaluated %r' % jython_as_string)
+        _writelog('\n%s\nEvaluated %r' % ('-' * 80, jython_as_string))
         try:
             ret = eval(jython_as_string, self._private_globals, l)
             _writelog('Returned %r' % (ret,))
@@ -125,12 +127,12 @@ class SikuliServer(object):
             l_ = l.copy()
             l['arg'] = arg
 
-            _writelog('')
-            _writelog('Evaluated %r' % jython_as_string)
+            _writelog('\n%s\nEvaluated %r with arg as %r'
+                      % ('-' * 80, jython_as_string, arg))
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
                 _writelog('Returned %r' % (r,))
-            except Sikuli.SikuliException, r:
+            except BaseException, r:
                 _writelog('Exception %r' % r)
                 from sys import stderr
                 stderr.write("\nCould not run %r given arg=%r:\n%r\n"
