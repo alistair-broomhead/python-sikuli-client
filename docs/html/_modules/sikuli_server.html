@@ -85,7 +85,10 @@
     <span class="k">while</span> <span class="ow">not</span> <span class="n">logfile</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
         <span class="n">logfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">lfn_l</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-<span class="n">_writelog</span><span class="p">(</span><span class="n">lfn</span><span class="p">)</span>
+<span class="n">logfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">lfn</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+<span class="n">logfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="k">while</span> <span class="ow">not</span> <span class="n">logfile</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+    <span class="n">logfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="SikuliServer"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer">[docs]</a><span class="k">class</span> <span class="nc">SikuliServer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -145,8 +148,7 @@
         <span class="n">l</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
         <span class="n">old_eval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eval_objects</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Evaluated </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">jython_as_string</span><span class="p">)</span>
+        <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s">Evaluated </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">,</span> <span class="n">jython_as_string</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
             <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Returned </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">ret</span><span class="p">,))</span>
@@ -177,12 +179,12 @@
             <span class="n">l_</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">l</span><span class="p">[</span><span class="s">&#39;arg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
 
-            <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-            <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Evaluated </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">jython_as_string</span><span class="p">)</span>
+            <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s">Evaluated </span><span class="si">%r</span><span class="s"> with arg as </span><span class="si">%r</span><span class="s">&#39;</span>
+                      <span class="o">%</span> <span class="p">(</span><span class="s">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">,</span> <span class="n">jython_as_string</span><span class="p">,</span> <span class="n">arg</span><span class="p">))</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">r</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">jython_as_string</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_private_globals</span><span class="p">,</span> <span class="n">l_</span><span class="p">)</span>
                 <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Returned </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,))</span>
-            <span class="k">except</span> <span class="n">Sikuli</span><span class="o">.</span><span class="n">SikuliException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
                 <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;Exception </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">r</span><span class="p">)</span>
                 <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">stderr</span>
                 <span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">Could not run </span><span class="si">%r</span><span class="s"> given arg=</span><span class="si">%r</span><span class="s">:</span><span class="se">\n</span><span class="si">%r</span><span class="se">\n</span><span class="s">&quot;</span>

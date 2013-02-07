@@ -1325,6 +1325,14 @@ class Region(SikuliClass):
         """
         assert_PSMRL(PSMRL, self.getLocationFromPSRML)
 
+    def get_xy_from_PSRML(self, PSMRL):
+        from SikuliServer.sikuli_client.misc import s_repr
+
+        r = "self._get_jython_object(%r)" % self._id
+        l = "%s.getLocationFromPSRML(%s)" % (r, s_repr(PSMRL))
+        cmd = "(lambda l: [l.getX(), l.getY()])(%s)" % l
+        return self.remote._eval(cmd)
+
     def find_one_of(self, images):
         """
         :param images: list of strings giving paths to images

@@ -122,6 +122,14 @@ class Location(ClientSikuliClass):
         """
         assert_positive_int(dx, self.right)
 
+    def getXY(self):
+        """
+        get a tuple of the location as (int x, int y)
+        :return: (int, int)
+        """
+        return (int(self.getX()),
+                int(self.getY()))
+
 @constructor(Location)
 def _location_constructor(x, y):
     return "Sikuli.Location(%r, %r)" % (x, y)
