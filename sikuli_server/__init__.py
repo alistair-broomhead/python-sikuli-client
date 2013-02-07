@@ -99,12 +99,13 @@ class SikuliServer(object):
         l = locals()
         old_eval = self._eval_objects
         self._eval_objects = []
-        _writelog('\n%s\nEvaluated %r' % ('-' * 80, jython_as_string))
+        _ = '\n%s\n' % ('-' * 80)
+        txt = '%sEvaluated %r%s' % (_, jython_as_string, _)
         try:
             ret = eval(jython_as_string, self._private_globals, l)
-            _writelog('Returned %r' % (ret,))
+            _writelog('%sReturned %r' % (txt, ret))
         except BaseException, e:
-            _writelog('Exception %r' % e)
+            _writelog('%sException %r' % (txt, e))
             raise e
         new_eval, self._eval_objects = self._eval_objects, old_eval
         return new_eval, ret
@@ -126,19 +127,22 @@ class SikuliServer(object):
         ret_l = Lock()
         ret = dict()
 
+
         def _e(i, arg):
             l_ = l.copy()
             l['arg'] = arg
 
-            _writelog('\n%s\n[%r] Evaluated %r with arg as %r'
-                      % ('-' * 80, i, jython_as_string, arg))
+            txt = ('\n%s\n[%r] Evaluated %r with arg as %r\n%s\n'
+                   % ('-' * 80, i, jython_as_string, arg, '-' * 80))
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
-                _writelog('[%r] Returned %r' % (i, r))
+                _writelog('%s[%r] Returned %r' % (txt, i, r))
             except BaseException, r:
-                _writelog('[%r] Exception %r' % (i, r))
+                _writelog('%s[%r] Exception %r' % (txt, i, r))
             ret_l.acquire()
-            ret[(i, arg)] = r
+            k = (i, arg)
+            ret[k] = r
+            _writelog('%r: %r' % (k, r))
             ret_l.release()
 
         threads = [Thread(target=_e, args=(i, arg,)) for i, arg in
