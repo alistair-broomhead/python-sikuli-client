@@ -26,7 +26,10 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" /> 
+    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" />
+    <link rel="up" title="sikuli_client" href="sikuli_client.html" />
+    <link rel="next" title="screen" href="sikuli_client.screen.html" />
+    <link rel="prev" title="pattern" href="sikuli_client.pattern.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +38,17 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.screen.html" title="screen"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.pattern.html" title="pattern"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,8 +57,1341 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="region">
-<h1><tt class="xref py py-mod docutils literal"><span class="pre">region</span></tt><a class="headerlink" href="#region" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-sikuli_client.region">
+<span id="region"></span><h1><tt class="xref py py-mod docutils literal"><span class="pre">region</span></tt><a class="headerlink" href="#module-sikuli_client.region" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> and <a class="reference internal" href="#sikuli_client.region.SikuliEvent" title="sikuli_client.region.SikuliEvent"><tt class="xref py py-class docutils literal"><span class="pre">SikuliEvent</span></tt></a> classes to fulfill the roles of those
+described at <a class="reference external" href="http://doc.sikuli.org/region.html">http://doc.sikuli.org/region.html</a></p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<dl class="class">
+<dt id="sikuli_client.region.Region">
+<em class="property">class </em><tt class="descclassname">sikuli_client.region.</tt><tt class="descname">Region</tt><big>(</big><em>remote</em>, <em>server_id</em>, <em>is_new=False</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages interaction with Sikuli&#8217;s Region, reflecting
+<a class="reference external" href="http://doc.sikuli.org/region.html#Region">http://doc.sikuli.org/region.html#Region</a></p>
+<dl class="method">
+<dt id="sikuli_client.region.Region.above">
+<tt class="descname">above</tt><big>(</big><em>range_px</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.above"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.above" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> that is defined above the current
+region&#8217;s
+top border with a height of <em>range</em> number of pixels.
+So it does not include the current    region.
+If <em>range</em> is omitted, it reaches to the top
+of the screen. The new region has the same width and x-position as the
+current region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>range_px</strong> &#8211; a positive integer defining the new height</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.below">
+<tt class="descname">below</tt><big>(</big><em>range_px</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.below"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.below" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> that is defined below the current
+region&#8217;s
+bottom border with a height of <em>range</em> number of pixels.
+So it does not include the current    region.
+If <em>range</em> is omitted, it reaches to the bottom
+of the screen. The new region has the same width and x-position as the
+current region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>range_px</strong> &#8211; a positive integer defining the new height</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.click">
+<tt class="descname">click</tt><big>(</big><em>PSMRL</em>, <em>modifiers=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.click" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a mouse click on the click point using the left button.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>modifiers</strong> &#8211; key modifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number of performed clicks (actually 1). A 0 (integer null)
+means that because of some reason, no click could be performed (in
+case of <em>PS</em> may be PatternNotFound).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Windows XP</span>
+<span class="n">click</span><span class="p">(</span><span class="s">&quot;xpstart.png&quot;</span><span class="p">)</span>
+
+<span class="c"># Windows Vista</span>
+<span class="n">click</span><span class="p">(</span><span class="s">&quot;vistastart.png&quot;</span><span class="p">)</span>
+
+<span class="c"># Windows 7</span>
+<span class="n">click</span><span class="p">(</span><span class="s">&quot;w7start.png&quot;</span><span class="p">)</span>
+
+<span class="c"># Mac</span>
+<span class="n">click</span><span class="p">(</span><span class="s">&quot;apple.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.doubleClick">
+<tt class="descname">doubleClick</tt><big>(</big><em>PSMRL</em>, <em>modifiers=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.doubleClick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.doubleClick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a mouse double-click on the click point using the left button.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>modifiers</strong> &#8211; one or more key modifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number of performed double-clicks (actually 1). A 0 (
+integer null) means that because of some reason, no click could be
+performed (in case of <em>PS</em> may be PatternNotFound).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.drag">
+<tt class="descname">drag</tt><big>(</big><em>PSMRL</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.drag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.drag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a drag-and-drop operation by dragging at the given click point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">the number 1 if the operation could be performed. A 0 (integer
+null) returned means that because of some reason, no move could be
+performed (in case of <em>PS</em> may be PatternNotFound).</td>
+</tr>
+</tbody>
+</table>
+<p>The mousepointer is moved to the click point and the left mouse
+button is pressed and held, until another mouse action is performed
+(e.g. a <a class="reference internal" href="#sikuli_client.region.Region.dropAt" title="sikuli_client.region.Region.dropAt"><tt class="xref py py-meth docutils literal"><span class="pre">Region.dropAt()</span></tt></a> afterwards). This is nomally used to
+start a drag-and-drop operation.</p>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.dragDrop">
+<tt class="descname">dragDrop</tt><big>(</big><em>PSMRL_drag</em>, <em>PSMRL_drop</em>, <em>modifiers=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.dragDrop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.dragDrop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a drag-and-drop operation from a starting click point to the
+target click point indicated by the two PSMRLs respectively.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>PSMRL_drag</strong> &#8211; a pattern, a string, a match, a region or a location
+that evaluates to a click point.</li>
+<li><strong>PSMRL_drop</strong> &#8211; a pattern, a string, a match, a region or a location
+that evaluates to a click point.</li>
+<li><strong>modifiers</strong> &#8211; one or more key modifiers</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If one of the parameters is <em>PS</em>, the operation might fail due to
+PatternNotFound.</p>
+<p><strong>Sideeffect</strong>: when using <em>PS</em>, the match of the target can be accessed
+using <a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards. If only the first
+parameter is given as <em>PS</em>, this match is returned by
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a>.</p>
+<p><strong>When the operation does not perform as expected</strong> (usually caused by
+timing problems due to delayed reactions of applications), you may
+adjust the internal timing parameters <tt class="xref py py-attr docutils literal"><span class="pre">Settings.DelayAfterDrag</span></tt>
+and <tt class="xref py py-attr docutils literal"><span class="pre">Settings.DelayBeforeDrop</span></tt> eventually combined with the
+internal timing parameter <tt class="xref py py-attr docutils literal"><span class="pre">Settings.MoveMouseDelay</span></tt>.</p>
+<p>Another solution might be, to use a combination of
+<a class="reference internal" href="#sikuli_client.region.Region.drag" title="sikuli_client.region.Region.drag"><tt class="xref py py-meth docutils literal"><span class="pre">Region.drag()</span></tt></a> and <a class="reference internal" href="#sikuli_client.region.Region.dropAt" title="sikuli_client.region.Region.dropAt"><tt class="xref py py-meth docutils literal"><span class="pre">Region.dropAt()</span></tt></a> combined with your
+own <tt class="docutils literal"><span class="pre">wait()</span></tt> usages. If the mouse movement from source to target is
+the problem, you might break up the move path into short steps using
+<a class="reference internal" href="#sikuli_client.region.Region.mouseMove" title="sikuli_client.region.Region.mouseMove"><tt class="xref py py-meth docutils literal"><span class="pre">Region.mouseMove()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.dropAt">
+<tt class="descname">dropAt</tt><big>(</big><em>PSMRL</em>, <em>delay=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.dropAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.dropAt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complete a drag-and-drop operation by dropping a previously dragged
+item at
+the given target click point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>delay</strong> &#8211; time to wait after in seconds as decimal value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number 1 if the operation could be performed. A 0
+(integer null) returned means that because of some reason, no move
+could be performed (in case of <em>PS</em> may be PatternNotFound).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The mousepointer is moved to the click point. After waiting for delay
+seconds the left mouse button is released. This is normally used to
+finalize
+a drag-and-drop operation. If it is necessary to visit one ore more
+click
+points after dragging and before dropping, you can use
+<a class="reference internal" href="#sikuli_client.region.Region.mouseMove" title="sikuli_client.region.Region.mouseMove"><tt class="xref py py-meth docutils literal"><span class="pre">Region.mouseMove()</span></tt></a> inbetween.</p>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.exists">
+<tt class="descname">exists</tt><big>(</big><em>PS</em>, <em>seconds=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the give pattern is visible on the screen.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PS</strong> &#8211; a <tt class="xref py py-class docutils literal"><span class="pre">Pattern</span></tt> object or a string (path to an image
+file or just plain text)</li>
+<li><strong>seconds</strong> &#8211; a number, which can have a fraction, as maximum waiting
+time in seconds. The internal granularity is milliseconds. If not
+specified, the auto wait timeout value set by
+<a class="reference internal" href="#sikuli_client.region.Region.setAutoWaitTimeout" title="sikuli_client.region.Region.setAutoWaitTimeout"><tt class="xref py py-meth docutils literal"><span class="pre">Region.setAutoWaitTimeout()</span></tt></a> is used. Use the constant
+<em>FOREVER</em> to wait for an infinite time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a> object that contains the
+best match or fails if PatternNotFound. None is returned, if nothing
+is found within the specified waiting time.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Does exactly the same as <a class="reference internal" href="#sikuli_client.region.Region.wait" title="sikuli_client.region.Region.wait"><tt class="xref py py-meth docutils literal"><span class="pre">Region.wait()</span></tt></a>, but no exception is
+raised in case of FindFailed. So it can be used to symplify scripting
+in case that you only want to know wether something is there or not to
+decide how to proceed in your workflow. So it is typically used with an
+if statement.  At least one find operation is performed, even if 0
+seconds is specified. So specifying 0 seconds saves some time, in case
+there is no need to wait, since its your intention to get the
+information &#8220;not found&#8221; directly.</p>
+<p><strong>Side Effect</strong> <em>lastMatch</em>: the best match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+<p><strong>Note</strong>: You may adjust the scan rate (how often a search during the
+wait
+takes place) by setting <tt class="xref py py-attr docutils literal"><span class="pre">Settings.WaitScanRate</span></tt> appropriately.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.find">
+<tt class="descname">find</tt><big>(</big><em>PS</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.find" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PS</strong> &#8211; a <a class="reference internal" href="sikuli_client.pattern.html#sikuli_client.pattern.Pattern" title="sikuli_client.pattern.Pattern"><tt class="xref py py-class docutils literal"><span class="pre">Pattern</span></tt></a> object or a string
+(path to an image file or just plain text)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a <a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a> object that contains the
+best match or fails if PatternNotFound</td>
+</tr>
+</tbody>
+</table>
+<p>Find a particular GUI element, which is seen as the given image or
+just plain text. The given file name of an image specifies the
+element&#8217;s
+appearance. It searches within the region and returns the best match,
+which shows a similarity greater than the minimum similarity given by
+the pattern. If no similarity was set for the pattern by
+<tt class="xref py py-meth docutils literal"><span class="pre">Pattern.similar()</span></tt> before, a default minimum similarity of 0.7
+is set automatically.</p>
+<p>If autoWaitTimeout is set to a non-zero value, find() just acts as a
+wait().</p>
+<p><strong>Side Effect</strong> <em>lastMatch</em>: the best match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.findAll">
+<tt class="descname">findAll</tt><big>(</big><em>PS</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.findAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.findAll" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PS</strong> &#8211; a <a class="reference internal" href="sikuli_client.pattern.html#sikuli_client.pattern.Pattern" title="sikuli_client.pattern.Pattern"><tt class="xref py py-class docutils literal"><span class="pre">Pattern</span></tt></a> object or a string
+(path to an image file or just plain text)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">one or more <a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a> objects as an
+iterator object or fails if PatternNotFound</td>
+</tr>
+</tbody>
+</table>
+<p>Repeatedly find ALL instances of a pattern, until no match can be
+found anymore, that meets the requirements for a single
+<a class="reference internal" href="#sikuli_client.region.Region.find" title="sikuli_client.region.Region.find"><tt class="xref py py-meth docutils literal"><span class="pre">Region.find()</span></tt></a> with the specified pattern.</p>
+<p>By default, the returned matches are sorted by the similiarty.
+If you need them ordered by their positions, say the Y coordinates,
+you have to use Python&#8217;s <a class="reference external" href="http://wiki.python.org/moin/HowTo/Sorting/">sorted</a> function. Here is a example of sorting the
+matches from top to bottom.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">by_y</span><span class="p">(</span><span class="n">match</span><span class="p">):</span>
+   <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">y</span>
+
+<span class="n">icons</span> <span class="o">=</span> <span class="n">findAll</span><span class="p">(</span><span class="s">&quot;png_icon.png&quot;</span><span class="p">)</span>
+<span class="c"># sort the icons by their y coordinates and put them into a new</span>
+<span class="n">sorted_icons</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">icons</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">by_y</span><span class="p">)</span>
+<span class="c"># another shorter version is using lambda.</span>
+<span class="n">sorted_icons</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">icons</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span><span class="p">:</span><span class="n">m</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">icon</span> <span class="ow">in</span> <span class="n">sorted_icons</span><span class="p">:</span>
+   <span class="k">pass</span> <span class="c"># do whatever you want to do with the sorted icons</span>
+</pre></div>
+</div>
+<p><strong>Side Effect</strong> <em>lastMatches</em>: a reference to the returned iterator
+object containing the
+found matches is stored with the region that was searched. It can be
+accessed using getLastMatches() afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.find_one_of">
+<tt class="descname">find_one_of</tt><big>(</big><em>images</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.find_one_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.find_one_of" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>images</strong> &#8211; list of strings giving paths to images</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">found images</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getAutoWaitTimeout">
+<tt class="descname">getAutoWaitTimeout</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getAutoWaitTimeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getAutoWaitTimeout" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+<p>Get the current value of the maximum waiting time for find operations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getBottomLeft">
+<tt class="descname">getBottomLeft</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getBottomLeft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getBottomLeft" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Get the location of the region&#8217;s respective corner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getBottomRight">
+<tt class="descname">getBottomRight</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getBottomRight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getBottomRight" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Get the location of the region&#8217;s respective corner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getCenter">
+<tt class="descname">getCenter</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getCenter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getCenter" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Get the center of the region.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getFindFailedResponse">
+<tt class="descname">getFindFailedResponse</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getFindFailedResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getFindFailedResponse" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;getFindFailedResponse&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getH">
+<tt class="descname">getH</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getH" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p>Get the respective attribute of the region.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getLastMatch">
+<tt class="descname">getLastMatch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getLastMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getLastMatch" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>All successful find operations (explicit like find() or implicit like
+click()), store the best match in the lastMatch attribute of the region
+that was searched.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getLastMatches">
+<tt class="descname">getLastMatches</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getLastMatches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getLastMatches" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">generator</td>
+</tr>
+</tbody>
+</table>
+<p>findAll() stores all found matches into lastMatches attribute of the
+region that was searched as a generator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getLocationFromPSRML">
+<tt class="descname">getLocationFromPSRML</tt><big>(</big><em>PSMRL</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getLocationFromPSRML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getLocationFromPSRML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Location object derived from the given parameter. In
+case of PS, internally a find() is done inside this region. If found,
+the match&#8217;s target offset position is returned. In case RM,
+just a copy of the given region&#8217;s respective location (center or
+target offset) is returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PSMRL</strong> &#8211; a Pattern, String, Region, Match or Location object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a new Location object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getRegionFromPSRM">
+<tt class="descname">getRegionFromPSRM</tt><big>(</big><em>PSRM</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getRegionFromPSRM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getRegionFromPSRM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Region object derived from the given parameter. In case
+of PS, internally a find() is done inside this region. If found,
+the match is returned. In case RM, just a copy of the given region is
+returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PSRM</strong> &#8211; a Pattern, String, Region or Match object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a new Region object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getScreen">
+<tt class="descname">getScreen</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getScreen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getScreen" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.screen.html#sikuli_client.screen.Screen" title="sikuli_client.screen.Screen"><tt class="xref py py-class docutils literal"><span class="pre">Screen</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Returns the screen object that contains this region.</p>
+<p>This method only makes sense in Multi Monitor Environments, since it
+always returns the default screen in a single monitor environment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getThrowException">
+<tt class="descname">getThrowException</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getThrowException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getThrowException" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;getThrowException&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getTopLeft">
+<tt class="descname">getTopLeft</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getTopLeft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getTopLeft" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Get the location of the region&#8217;s respective corner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getTopRight">
+<tt class="descname">getTopRight</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getTopRight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getTopRight" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Get the location of the region&#8217;s respective corner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getW">
+<tt class="descname">getW</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getW"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getW" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p>Get the respective attribute of the region.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getX">
+<tt class="descname">getX</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getX" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p>Get the respective attribute of the region.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.getY">
+<tt class="descname">getY</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.getY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.getY" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+<p>Get the respective attribute of the region.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.get_xy_from_PSRML">
+<tt class="descname">get_xy_from_PSRML</tt><big>(</big><em>PSMRL</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.get_xy_from_PSRML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.get_xy_from_PSRML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.highlight">
+<tt class="descname">highlight</tt><big>(</big><em>seconds=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.highlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Highlight the region for some period of time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seconds</strong> &#8211; a decimal number taken as duration in seconds</td>
+</tr>
+</tbody>
+</table>
+<p>The region is highlighted showing a red colored frame around it. If the
+parameter seconds  is given, the script is suspended for the specified
+time. If no time is given, the highlighting is started and the script
+continues.</p>
+<p>When later on the same highlight call without a parameter is made, the
+highlighting is stopped (behaves like a toggling switch).</p>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">m</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">some_image</span><span class="p">)</span>
+
+<span class="c"># the red frame will blink for about 7 - 8 seconds</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">wait</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="c"># a second red frame will blink as an overlay to the first one</span>
+<span class="n">m</span><span class="o">.</span><span class="n">highlight</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">wait</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">highlight</span><span class="p">()</span>
+
+<span class="c"># the red frame will grow 5 times</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">nearby</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Note</strong>: The red frame is just an overlay in front of all other screen
+content and stays in its place, independently from the behavior of this
+other content, which means it is not &#8220;connected&#8221; to the <em>content</em> of the
+defining region. But it will be adjusted automatically, if you change
+position and/or dimension of this region in your script, while it is
+highlighted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.hover">
+<tt class="descname">hover</tt><big>(</big><em>PSMRL</em>, <em>modifiers=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.hover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.hover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the mouse cursor to hover above a click point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>modifiers</strong> &#8211; one or more key modifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number 1 if the mousepointer could be moved to the click
+point. A 0 (integer null) returned means that because of some
+reason, no move could be performed (in case of <em>PS</em> may be
+PatternNotFound).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.inside">
+<tt class="descname">inside</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.inside"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.inside" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the same object. Retained for upward compatibility.</p>
+<p>This method can be used to make scripts more readable.
+<tt class="docutils literal"><span class="pre">region.inside().find()</span></tt> is totally equivalent to <tt class="docutils literal"><span class="pre">region.find()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.keyDown">
+<tt class="descname">keyDown</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.keyDown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.keyDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Press and hold the specified key(s) until released by a later call to
+<a class="reference internal" href="#sikuli_client.region.Region.keyUp" title="sikuli_client.region.Region.keyUp"><tt class="xref py py-meth docutils literal"><span class="pre">Region.keyUp()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> &#8211; one or more keys (use the consts of class Key). A
+list of keys is a concatenation of several key constants using &#8220;+&#8221;.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">the number 1 if the operation could be performed and 0 if
+otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.keyUp">
+<tt class="descname">keyUp</tt><big>(</big><em>key=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.keyUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.keyUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release given keys. If no key is given, all currently pressed keys are
+released.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> &#8211; one or more keys (use the consts of class Key). A
+list of keys is a concatenation of several key constants using &#8220;+&#8221;.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">the number 1 if the operation could be performed and 0 if
+otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.left">
+<tt class="descname">left</tt><big>(</big><em>range_px</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> that is defined left of the current
+region&#8217;s
+left border with a width of <em>range</em> number of pixels.
+So it does not include the current    region.
+If <em>range</em> is omitted, it reaches to the left border
+of the screen. The new region has the same height and y-position as the
+current region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>range_px</strong> &#8211; a positive integer defining the new width</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.morphTo">
+<tt class="descname">morphTo</tt><big>(</big><em>region</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.morphTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.morphTo" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>region</strong> &#8211; <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Set the position and dimension of this region to the
+corresponding values of the region given as parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.mouseDown">
+<tt class="descname">mouseDown</tt><big>(</big><em>button</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.mouseDown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.mouseDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Press the mouse <em>button</em> down.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>button</strong> &#8211; one or a combination of the button constants
+<tt class="docutils literal"><span class="pre">Button.LEFT</span></tt>, <tt class="docutils literal"><span class="pre">Button.MIDDLE</span></tt>, <tt class="docutils literal"><span class="pre">Button.RIGHT</span></tt>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">the number 1 if the operation is performed successfully, and
+zero if otherwise.</td>
+</tr>
+</tbody>
+</table>
+<p>The mouse button or buttons specified by <em>button</em> are pressed until
+another
+mouse action is performed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.mouseMove">
+<tt class="descname">mouseMove</tt><big>(</big><em>PSMRL</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.mouseMove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.mouseMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the mouse pointer to a location indicated by PSRML.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">the number 1 if the operation could be performed. If using <em>PS</em>
+(which invokes an implicity find operation), find fails and you have
+switched off FindFailed exception, a 0 (integer null) is returned.
+Otherwise, the script is stopped with a FindFailed exception.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sideeffects</strong>: when using <em>PS</em>, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.mouseUp">
+<tt class="descname">mouseUp</tt><big>(</big><em>button=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.mouseUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.mouseUp" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>button</strong> &#8211; one or a combination of the button constants</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.moveTo">
+<tt class="descname">moveTo</tt><big>(</big><em>location</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.moveTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.moveTo" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>location</strong> &#8211; <a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a> - the new top
+left corner</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> &#8211; the modified region object</td>
+</tr>
+</tbody>
+</table>
+<p>Set the position of this region regarding its top left corner to the
+given location (the x and y values are modified).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.nearby">
+<tt class="descname">nearby</tt><big>(</big><em>range_px=50</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.nearby"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.nearby" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Region that includes the nearby neighbourhood of the
+the current region. The new region is defined by extending the
+current region&#8217;s dimensions in all directions by range number of
+pixels. The center of the new region remains the same.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>range_px</strong> &#8211; int &gt; 0, default = 50</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.observe">
+<tt class="descname">observe</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.observe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.observe" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-2">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;observe&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.offset">
+<tt class="descname">offset</tt><big>(</big><em>location</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new Region object, whose upper left corner is relocated adding
+the location&#8217;s x and y value to the respective values of the given
+region. Width and height are the same. So this clones a region at a
+different place.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>location</strong> &#8211; <a class="reference internal" href="sikuli_client.location.html#sikuli_client.location.Location" title="sikuli_client.location.Location"><tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">new_reg</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">Location</span><span class="p">(</span><span class="n">xoff</span><span class="p">,</span> <span class="n">yoff</span><span class="p">))</span> <span class="c"># same as</span>
+<span class="n">new_reg</span> <span class="o">=</span> <span class="n">Region</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">xoff</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">yoff</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.onAppear">
+<tt class="descname">onAppear</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.onAppear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.onAppear" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-3">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;onAppear&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.onChange">
+<tt class="descname">onChange</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.onChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.onChange" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-4">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;onChange&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.onVanish">
+<tt class="descname">onVanish</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.onVanish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.onVanish" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-5">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;onVanish&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.paste">
+<tt class="descname">paste</tt><big>(</big><em>PSMRL</em>, <em>text=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.paste"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.paste" title="Permalink to this definition">¶</a></dt>
+<dd><p>Paste the text at a click point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>text</strong> &#8211; text to paste</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number 1 if the operation could be performed, otherwise 0
+(integer null), which means,
+that because of some reason, it was not possible or the click
+could be performed (in case of <em>PS</em> may be PatternNotFound).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Pastes <em>text</em> using the clipboard (OS-level shortcut (Ctrl-V or
+Cmd-V)). So
+afterwards your clipboard contains <em>text</em>. <tt class="docutils literal"><span class="pre">paste()</span></tt> is a temporary
+solution for
+typing international characters or typing on keyboard layouts other
+than
+US-QWERTY.</p>
+<p>If <em>PSMRL</em> is given, a click on the clickpoint is performed before
+typing, to
+gain the focus. (Mac: it might be necessary,
+to use <tt class="xref py py-func docutils literal"><span class="pre">switchApp()</span></tt>
+to give focus to a target application before, to accept typed/pasted
+characters.)</p>
+<p>If <em>PSMRL</em> is omitted, it performs the paste on the current focused
+component
+(normally an input field).</p>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+<p><strong>Note</strong>: Special keys (ENTER, TAB, BACKSPACE, ...) cannot be used
+with <tt class="docutils literal"><span class="pre">paste()</span></tt>.
+If needed, you have to split your complete text into two or more
+<tt class="docutils literal"><span class="pre">paste()</span></tt>
+and use <tt class="docutils literal"><span class="pre">type()</span></tt> for typing the special keys inbetween.
+Characters like n    (enter/new line) and t (tab) should work as
+expected with <tt class="docutils literal"><span class="pre">paste()</span></tt>,
+but be aware of timing problems, when using e.g. intervening t to
+jump
+to the next input field of a form.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.right">
+<tt class="descname">right</tt><big>(</big><em>range_px</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.right"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> that is defined right of the current
+region&#8217;s right border with a width of <em>range</em> number of pixels.
+So it does not include the current  region.
+If <em>range</em> is omitted, it reaches to the right border
+of the screen. The new region has the same height and y-position as the
+current region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>range_px</strong> &#8211; a positive integer defining the new width</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a <a class="reference internal" href="#sikuli_client.region.Region" title="sikuli_client.region.Region"><tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></a> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.rightClick">
+<tt class="descname">rightClick</tt><big>(</big><em>PSMRL</em>, <em>*modifiers</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.rightClick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.rightClick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a mouse click on the click point using the right button.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>modifiers</strong> &#8211; one or more key modifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number of performed double-clicks (actually 1). A 0 (
+integer null) means that because of some reason, no c</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setAutoWaitTimeout">
+<tt class="descname">setAutoWaitTimeout</tt><big>(</big><em>seconds</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setAutoWaitTimeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setAutoWaitTimeout" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seconds</strong> &#8211; float - The internal granularity is milliseconds.</td>
+</tr>
+</tbody>
+</table>
+<p>Set the maximum waiting time for all subsequent find operations.</p>
+<p>This method enables all find operations to wait for the given pattern to
+appear until the specified amount of time has elapsed. The default is
+3.0 seconds. This method is intended for users to override this default
+setting. As such it lets Region.find() work like Region.wait(), without
+being able to set an individual timeout value for a specific find
+operation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setFindFailedResponse">
+<tt class="descname">setFindFailedResponse</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setFindFailedResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setFindFailedResponse" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-6">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;setFindFailedResponse&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setH">
+<tt class="descname">setH</tt><big>(</big><em>num</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setH" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num</strong> &#8211; number - the new value</td>
+</tr>
+</tbody>
+</table>
+<p>Set the respective attribute of the region to the new value. This
+effectively moves the region around and/or changes its dimension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setROI">
+<tt class="descname">setROI</tt><big>(</big><em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setROI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setROI" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; number</li>
+<li><strong>y</strong> &#8211; number</li>
+<li><strong>w</strong> &#8211; number</li>
+<li><strong>h</strong> &#8211; number</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Set position and dimension to new values. The motivation for this alias
+is to make scripts more readable: setROI() is intended to restrict the
+search to a smaller area to speed up processing searches (region of
+interest).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setRect">
+<tt class="descname">setRect</tt><big>(</big><em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setRect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setRect" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; number</li>
+<li><strong>y</strong> &#8211; number</li>
+<li><strong>w</strong> &#8211; number</li>
+<li><strong>h</strong> &#8211; number</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Set position and dimension to new values. The motivation for this alias
+is to make scripts more readable: setRect() should be used to redefine a
+region (which could be enlarging it).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setThrowException">
+<tt class="descname">setThrowException</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setThrowException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setThrowException" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-7">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;setThrowException&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setW">
+<tt class="descname">setW</tt><big>(</big><em>num</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setW"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setW" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num</strong> &#8211; number - the new value</td>
+</tr>
+</tbody>
+</table>
+<p>Set the respective attribute of the region to the new value. This
+effectively moves the region around and/or changes its dimension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setX">
+<tt class="descname">setX</tt><big>(</big><em>num</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setX" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num</strong> &#8211; number - the new value</td>
+</tr>
+</tbody>
+</table>
+<p>Set the respective attribute of the region to the new value. This
+effectively moves the region around and/or changes its dimension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.setY">
+<tt class="descname">setY</tt><big>(</big><em>num</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.setY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.setY" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num</strong> &#8211; number - the new value</td>
+</tr>
+</tbody>
+</table>
+<p>Set the respective attribute of the region to the new value. This
+effectively moves the region around and/or changes its dimension.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.stopObserver">
+<tt class="descname">stopObserver</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.stopObserver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.stopObserver" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-8">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;stopObserver&#8217; (later)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.text">
+<tt class="descname">text</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the text contained in the region using OCR.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">the text as a string.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note</strong>: Since this feature is still in an <strong>experimental state</strong>,
+be aware, that in some cases it might not work as expected. If you face
+any problems look at the
+<a class="reference external" href="https://answers.launchpad.net/sikuli">Questions &amp; Answers / FAQ&#8217;s</a>
+and the <a class="reference external" href="https://answers.launchpad.net/sikuli">Bugs</a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.type">
+<tt class="descname">type</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type the text at the current focused input field or at a click point
+specified by <em>PSMRL</em>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PSMRL</strong> &#8211; a pattern, a string, a match, a region or a location that
+evaluates to a click point.</li>
+<li><strong>text</strong> &#8211; a string to type.</li>
+<li><strong>modifiers</strong> &#8211; one or more key modifiers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">the number 1 if the operation could be
+performed, otherwise 0 (integer null), which means,
+that because of some reason, it was not possible or the click
+could be performed (in case of <em>PS</em> may be PatternNotFound).</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This method simulates keyboard typing interpreting the characters of
+text
+based on the layout/keymap of the <strong>standard US keyboard (QWERTY)</strong>.
+Special keys (ENTER, TAB, BACKSPACE, ...) can be incorporated into text
+by using the constants defined in
+<a class="reference external" href="http://doc.sikuli.org/keys.html">Class Key</a> using the standard
+string concatenation (+).</p>
+<p>If <em>PSMRL</em> is given, a click on the clickpoint is performed before
+typing, to gain the focus. (Mac: it might be necessary, to use
+<tt class="xref py py-func docutils literal"><span class="pre">switchApp()</span></tt> to give focus to a target application before, to
+accept typed/pasted characters.)</p>
+<p>If <em>PSMRL</em> is omitted, it performs the typing on the current focused
+visual component (normally an input field or an menu entry that can be
+selected by typing something).</p>
+<p><strong>Side Effect</strong> if <em>PS</em> was used, the match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+<p><strong>Note</strong>: If you need to type international characters or you are using
+layouts/keymaps other than US-QWERTY, you should use
+<a class="reference internal" href="#sikuli_client.region.Region.paste" title="sikuli_client.region.Region.paste"><tt class="xref py py-meth docutils literal"><span class="pre">Region.paste()</span></tt></a> instead. Since type() is rather slow because it
+simulates each key press, for longer text it is preferrable to use
+<a class="reference internal" href="#sikuli_client.region.Region.paste" title="sikuli_client.region.Region.paste"><tt class="xref py py-meth docutils literal"><span class="pre">Region.paste()</span></tt></a>.</p>
+<p><strong>Best Practice</strong>: As a general guideline, the best choice is to use
+<tt class="docutils literal"><span class="pre">paste()</span></tt> for readable text and <tt class="docutils literal"><span class="pre">type()</span></tt> for action keys like TAB,
+ENTER, ESC, ....
+Use one <tt class="docutils literal"><span class="pre">type()</span></tt> for each key or key combination and be aware,
+that in some cases a short <tt class="docutils literal"><span class="pre">wait()</span></tt> after a <tt class="docutils literal"><span class="pre">type()</span></tt> might be
+necessary to give the target application some time to react and be
+prepared for the next Sikuli action.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.wait">
+<tt class="descname">wait</tt><big>(</big><em>PS=None</em>, <em>seconds=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.wait" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PS</strong> &#8211; a <a class="reference internal" href="sikuli_client.pattern.html#sikuli_client.pattern.Pattern" title="sikuli_client.pattern.Pattern"><tt class="xref py py-class docutils literal"><span class="pre">Pattern</span></tt></a> object or a string
+(path to an image file or just plain text)</li>
+<li><strong>seconds</strong> &#8211; a number, which can have a fraction, as maximum waiting
+time in seconds. The internal granularity is milliseconds. If not
+specified, the auto wait timeout value set by
+<a class="reference internal" href="#sikuli_client.region.Region.setAutoWaitTimeout" title="sikuli_client.region.Region.setAutoWaitTimeout"><tt class="xref py py-meth docutils literal"><span class="pre">Region.setAutoWaitTimeout()</span></tt></a> is used. Use the string
+<em>&#8216;FOREVER&#8217;</em> to wait for an infinite time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a> object that contains the
+best match or fails if PatternNotFound</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If <em>PS</em> is not specified, the script just pauses for the specified
+amount of time. It is still possible to use <tt class="docutils literal"><span class="pre">sleep(seconds)</span></tt> instead,
+but this is deprecated.</p>
+<p>If <em>PS</em> is specified, it keeps searching the given pattern in the
+region until the image appears ( would have been found with
+<a class="reference internal" href="#sikuli_client.region.Region.find" title="sikuli_client.region.Region.find"><tt class="xref py py-meth docutils literal"><span class="pre">Region.find()</span></tt></a>) or the specified amount of time has elapsed. At
+least one find operation is performed, even if 0 seconds is
+specified.)</p>
+<p><strong>Side Effect</strong> <em>lastMatch</em>: the best match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+<p>Note: You may adjust the scan rate (how often a search during the wait
+takes place) by setting <tt class="xref py py-attr docutils literal"><span class="pre">Settings.WaitScanRate</span></tt> appropriately.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.waitVanish">
+<tt class="descname">waitVanish</tt><big>(</big><em>PS=None</em>, <em>seconds=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.waitVanish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.waitVanish" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>PS</strong> &#8211; a <a class="reference internal" href="sikuli_client.pattern.html#sikuli_client.pattern.Pattern" title="sikuli_client.pattern.Pattern"><tt class="xref py py-class docutils literal"><span class="pre">Pattern</span></tt></a> object or a string
+(path to an image file or just plain text)</li>
+<li><strong>seconds</strong> &#8211; a number, which can have a fraction, as maximum waiting
+time in seconds. The internal granularity is milliseconds. If not
+specified, the auto wait timeout value set by
+<a class="reference internal" href="#sikuli_client.region.Region.setAutoWaitTimeout" title="sikuli_client.region.Region.setAutoWaitTimeout"><tt class="xref py py-meth docutils literal"><span class="pre">Region.setAutoWaitTimeout()</span></tt></a> is used. Use the string
+<em>&#8216;FOREVER&#8217;</em> to wait for an infinite time.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">a <a class="reference internal" href="sikuli_client.match.html#sikuli_client.match.Match" title="sikuli_client.match.Match"><tt class="xref py py-class docutils literal"><span class="pre">Match</span></tt></a> object that contains the
+best match or fails if PatternNotFound</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If <em>PS</em> is not specified, the script just pauses for the specified
+amount of time. It is still possible to use <tt class="docutils literal"><span class="pre">sleep(seconds)</span></tt> instead,
+but this is deprecated.</p>
+<p>If <em>PS</em> is specified, it keeps searching the given pattern in the
+region until the image appears ( would have been found with
+<a class="reference internal" href="#sikuli_client.region.Region.find" title="sikuli_client.region.Region.find"><tt class="xref py py-meth docutils literal"><span class="pre">Region.find()</span></tt></a>) or the specified amount of time has elapsed. At
+least one find operation is performed, even if 0 seconds is
+specified.)</p>
+<p><strong>Side Effect</strong> <em>lastMatch</em>: the best match can be accessed using
+<a class="reference internal" href="#sikuli_client.region.Region.getLastMatch" title="sikuli_client.region.Region.getLastMatch"><tt class="xref py py-meth docutils literal"><span class="pre">Region.getLastMatch()</span></tt></a> afterwards.</p>
+<p>Note: You may adjust the scan rate (how often a search during the wait
+takes place) by setting <tt class="xref py py-attr docutils literal"><span class="pre">Settings.WaitScanRate</span></tt> appropriately.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.region.Region.wheel">
+<tt class="descname">wheel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#Region.wheel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.Region.wheel" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-9">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;wheel&#8217; (soon)</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="sikuli_client.region.SikuliEvent">
+<em class="property">class </em><tt class="descclassname">sikuli_client.region.</tt><tt class="descname">SikuliEvent</tt><big>(</big><em>remote</em>, <em>server_id</em>, <em>is_new=False</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/region.html#SikuliEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.region.SikuliEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages interaction with Sikuli&#8217;s SikuliEvent, reflecting
+<a class="reference external" href="http://doc.sikuli.org/region.html#SikuliEvent">http://doc.sikuli.org/region.html#SikuliEvent</a></p>
+<div class="admonition-todo admonition" id="index-10">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement</p>
+</div>
+</dd></dl>
+
 </div>
 
 
@@ -54,6 +1400,12 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sikuli_client.pattern.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">pattern</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sikuli_client.screen.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">screen</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/sikuli_client.region.txt"
@@ -82,7 +1434,17 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.screen.html" title="screen"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.pattern.html" title="pattern"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

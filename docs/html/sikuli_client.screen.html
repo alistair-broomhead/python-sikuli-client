@@ -26,7 +26,10 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" /> 
+    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" />
+    <link rel="up" title="sikuli_client" href="sikuli_client.html" />
+    <link rel="next" title="sikuli_class" href="sikuli_client.sikuli_class.html" />
+    <link rel="prev" title="region" href="sikuli_client.region.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +38,17 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.sikuli_class.html" title="sikuli_class"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.region.html" title="region"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,8 +57,79 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="screen">
-<h1><tt class="xref py py-mod docutils literal"><span class="pre">screen</span></tt><a class="headerlink" href="#screen" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-sikuli_client.screen">
+<span id="screen"></span><h1><tt class="xref py py-mod docutils literal"><span class="pre">screen</span></tt><a class="headerlink" href="#module-sikuli_client.screen" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>Classes to fulfill the roles of those described at</dt>
+<dd><a class="reference external" href="http://doc.sikuli.org/screen.html">http://doc.sikuli.org/screen.html</a></dd>
+</dl>
+<dl class="class">
+<dt id="sikuli_client.screen.Screen">
+<em class="property">class </em><tt class="descclassname">sikuli_client.screen.</tt><tt class="descname">Screen</tt><big>(</big><em>remote</em>, <em>server_id</em>, <em>is_new=False</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/screen.html#Screen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.screen.Screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages interaction with Sikuli&#8217;s Screen, reflecting
+<a class="reference external" href="http://doc.sikuli.org/screen.html#Screen">http://doc.sikuli.org/screen.html#Screen</a></p>
+<dl class="method">
+<dt id="sikuli_client.screen.Screen.capture">
+<tt class="descname">capture</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/screen.html#Screen.capture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.screen.Screen.capture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dimensions of monitor represented by the screen object.</p>
+<p>The width and height of the rectangle denote the dimensions of the
+monitor represented by the screen object. These attributes are obtained
+from the operating system. They can not be modified using Sikuli script.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> &#8211; (Region,) | (x, y, w, h)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.screen.Screen.getBounds">
+<tt class="descname">getBounds</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/screen.html#Screen.getBounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.screen.Screen.getBounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the dimensions of monitor represented by the screen object.</p>
+<p>The width and height of the rectangle denote the dimensions of the
+monitor represented by the screen object. These attributes are obtained
+from the operating system. They can not be modified using Sikuli script.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">(int, int, int, int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.screen.Screen.getNumberScreens">
+<tt class="descname">getNumberScreens</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_client/screen.html#Screen.getNumberScreens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.screen.Screen.getNumberScreens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of screens in a multi-monitor environment at the time
+the script is running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.screen.Screen.selectRegion">
+<tt class="descname">selectRegion</tt><big>(</big><em>text=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/screen.html#Screen.selectRegion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.screen.Screen.selectRegion" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Implement &#8216;selectRegion&#8217; (later)</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -54,6 +138,12 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sikuli_client.region.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">region</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="sikuli_client.sikuli_class.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">sikuli_class</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/sikuli_client.screen.txt"
@@ -82,7 +172,17 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.sikuli_class.html" title="sikuli_class"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.region.html" title="region"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

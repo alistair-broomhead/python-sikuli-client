@@ -14,17 +14,14 @@ Jython script to run a robot remote library exposing the Sikuli API (and popen)
    sikuli_server.sikuli_class
 """
 
-from os.path import abspath
-
-lfn = abspath("./log.txt")
-
-logger.warn(lfn)
-
 try:
     #noinspection PyUnresolvedReferences
     from sikuli import Sikuli
 except ImportError:
     pass
+
+from os.path import abspath
+lfn = abspath("./log.txt")
 
 
 def _writelog(txt):
@@ -32,6 +29,7 @@ def _writelog(txt):
     logfile.write('%s%s\n' % (txt, '-' * 80))
     while not logfile.closed:
         logfile.close()
+_writelog(lfn)
 
 
 class SikuliServer(object):

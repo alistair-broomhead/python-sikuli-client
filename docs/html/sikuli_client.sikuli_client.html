@@ -26,7 +26,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" /> 
+    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" />
+    <link rel="up" title="sikuli_client" href="sikuli_client.html" />
+    <link rel="prev" title="sikuli_class" href="sikuli_client.sikuli_class.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +37,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.sikuli_class.html" title="sikuli_class"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,8 +53,57 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="sikuli-client">
-<h1><tt class="xref py py-mod docutils literal"><span class="pre">sikuli_client</span></tt><a class="headerlink" href="#sikuli-client" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-sikuli_client.sikuli_client">
+<span id="sikuli-client"></span><h1><a class="reference internal" href="sikuli_client.html#module-sikuli_client" title="sikuli_client"><tt class="xref py py-mod docutils literal"><span class="pre">sikuli_client</span></tt></a><a class="headerlink" href="#module-sikuli_client.sikuli_client" title="Permalink to this headline">¶</a></h1>
+<p>SikuliClient is an XMLRPC client for SikuliServer - an instance of SikuliClient
+should be held by each client-side instance of SikuliClass in order to allow it
+to interact with the server-side class.</p>
+<dl class="class">
+<dt id="sikuli_client.sikuli_client.SikuliClient">
+<em class="property">class </em><tt class="descclassname">sikuli_client.sikuli_client.</tt><tt class="descname">SikuliClient</tt><big>(</big><em>host</em>, <em>port=5637</em>, <em>include=None</em>, <em>exclude=None</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/sikuli_client.html#SikuliClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.sikuli_client.SikuliClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client for sikuliserver to expose a more limited set of keywords to rf</p>
+<dl class="method">
+<dt id="sikuli_client.sikuli_client.SikuliClient.Location">
+<tt class="descname">Location</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/sikuli_client.html#SikuliClient.Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.sikuli_client.SikuliClient.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt> connected to this SikuliClient
+:param args: args to pass to <tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt> contructor
+:param kwargs: kwargs to pass to <tt class="xref py py-class docutils literal"><span class="pre">Location</span></tt> contructor
+:rtype : SikuliServer.sikuli_client.Location</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.sikuli_client.SikuliClient.Region">
+<tt class="descname">Region</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/sikuli_client.html#SikuliClient.Region"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.sikuli_client.SikuliClient.Region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt> connected to this SikuliClient
+:param args: args to pass to <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt> contructor
+:param kwargs: kwargs to pass to <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt> contructor
+:rtype : SikuliServer.sikuli_client.Region</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_client.sikuli_client.SikuliClient.Screen">
+<tt class="descname">Screen</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/sikuli_client.html#SikuliClient.Screen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.sikuli_client.SikuliClient.Screen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new <tt class="xref py py-class docutils literal"><span class="pre">Screen</span></tt> connected to this SikuliClient
+:param args: args to pass to <tt class="xref py py-class docutils literal"><span class="pre">Screen</span></tt> contructor
+:param kwargs: kwargs to pass to <tt class="xref py py-class docutils literal"><span class="pre">Screen</span></tt> contructor
+:rtype : SikuliServer.sikuli_client.Screen</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="sikuli_client.sikuli_client.SikuliClient.session">
+<tt class="descname">session</tt><a class="reference internal" href="_modules/sikuli_client/sikuli_client.html#SikuliClient.session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.sikuli_client.SikuliClient.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>All</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sikuli_client.sikuli_client.sikuli_client_session">
+<tt class="descclassname">sikuli_client.sikuli_client.</tt><tt class="descname">sikuli_client_session</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="_modules/sikuli_client/sikuli_client.html#sikuli_client_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_client.sikuli_client.sikuli_client_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new SikuliClient for your session, making sure all server-side gc
+is performed on context exit</p>
+</dd></dl>
+
 </div>
 
 
@@ -54,6 +112,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sikuli_client.sikuli_class.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">sikuli_class</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/sikuli_client.sikuli_client.txt"
@@ -82,7 +143,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="sikuli_client.sikuli_class.html" title="sikuli_class"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+          <li><a href="sikuli_client.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">sikuli_client</span></tt></a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
