@@ -1343,6 +1343,8 @@ class Region(SikuliClass):
             "self._new_jython_object(self._get_jython_object(%r).find(arg))"
             % self._id,
             images)
+        from robot.api import logger
+        logger.warn(match_ids)
         matches = {}
         for k, match_id in match_ids:
             try:
