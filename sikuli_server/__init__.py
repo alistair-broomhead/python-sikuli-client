@@ -27,9 +27,12 @@ lfn_l = Lock()
 
 
 def _writelog(txt):
+    from sys import stderr
     lfn_l.acquire()
     logfile = open(lfn, "a")
-    logfile.write('%s\n%s\n' % (txt, '-' * 80))
+    o = '%s\n%s\n' % (txt, '-' * 80)
+    logfile.write(o)
+    stderr.write(o)
     while not logfile.closed:
         logfile.close()
     lfn_l.release()
@@ -127,16 +130,13 @@ class SikuliServer(object):
             l_ = l.copy()
             l['arg'] = arg
 
-            _writelog('\n%s\nEvaluated %r with arg as %r'
-                      % ('-' * 80, jython_as_string, arg))
+            _writelog('\n%s\n[%r] Evaluated %r with arg as %r'
+                      % ('-' * 80, i, jython_as_string, arg))
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
-                _writelog('Returned %r' % (r,))
+                _writelog('[%r] Returned %r' % (i, r))
             except BaseException, r:
-                _writelog('Exception %r' % r)
-                from sys import stderr
-                stderr.write("\nCould not run %r given arg=%r:\n%r\n"
-                             % (jython_as_string, arg, r))
+                _writelog('[%r] Exception %r' % (i, r))
             ret_l.acquire()
             ret[(i, arg)] = r
             ret_l.release()
