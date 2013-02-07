@@ -28,6 +28,13 @@ except ImportError:
     pass
 
 
+def _writelog(txt):
+    logfile = open(lfn, "a")
+    logfile.write('%s%s\n' % (txt, '-' * 80))
+    while not logfile.closed:
+        logfile.close()
+
+
 class SikuliServer(object):
     """
     Class into which to dump the namespace of sikuli.Sikuli
@@ -85,25 +92,13 @@ class SikuliServer(object):
         l = locals()
         old_eval = self._eval_objects
         self._eval_objects = []
-        with open(lfn, "a") as logfile:
-            logfile.write("""
-
---------------------------------------------------------------------------------
-Evaluated %r
---------------------------------------------------------------------------------
-""" % jython_as_string)
+        _writelog('')
+        _writelog('Evaluated %r' % jython_as_string)
         try:
             ret = eval(jython_as_string, self._private_globals, l)
-            with open(lfn, "a") as logfile:
-                logfile.write("""
-Returned  %r
---------------------------------------------------------------------------------
-""" % ret)
+            _writelog('Returned %r' % ret)
         except BaseException, e:
-            logger.warn("""
-Exception %r
---------------------------------------------------------------------------------
-""" % e)
+            _writelog('Exception %r' % e)
             raise e
         new_eval, self._eval_objects = self._eval_objects, old_eval
         return new_eval, ret
@@ -129,31 +124,16 @@ Exception %r
             l_ = l.copy()
             l['arg'] = arg
 
-            with open(lfn, "a") as logfile:
-                logfile.write("""
-
---------------------------------------------------------------------------------
-Evaluated %r
---------------------------------------------------------------------------------
-""" % jython_as_string)
+            _writelog('')
+            _writelog('Evaluated %r' % jython_as_string)
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
-                with open(lfn, "a") as logfile:
-                    logfile.write("""
-Returned  %r
---------------------------------------------------------------------------------
-""" % r)
+                _writelog('Returned %r' % r)
             except Sikuli.SikuliException, r:
-                with open(lfn, "a") as logfile:
-                    logfile.write("""
-Exception %r
---------------------------------------------------------------------------------
-""" % r)
+                _writelog('Exception %r' % r)
                 from sys import stderr
-                stderr.write("""
-Could not run %r given arg=%r:
-%r
-""" % (jython_as_string, arg, r))
+                stderr.write("\nCould not run %r given arg=%r:\n%r\n"
+                             % (jython_as_string, arg, r))
             ret_l.acquire()
             ret[(i, arg)] = r
             ret_l.release()
