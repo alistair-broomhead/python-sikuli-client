@@ -177,10 +177,10 @@
 <span class="sd">        def func(*args, **kwargs):</span>
 <span class="sd">            ...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">rt</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">_new_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="n">func</span> <span class="o">=</span> <span class="n">run_on_remote</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="n">rt</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="nd">@func.func</span>
         <span class="k">def</span> <span class="nf">_inner_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -193,15 +193,14 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">rt</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">SIKULI_CLASSES</span>
 
-                <span class="n">rt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtype</span>
-                          <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">ClientSikuliClass</span><span class="p">)</span> <span class="k">else</span>
-                          <span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="n">rtype</span><span class="p">])</span>
-            <span class="n">cls</span> <span class="o">=</span> <span class="n">rt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="kn">from</span> <span class="nn">robot.api</span> <span class="kn">import</span> <span class="n">logger</span>
+                <span class="n">cls</span> <span class="o">=</span> <span class="p">(</span><span class="n">rtype</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rtype</span><span class="p">,</span> <span class="n">ClientSikuliClass</span><span class="p">)</span> <span class="k">else</span>
+                       <span class="n">SIKULI_CLASSES</span><span class="p">[</span><span class="n">rtype</span><span class="p">])</span>
+                <span class="n">rt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cls</span> <span class="o">=</span> <span class="n">rt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">ho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&quot;self._held_objects&quot;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">ho</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ho</span><span class="o">.</span><span class="n">keys</span><span class="p">())})</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="n">remote</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="p">,</span> <span class="n">server_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">location_id</span><span class="p">))</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="n">location_id</span><span class="p">)</span>
+            <span class="c">#obj.remote._del_obj(location_id)</span>
             <span class="k">return</span> <span class="n">obj</span>
 
         <span class="k">return</span> <span class="n">func</span>
