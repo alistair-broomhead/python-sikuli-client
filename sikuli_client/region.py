@@ -1345,13 +1345,14 @@ class Region(SikuliClass):
             images)
         from robot.api import logger
         matches = {}
-        for k, match_id in match_ids.items():
-            if match_id is None:
-                logger.info("Did not find %r" % k)
+        for (k, v) in sorted(match_ids.items(), key=lambda k: int(k[0])):
+            img, match_id = v
+            if match_id is None or not match_id:
+                logger.info("Did not find %r" % img)
             else:
                 try:
                     matches[k] = Match(remote=self.remote, server_id=match_id)
-                    logger.info("Found %r" % k)
+                    logger.info("Found %r" % img)
                 except BaseException:
                     pass
         return matches
