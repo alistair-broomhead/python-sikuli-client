@@ -13,6 +13,14 @@ Jython script to run a robot remote library exposing the Sikuli API (and popen)
    sikuli_server.robotremoteserver
    sikuli_server.sikuli_class
 """
+
+from os.path import abspath
+
+lfn = abspath("./log.txt")
+from robot.api import logger
+
+logger.warn(lfn)
+
 try:
     #noinspection PyUnresolvedReferences
     from sikuli import Sikuli
@@ -77,7 +85,26 @@ class SikuliServer(object):
         l = locals()
         old_eval = self._eval_objects
         self._eval_objects = []
-        ret = eval(jython_as_string, self._private_globals, l)
+        with open(lfn, "a") as logfile:
+            logfile.write("""
+
+--------------------------------------------------------------------------------
+Evaluated %r
+--------------------------------------------------------------------------------
+""" % jython_as_string)
+        try:
+            ret = eval(jython_as_string, self._private_globals, l)
+            with open(lfn, "a") as logfile:
+                logfile.write("""
+Returned  %r
+--------------------------------------------------------------------------------
+""" % ret)
+        except BaseException, e:
+            logger.warn("""
+Exception %r
+--------------------------------------------------------------------------------
+""" % e)
+            raise e
         new_eval, self._eval_objects = self._eval_objects, old_eval
         return new_eval, ret
 
@@ -101,9 +128,27 @@ class SikuliServer(object):
         def _e(i, arg):
             l_ = l.copy()
             l['arg'] = arg
+
+            with open(lfn, "a") as logfile:
+                logfile.write("""
+
+--------------------------------------------------------------------------------
+Evaluated %r
+--------------------------------------------------------------------------------
+""" % jython_as_string)
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
+                with open(lfn, "a") as logfile:
+                    logfile.write("""
+Returned  %r
+--------------------------------------------------------------------------------
+""" % r)
             except Sikuli.SikuliException, r:
+                with open(lfn, "a") as logfile:
+                    logfile.write("""
+Exception %r
+--------------------------------------------------------------------------------
+""" % r)
                 from sys import stderr
                 stderr.write("""
 Could not run %r given arg=%r:

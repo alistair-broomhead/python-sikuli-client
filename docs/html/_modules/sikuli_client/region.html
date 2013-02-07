@@ -1377,6 +1377,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">assert_PSMRL</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLocationFromPSRML</span><span class="p">)</span>
 </div>
+<div class="viewcode-block" id="Region.get_xy_from_PSRML"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.get_xy_from_PSRML">[docs]</a>    <span class="k">def</span> <span class="nf">get_xy_from_PSRML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">PSMRL</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">SikuliServer.sikuli_client.misc</span> <span class="kn">import</span> <span class="n">s_repr</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="s">&quot;self._get_jython_object(</span><span class="si">%r</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.getLocationFromPSRML(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">s_repr</span><span class="p">(</span><span class="n">PSMRL</span><span class="p">))</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">&quot;(lambda l: [l.getX(), l.getY()])(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">l</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">remote</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Region.find_one_of"><a class="viewcode-back" href="../../sikuli_client.region.html#sikuli_client.region.Region.find_one_of">[docs]</a>    <span class="k">def</span> <span class="nf">find_one_of</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">images</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param images: list of strings giving paths to images</span>
