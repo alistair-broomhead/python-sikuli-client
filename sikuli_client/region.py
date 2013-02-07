@@ -1344,11 +1344,11 @@ class Region(SikuliClass):
             % self._id,
             images)
         from robot.api import logger
-        logger.warn(match_ids)
         matches = {}
-        for k, match_id in match_ids:
+        for k, match_id in match_ids.items():
             try:
                 matches[k] = Match(remote=self.remote, server_id=match_id)
+                logger.info("Found %r" % k)
             except BaseException:
                 pass
         return matches

@@ -141,6 +141,9 @@
         <span class="n">g</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__private_globals</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">g</span>
 
+<div class="viewcode-block" id="SikuliServer.min_similar"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.min_similar">[docs]</a>    <span class="k">def</span> <span class="nf">min_similar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim</span><span class="p">):</span>
+        <span class="n">Sikuli</span><span class="o">.</span><span class="n">Settings</span><span class="o">.</span><span class="n">MinSimilarity</span> <span class="o">=</span> <span class="n">sim</span>
+</div>
 <div class="viewcode-block" id="SikuliServer.eval_jython"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.eval_jython">[docs]</a>    <span class="k">def</span> <span class="nf">eval_jython</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jython_as_string</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gives a quick and dirty way to run jython directly on the SiculiServer -</span>
@@ -192,9 +195,7 @@
             <span class="k">except</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span>
                 <span class="n">_writelog</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">[</span><span class="si">%r</span><span class="s">] Exception </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
             <span class="n">ret_l</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-            <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
-            <span class="n">ret</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
-            <span class="n">_writelog</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%r</span><span class="s">: </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">r</span><span class="p">)))</span>
+            <span class="n">ret</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">arg</span><span class="p">)]</span> <span class="o">=</span> <span class="n">r</span>
             <span class="n">ret_l</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
         <span class="n">threads</span> <span class="o">=</span> <span class="p">[</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_e</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">arg</span><span class="p">,))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span>
