@@ -22,13 +22,17 @@ except ImportError:
 
 from os.path import abspath
 lfn = abspath("./log.txt")
+from threading import Lock
+lfn_l = Lock()
 
 
 def _writelog(txt):
+    lfn_l.acquire()
     logfile = open(lfn, "a")
     logfile.write('%s\n%s\n' % (txt, '-' * 80))
     while not logfile.closed:
         logfile.close()
+    lfn_l.release()
 _writelog(lfn)
 
 
