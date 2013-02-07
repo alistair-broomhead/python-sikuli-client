@@ -136,7 +136,7 @@ class SikuliClient(object):
             raise ex
         new_objects, ret = rv['return']
         self._current_pool.extend([x for x in new_objects if str(x) in
-                                   self._eval('self._held_objects')])
+                                   self._sikuliserver.held_objects])
         return ret
 
     def __init__(self,
@@ -169,7 +169,7 @@ class SikuliClient(object):
             self._del_obj(id_)
 
     def __clearall__(self):
-        for id_, n in self._eval('self._held_objects').items():
+        for id_, n in self._sikuliserver.held_objects.items():
             for _ in range(n[1]):
                 self._del_obj(int(id_))
 
