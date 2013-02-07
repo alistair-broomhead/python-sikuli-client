@@ -26,7 +26,7 @@ lfn = abspath("./log.txt")
 
 def _writelog(txt):
     logfile = open(lfn, "a")
-    logfile.write('%s%s\n' % (txt, '-' * 80))
+    logfile.write('%s\n%s\n' % (txt, '-' * 80))
     while not logfile.closed:
         logfile.close()
 _writelog(lfn)
