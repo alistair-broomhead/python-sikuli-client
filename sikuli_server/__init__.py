@@ -62,9 +62,12 @@ class SikuliServer(object):
         self._eval_objects.append(id_)
         return id_
 
-    def _gcollect(self):
-        for id_ in (int(k) for k, v in self._held_objects.items() if v[1] < 1):
+    def _release_id(self, id_):
+        if self._held_objects[id_][1] <= 0:
             del self._held_objects[id_]
+
+    def _gcollect(self):
+        map(self._release_id, list(self._held_objects.keys()))
 
     def jython_object_addrefs(self, id_, refs):
         """
@@ -74,15 +77,13 @@ class SikuliServer(object):
         can be collected.
         """
         id_, refs = int(id_), int(refs)
-        if id_ not in self._held_objects:
+        if id_ in self._held_objects and refs != 0:
+            self._held_objects[id_][1] += refs
+            self._release_id(id_)
+        if id_ in self._held_objects:
+            return self._held_objects[id_][0]
+        else:
             return None
-        obj = self._held_objects[id_]
-        if refs != 0:
-            obj[1] += refs
-        if obj[1] > 0:
-            return obj[0]
-        del self._held_objects[id_], obj
-        return None
 
     def _del_jython_object(self, id_):
         id_ = int(id_)
