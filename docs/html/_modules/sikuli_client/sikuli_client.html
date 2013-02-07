@@ -120,6 +120,12 @@
         <span class="k">return</span> <span class="n">Screen</span><span class="o">.</span><span class="n">mknew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SikuliClient.screen_bounds"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.screen_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">screen_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get access to the bounds of the default screen &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;(lambda x: [x.x, x.y, x.width, x.height])&#39;</span>
+                          <span class="s">&#39;(Sikuli.SCREEN.getBounds())&#39;</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_current_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span>
