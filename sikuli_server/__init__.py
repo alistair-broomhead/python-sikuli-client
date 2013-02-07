@@ -79,6 +79,11 @@ class SikuliServer(object):
         return self._held_objects[int(id_)][0]
 
     @property
+    def held_objects(self):
+        """ Copy of the map of held objects """
+        return self._held_objects.copy()
+
+    @property
     def _private_globals(self):
         if not hasattr(self, '__private_globals'):
             from .classes import SIKULI_CLASSES

@@ -131,6 +131,11 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SikuliServer.held_objects"><a class="viewcode-back" href="../sikuli_server.html#sikuli_server.SikuliServer.held_objects">[docs]</a>    <span class="k">def</span> <span class="nf">held_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Copy of the map of held objects &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_held_objects</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_private_globals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;__private_globals&#39;</span><span class="p">):</span>
             <span class="kn">from</span> <span class="nn">.classes</span> <span class="kn">import</span> <span class="n">SIKULI_CLASSES</span>
