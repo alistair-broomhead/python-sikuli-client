@@ -142,7 +142,7 @@ class SikuliServer(object):
             ret_l.acquire()
             k = (i, arg)
             ret[k] = r
-            _writelog('%r: %r' % (k, r))
+            _writelog(repr('%r: %r' % (k, r)))
             ret_l.release()
 
         threads = [Thread(target=_e, args=(i, arg,)) for i, arg in
