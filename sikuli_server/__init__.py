@@ -107,7 +107,7 @@ class SikuliServer(object):
         try:
             ret = eval(jython_as_string, self._private_globals, l)
             _writelog('%sReturned %r' % (txt, ret))
-        except BaseException, e:
+        except (BaseException, Sikuli.FindFailed), e:
             _writelog('%sException %r' % (txt, e))
             raise e
         new_eval, self._eval_objects = self._eval_objects, old_eval
@@ -130,10 +130,13 @@ class SikuliServer(object):
         ret_l = Lock()
         ret = dict()
 
-        def _e(i, arg):
+        def _write_ret(i, arg, v):
             ret_l.acquire()
-            ret[(i, arg)] = None
+            ret[(i, arg)] = v
             ret_l.release()
+
+        def _e(i, arg):
+            _write_ret(i, arg, None)
             l_ = l.copy()
             l_['arg'] = arg
 
@@ -142,11 +145,10 @@ class SikuliServer(object):
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
                 _writelog('%s[%r] Returned %r' % (txt, i, r))
-            except BaseException, r:
+            except (BaseException, Sikuli.FindFailed), r:
                 _writelog('%s[%r] Exception %r' % (txt, i, r))
-            ret_l.acquire()
-            ret[(i, arg)] = r
-            ret_l.release()
+            else:
+                _write_ret(i, arg, r)
 
         threads = [Thread(target=_e, args=(i, arg,)) for i, arg in
                    enumerate(args)]
