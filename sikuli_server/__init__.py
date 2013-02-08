@@ -62,9 +62,28 @@ class SikuliServer(object):
         self._eval_objects.append(id_)
         return id_
 
-    def _gcollect(self):
-        for id_ in (int(k) for k, v in self._held_objects.items() if v[1] < 1):
+    def _release_id(self, id_):
+        if self._held_objects[id_][1] <= 0:
             del self._held_objects[id_]
+
+    def _gcollect(self):
+        map(self._release_id, list(self._held_objects.keys()))
+
+    def jython_object_addrefs(self, id_, refs):
+        """
+        Adds `refs` to the number of held references to held_objects[id_]. If
+        negative the number of references counted will be decreased, and if it
+        dips below zero the object will have its final reference removed so it
+        can be collected.
+        """
+        id_, refs = int(id_), int(refs)
+        if id_ in self._held_objects and refs != 0:
+            self._held_objects[id_][1] += refs
+            self._release_id(id_)
+        if id_ in self._held_objects:
+            return self._held_objects[id_][0]
+        else:
+            return None
 
     def _del_jython_object(self, id_):
         id_ = int(id_)
@@ -77,6 +96,10 @@ class SikuliServer(object):
 
     def _get_jython_object(self, id_):
         return self._held_objects[int(id_)][0]
+
+    def held_objects(self):
+        """ Copy of the map of held objects """
+        return self._held_objects.copy()
 
     @property
     def _private_globals(self):
@@ -107,7 +130,7 @@ class SikuliServer(object):
         try:
             ret = eval(jython_as_string, self._private_globals, l)
             _writelog('%sReturned %r' % (txt, ret))
-        except BaseException, e:
+        except (BaseException, Sikuli.FindFailed), e:
             _writelog('%sException %r' % (txt, e))
             raise e
         new_eval, self._eval_objects = self._eval_objects, old_eval
@@ -130,10 +153,13 @@ class SikuliServer(object):
         ret_l = Lock()
         ret = dict()
 
-        def _e(i, arg):
+        def _write_ret(i, arg, v):
             ret_l.acquire()
-            ret[(i, arg)] = None
+            ret[i] = [arg, v]
             ret_l.release()
+
+        def _e(i, arg):
+            _write_ret(i, arg, None)
             l_ = l.copy()
             l_['arg'] = arg
 
@@ -142,11 +168,10 @@ class SikuliServer(object):
             try:
                 r = eval(jython_as_string, self._private_globals, l_)
                 _writelog('%s[%r] Returned %r' % (txt, i, r))
-            except BaseException, r:
+            except (BaseException, Sikuli.FindFailed), r:
                 _writelog('%s[%r] Exception %r' % (txt, i, r))
-            ret_l.acquire()
-            ret[(i, arg)] = r
-            ret_l.release()
+            else:
+                _write_ret(i, arg, r)
 
         threads = [Thread(target=_e, args=(i, arg,)) for i, arg in
                    enumerate(args)]

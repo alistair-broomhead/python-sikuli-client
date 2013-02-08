@@ -1345,13 +1345,14 @@ class Region(SikuliClass):
             images)
         from robot.api import logger
         matches = {}
-        for k, match_id in match_ids.items():
-            if match_id is None:
-                logger.info("Did not find %r" % k)
+        for (k, v) in sorted(match_ids.items(), key=lambda k: int(k[0])):
+            img, match_id = v
+            if match_id is None or not match_id:
+                logger.info("Did not find %r" % img)
             else:
                 try:
                     matches[k] = Match(remote=self.remote, server_id=match_id)
-                    logger.info("Found %r" % k)
+                    logger.info("Found %r" % img)
                 except BaseException:
                     pass
         return matches
@@ -1364,3 +1365,10 @@ def _region_constructor(x, y, w, h):
 @constructor(Region)
 def _region_constructor(region):
     return "Sikuli.Region(%s)" % region._str_get
+
+
+@constructor(Region)
+def _region_constructor():
+    return ('Sikuli.Region('
+            '   *(lambda x: [x.x, x.y, x.width, x.height])('
+            '       Sikuli.SCREEN.getBounds()))')

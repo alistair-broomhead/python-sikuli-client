@@ -22,11 +22,12 @@ class ClientSikuliClass(ServerSikuliClass):
 
         assert isinstance(remote, SikuliClient)
         _remote, cls.remote = cls.remote, remote
+        errors = []
         for method in cls._constructors:
             try:
                 server_id = method(*args, **kwargs)
             except TypeError as e:
-                print e
+                errors.append(e)
                 continue
             else:
                 if isinstance(_remote, SikuliClient):
@@ -34,6 +35,8 @@ class ClientSikuliClass(ServerSikuliClass):
                 obj = cls(remote=remote, server_id=server_id, is_new=True)
                 obj.remote._del_obj(server_id)
                 return obj
+        for e in errors:
+            print e
         raise NotImplementedError(
             "Not created a constructor for args=%r kwargs=%r" % (args, kwargs))
 
@@ -47,7 +50,8 @@ class ClientSikuliClass(ServerSikuliClass):
 
     @property
     def _on_server(self):
-        if not self._id in self.remote._eval('self._held_objects.keys()'):
+        if not int(self._id) in (int(id_)
+                                 for id_ in self.remote.server_held_objects):
             return False
         return True
 
