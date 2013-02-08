@@ -68,10 +68,21 @@ class SikuliClient(object):
         return Screen.mknew(self, *args, **kwargs)
 
     @property
+    def screen_bounds(self):
+        """ Get access to the bounds of the default screen """
+        return self._eval('(lambda x: [x.x, x.y, x.width, x.height])'
+                          '(Sikuli.SCREEN.getBounds())')
+
+    @property
     def _current_pool(self):
         if self._session is None:
             return self._garbage
         return self._session
+
+    @property
+    def server_held_objects(self):
+        """ Get the mapping of objects seen on the server """
+        return self._sikuliserver.held_objects()['return']
 
     def _new_session(self):
         if self._session is None:
@@ -103,19 +114,20 @@ class SikuliClient(object):
         return
 
     def _del_obj(self, id_):
-        #if
-        self._eval('self._del_jython_object(%r)' % int(id_))
-        if self._session is not None and id_ in self._session:
-            l = self._session
-        elif id_ in self._garbage:
-            l = self._garbage
-        else:
-            return
-        del l[l.index(id_)]
-        self._eval('self._gcollect()')
+        self._sikuliserver.jython_object_addrefs(id_, -1)
+        # self._eval('self._del_jython_object(%r)' % int(id_))
+        # if self._session is not None and id_ in self._session:
+        #     l = self._session
+        # elif id_ in self._garbage:
+        #     l = self._garbage
+        # else:
+        #     return
+        # del l[l.index(id_)]
+        # self._eval('self._gcollect()')
 
     def _add_obj(self, id_):
-        self._eval('self._ref_jython_object(%r)' % int(id_))
+        self._sikuliserver.jython_object_addrefs(id_, 1)
+        #self._eval('self._ref_jython_object(%r)' % int(id_))
 
     def _new_obj(self, id_):
         self._eval('self._new_jython_object(%r)' % int(id_))
@@ -135,8 +147,8 @@ class SikuliClient(object):
             ex = SikuliClientException(rv['error'] + '\n\n' + rv['traceback'])
             raise ex
         new_objects, ret = rv['return']
-        self._current_pool.extend([x for x in new_objects if str(x) in
-                                   self._eval('self._held_objects')])
+        self._current_pool.extend([x for x in new_objects
+                                   if str(x) in self.server_held_objects])
         return ret
 
     def __init__(self,
@@ -169,7 +181,7 @@ class SikuliClient(object):
             self._del_obj(id_)
 
     def __clearall__(self):
-        for id_, n in self._eval('self._held_objects').items():
+        for id_, n in self.server_held_objects.items():
             for _ in range(n[1]):
                 self._del_obj(int(id_))
 

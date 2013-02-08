@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sikuli_server &mdash; SikuliServer 0.1.7 documentation</title>
+    <title>sikuli_server &mdash; SikuliServer 0.1.8 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.7',
+        VERSION:     '0.1.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.7 documentation" href="index.html" />
+    <link rel="top" title="SikuliServer 0.1.8 documentation" href="index.html" />
     <link rel="next" title="classes" href="sikuli_server.classes.html" />
     <link rel="prev" title="Welcome to SikuliServer‘s documentation!" href="index.html" /> 
   </head>
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to SikuliServer‘s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li><a href="index.html">SikuliServer 0.1.8 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -102,6 +102,21 @@ remote API. Exceptions will be returned as a string.</p>
 not intended for direct use, but for giving an interface for building a
 remote API
 :param jython_as_string: str &#8211; will be evaluated server-side</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_server.SikuliServer.held_objects">
+<tt class="descname">held_objects</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.held_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.held_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy of the map of held objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sikuli_server.SikuliServer.jython_object_addrefs">
+<tt class="descname">jython_object_addrefs</tt><big>(</big><em>id_</em>, <em>refs</em><big>)</big><a class="reference internal" href="_modules/sikuli_server.html#SikuliServer.jython_object_addrefs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sikuli_server.SikuliServer.jython_object_addrefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds <cite>refs</cite> to the number of held references to held_objects[<a href="#id1"><span class="problematic" id="id2">id_</span></a>]. If
+negative the number of references counted will be decreased, and if it
+dips below zero the object will have its final reference removed so it
+can be collected.</p>
 </dd></dl>
 
 <dl class="method">
@@ -168,7 +183,7 @@ remote API
         <li class="right" >
           <a href="index.html" title="Welcome to SikuliServer‘s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li> 
+        <li><a href="index.html">SikuliServer 0.1.8 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

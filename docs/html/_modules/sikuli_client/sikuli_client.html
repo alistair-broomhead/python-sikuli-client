@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sikuli_client.sikuli_client &mdash; SikuliServer 0.1.7 documentation</title>
+    <title>sikuli_client.sikuli_client &mdash; SikuliServer 0.1.8 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.1.7',
+        VERSION:     '0.1.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SikuliServer 0.1.7 documentation" href="../../index.html" />
+    <link rel="top" title="SikuliServer 0.1.8 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">SikuliServer 0.1.8 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -120,11 +120,22 @@
         <span class="k">return</span> <span class="n">Screen</span><span class="o">.</span><span class="n">mknew</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
+<div class="viewcode-block" id="SikuliClient.screen_bounds"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.screen_bounds">[docs]</a>    <span class="k">def</span> <span class="nf">screen_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get access to the bounds of the default screen &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;(lambda x: [x.x, x.y, x.width, x.height])&#39;</span>
+                          <span class="s">&#39;(Sikuli.SCREEN.getBounds())&#39;</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_current_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
 
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SikuliClient.server_held_objects"><a class="viewcode-back" href="../../sikuli_client.sikuli_client.html#sikuli_client.sikuli_client.SikuliClient.server_held_objects">[docs]</a>    <span class="k">def</span> <span class="nf">server_held_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get the mapping of objects seen on the server &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="o">.</span><span class="n">held_objects</span><span class="p">()[</span><span class="s">&#39;return&#39;</span><span class="p">]</span>
+</div>
     <span class="k">def</span> <span class="nf">_new_session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="p">[]</span>
@@ -155,19 +166,20 @@
         <span class="k">return</span>
 </div>
     <span class="k">def</span> <span class="nf">_del_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
-        <span class="c">#if</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._del_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span>
-        <span class="k">elif</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_garbage</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="k">del</span> <span class="n">l</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">id_</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._gcollect()&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="o">.</span><span class="n">jython_object_addrefs</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c"># self._eval(&#39;self._del_jython_object(%r)&#39; % int(id_))</span>
+        <span class="c"># if self._session is not None and id_ in self._session:</span>
+        <span class="c">#     l = self._session</span>
+        <span class="c"># elif id_ in self._garbage:</span>
+        <span class="c">#     l = self._garbage</span>
+        <span class="c"># else:</span>
+        <span class="c">#     return</span>
+        <span class="c"># del l[l.index(id_)]</span>
+        <span class="c"># self._eval(&#39;self._gcollect()&#39;)</span>
 
     <span class="k">def</span> <span class="nf">_add_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._ref_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sikuliserver</span><span class="o">.</span><span class="n">jython_object_addrefs</span><span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c">#self._eval(&#39;self._ref_jython_object(%r)&#39; % int(id_))</span>
 
     <span class="k">def</span> <span class="nf">_new_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._new_jython_object(</span><span class="si">%r</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
@@ -187,8 +199,8 @@
             <span class="n">ex</span> <span class="o">=</span> <span class="n">SikuliClientException</span><span class="p">(</span><span class="n">rv</span><span class="p">[</span><span class="s">&#39;error&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;traceback&#39;</span><span class="p">])</span>
             <span class="k">raise</span> <span class="n">ex</span>
         <span class="n">new_objects</span><span class="p">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">rv</span><span class="p">[</span><span class="s">&#39;return&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_current_pool</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_objects</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span>
-                                   <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._held_objects&#39;</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_pool</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_objects</span>
+                                   <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_held_objects</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">ret</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -221,7 +233,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__clearall__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval</span><span class="p">(</span><span class="s">&#39;self._held_objects&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_held_objects</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_del_obj</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">id_</span><span class="p">))</span>
 
@@ -277,7 +289,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">SikuliServer 0.1.7 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">SikuliServer 0.1.8 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
