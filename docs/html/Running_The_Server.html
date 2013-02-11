@@ -64,6 +64,17 @@ under test and running the appropriate script for your operating system &#8211;
 sikuliserver.bat for windows and sikuliserver.sh for any others. This assumes
 that you already have Java 6 and Sikuli X installed on your machine, and that
 the paths are correct.</p>
+<p>If you want more control of what&#8217;s going on, you can do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">SikuliServer.sikuli_server</span> <span class="kn">import</span> <span class="n">SikuliRobotRemoteServer</span> <span class="k">as</span> <span class="n">Server</span>
+<span class="n">Server</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">5637</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where you can change the port if you need to. For more advanced usage please
+read the source &#8211; you will see that it is a very simple wrapper around
+<tt class="xref py py-mod docutils literal"><span class="pre">SikuliServer.SikuliServer</span></tt> using the bundled
+<tt class="xref py py-mod docutils literal"><span class="pre">SikuliServer.sikuli_server.robotremoteserver.RobotRemoteServer</span></tt>, which is
+a static copy taken from
+<a class="reference external" href="http://robotframework.googlecode.com/hg/tools/remoteserver/robotremoteserver.py">http://robotframework.googlecode.com/hg/tools/remoteserver/robotremoteserver.py</a></p>
 </div>
 <div class="section" id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>

@@ -10,6 +10,19 @@ sikuliserver.bat for windows and sikuliserver.sh for any others. This assumes
 that you already have Java 6 and Sikuli X installed on your machine, and that
 the paths are correct.
 
+If you want more control of what's going on, you can do::
+
+  from SikuliServer.sikuli_server import SikuliRobotRemoteServer as Server
+  Server(port=5637)
+
+where you can change the port if you need to. For more advanced usage please
+read the source -- you will see that it is a very simple wrapper around
+:mod:`SikuliServer.SikuliServer` using the bundled
+:mod:`SikuliServer.sikuli_server.robotremoteserver.RobotRemoteServer`, which is
+a static copy taken from
+http://robotframework.googlecode.com/hg/tools/remoteserver/robotremoteserver.py
+
+
 Troubleshooting
 ---------------
 
