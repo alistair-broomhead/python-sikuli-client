@@ -1,6 +1,6 @@
 """
-Welcome to :mod:`SikuliServer`'s documentation!
-==================================================
+:mod:`SikuliServer` API documentation
+=====================================
 
 Library for using Sikuli from Robotframework or other python code
 
@@ -9,13 +9,6 @@ Library for using Sikuli from Robotframework or other python code
 
    sikuli_server
    sikuli_client
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 """
 from SikuliServer.sikuli_client import SikuliClient, sikuli_client_session
 from SikuliServer.sikuli_client.misc import RemoteLib

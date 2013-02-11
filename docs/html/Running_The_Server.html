@@ -1,0 +1,184 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running SikuliServer.SikuliServer on your System Under Test &mdash; SikuliServer 0.1.8 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.8',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SikuliServer 0.1.8 documentation" href="index.html" />
+    <link rel="next" title="Connecting SikuliServer.SikuliClient to SikuliServer.SikuliServer" href="Connecting_A_Client.html" />
+    <link rel="prev" title="Welcome to the SikuliServer documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Connecting_A_Client.html" title="Connecting SikuliServer.SikuliClient to SikuliServer.SikuliServer"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to the SikuliServer documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="running-sikuliserver-sikuliserver-on-your-system-under-test">
+<h1>Running <tt class="xref py py-mod docutils literal"><span class="pre">SikuliServer.SikuliServer</span></tt> on your System Under Test<a class="headerlink" href="#running-sikuliserver-sikuliserver-on-your-system-under-test" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>For the most part it should be as simple as downloading the repo to your system
+under test and running the appropriate script for your operating system &#8211;
+sikuliserver.bat for windows and sikuliserver.sh for any others. This assumes
+that you already have Java 6 and Sikuli X installed on your machine, and that
+the paths are correct.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>For each of these where I advise to edit the launcher script - it is better to
+work on a copy of the launcher script placed in you path with a higher
+precidence than the python scripts directory, so that changes are not lost if
+you upgrade SikuliServer.</p>
+<div class="section" id="can-t-find-java-libraries">
+<h3>Can&#8217;t find Java/Libraries<a class="headerlink" href="#can-t-find-java-libraries" title="Permalink to this headline">¶</a></h3>
+<p>First you&#8217;ll want to check that you have a jvm on your machine - in a terminal
+run <cite>java -version</cite>, and check that you get some output. If you don&#8217;t, you&#8217;ll
+need to install java - how you go about this is specific to your operating
+system - try <a class="reference external" href="http://java.com/en/download/help/index_installing.xml">http://java.com/en/download/help/index_installing.xml</a> for help.</p>
+<p>If it&#8217;s still not working, and you&#8217;re running under a non-windows os, I&#8217;m afraid
+I don&#8217;t know what could have gone wrong - I&#8217;d advise searching, and if that
+doesn&#8217;t provide results, posting a question on <a class="reference external" href="http://serverfault.com/">http://serverfault.com/</a>
+Please also raise an issue, or submit a patch to this documentation so that the
+solution is documented for others.</p>
+<p>Under Windows you may find that the path to Java or the libraries is wrong &#8211;
+under a 32-bit operating system all references to <cite>Program Files (x86)</cite> should
+be replaced by references to <cite>Program Files</cite>, or if java is installed elsewhere,
+you will need to change the path to point to wherever it is installed.</p>
+</div>
+<div class="section" id="can-t-find-sikuli-x">
+<h3>Can&#8217;t find Sikuli X<a class="headerlink" href="#can-t-find-sikuli-x" title="Permalink to this headline">¶</a></h3>
+<p>Much of this will be the same as the section above- it is important to make sure
+that Sikuli X is installed as shown at <a class="reference external" href="http://www.sikuli.org/download.html">http://www.sikuli.org/download.html</a> &#8211;
+then make sure that the paths in the launcher script are accurate to your
+install location.</p>
+</div>
+<div class="section" id="can-t-find-the-scripts">
+<h3>Can&#8217;t find the scripts<a class="headerlink" href="#can-t-find-the-scripts" title="Permalink to this headline">¶</a></h3>
+<p>Open a python REPL and run the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SikuliServer</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span>
+<span class="k">print</span> <span class="n">dirname</span><span class="p">(</span><span class="n">SikuliServer</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This should show you the directory within which the launcher scripts reside, if
+they have not been copied to anywhere in your path (type sikuliserver.bat or
+sikuliserver.sh in your teminal and hit enter) then place a link or copy to the
+relavent script in your path.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running <tt class="docutils literal"><span class="pre">SikuliServer.SikuliServer</span></tt> on your System Under Test</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#can-t-find-java-libraries">Can&#8217;t find Java/Libraries</a></li>
+<li><a class="reference internal" href="#can-t-find-sikuli-x">Can&#8217;t find Sikuli X</a></li>
+<li><a class="reference internal" href="#can-t-find-the-scripts">Can&#8217;t find the scripts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to the SikuliServer documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Connecting_A_Client.html"
+                        title="next chapter">Connecting <tt class="docutils literal docutils literal"><span class="pre">SikuliServer.SikuliClient</span></tt> to <tt class="docutils literal docutils literal"><span class="pre">SikuliServer.SikuliServer</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Running_The_Server.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Connecting_A_Client.html" title="Connecting SikuliServer.SikuliClient to SikuliServer.SikuliServer"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to the SikuliServer documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">SikuliServer 0.1.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Alistair Broomhead.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
