@@ -1348,11 +1348,11 @@ class Region(SikuliClass):
         for (k, v) in sorted(match_ids.items(), key=lambda k: int(k[0])):
             img, match_id = v
             if match_id is None or not match_id:
-                logger.info("Did not find %r" % img)
+                logger.debug("Did not find %r" % img)
             else:
                 try:
                     matches[k] = Match(remote=self.remote, server_id=match_id)
-                    logger.info("Found %r" % img)
+                    logger.debug("Found %r" % img)
                 except BaseException:
                     pass
         return matches
