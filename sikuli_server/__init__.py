@@ -71,10 +71,13 @@ class SikuliServer(object):
 
     def jython_object_addrefs(self, id_, refs):
         """
-        Adds `refs` to the number of held references to held_objects[id_]. If
+        Adds `refs` to the number of held references to `held_objects[id_]`. If
         negative the number of references counted will be decreased, and if it
         dips below zero the object will have its final reference removed so it
         can be collected.
+
+        :param id_: int -- object id
+        :param refs: int - how many references to add
         """
         id_, refs = int(id_), int(refs)
         if id_ in self._held_objects and refs != 0:
