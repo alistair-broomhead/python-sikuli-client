@@ -1,29 +1,26 @@
-.. SikuliServer documentation master file, created by
-   sphinx-quickstart on Thu Jan 17 14:45:19 2013.
+.. Python Sikuli Cilent documentation master file, created by
+   sphinx-quickstart on Thu May  9 13:05:03 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the SikuliServer documentation
-=========================================
+Welcome to Python Sikuli Client's documentation!
+================================================
 
-You can get hold of SikuliServer at
-https://github.com/alistair-broomhead/robotframework-sikuliserver
--- currently cloning this into your python path is the only way to install
-SikuliServer.
+For most things you will want to look at
+:mod:`~python_sikuli_client.sikuli_client.SikuliClient`. This class will
+manage a session for you, as well as providing factores for
+:mod:`~python_sikuli_client.location.Location`,
+:mod:`~python_sikuli_client.region.Region`, and
+:mod:`~python_sikuli_client.screen.Screen` classes
 
-Table of Contents
------------------
-
+Contents:
 
 .. toctree::
    :maxdepth: 4
 
-
-   Running_The_Server
    Connecting_A_Client
-   Using_From_RobotFramework
-   SikuliServer
 
+   python_sikuli_client
 
 Indices and tables
 ------------------
@@ -31,3 +28,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+

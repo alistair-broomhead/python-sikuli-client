@@ -1,14 +1,14 @@
 """
-:mod:`sikuli_client`
+:mod:`python_sikuli_client`
 ========================================
 
-Client library for interacting with Siculi from Robotframework over XML-RPC
+Client library for interacting with Sikuli from Robotframework over XML-RPC
 
 .. toctree::
    :maxdepth: 2
    :glob:
 
-   sikuli_client.*
+   python_sikuli_client.*
 
 """
 from python_sikuli_client.sikuli_client import (SikuliClient,
