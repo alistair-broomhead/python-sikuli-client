@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Python Sikuli Cilent'
+project = u'Python Sikuli Client'
 copyright = u'2013, Alistair Broomhead'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -63,7 +63,7 @@ copyright = u'2013, Alistair Broomhead'
 def getvers():
     """ gets version info from version file """
     from json import load
-    with open('../version') as version_file:
+    with open('../src/python_sikuli_client/version') as version_file:
         version_list = [str(x) for x in load(version_file)]
     version = '.'.join(version_list[:2])
     release = '.'.join(version_list)
@@ -231,10 +231,11 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    ('index', 'pythonsikulicilent', u'Python Sikuli Cilent Documentation',
-     [u'Alistair Broomhead'], 1)
-]
+man_pages = [('index',
+              'pythonsikulicilent',
+              u'Python Sikuli Cilent Documentation',
+              [u'Alistair Broomhead'],
+              1)]
 
 # If true, show URL addresses after external links.
 #man_show_urls = False
@@ -245,10 +246,14 @@ man_pages = [
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
-texinfo_documents = [
-  ('index', 'PythonSikuliCilent', u'Python Sikuli Cilent Documentation',
-   u'Alistair Broomhead', 'PythonSikuliCilent', 'One line description of project.',
-   'Miscellaneous'),
+texinfo_documents = [('index',
+                      'PythonSikuliCilent',
+                      u'Python Sikuli Cilent Documentation',
+                      u'Alistair Broomhead',
+                      'PythonSikuliCilent',
+                      'Python library to act as a client for '
+                      'jython-sikuli-server.',
+                      'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
