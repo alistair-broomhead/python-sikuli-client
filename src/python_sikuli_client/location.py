@@ -2,11 +2,11 @@
 Classes to fulfill the roles of those described at
     http://doc.sikuli.org/location.html
 """
-from .sikuli_class import ClientSikuliClass
-from .misc import (constructor,
+from python_sikuli_client.sikuli_class import ClientSikuliClass
+from python_sikuli_client.misc import (constructor,
                    return_from_remote,
                    run_on_remote)
-from .asserts import (assert_positive_int, assert_int)
+from python_sikuli_client.asserts import (assert_positive_int, assert_int)
 
 __author__ = 'Alistair Broomhead'
 
@@ -127,8 +127,8 @@ class Location(ClientSikuliClass):
         get a tuple of the location as (int x, int y)
         :return: (int, int)
         """
-        return (int(self.getX()),
-                int(self.getY()))
+        # noinspection PyArgumentList
+        return int(self.getX()), int(self.getY())
 
 @constructor(Location)
 def _location_constructor(x, y):

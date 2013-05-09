@@ -7,12 +7,12 @@ described at http://doc.sikuli.org/region.html
    :maxdepth: 2
 
 """
-from .asserts import (assert_positive_int,
+from python_sikuli_client.asserts import (assert_positive_int,
                       assert_PS,
                       assert_PSMRL,
                       assert_positive_num,
                       assert_PSRM)
-from .misc import (dropNones,
+from python_sikuli_client.misc import (dropNones,
                    constructor,
                    return_from_remote,
                    DEFERRED,
@@ -20,7 +20,7 @@ from .misc import (dropNones,
                    run_on_remote)
 
 __author__ = 'Alistair Broomhead'
-from .sikuli_class import (UnimplementedSikuliClass,
+from python_sikuli_client.sikuli_class import (UnimplementedSikuliClass,
                            SikuliClass)
 
 
@@ -86,7 +86,7 @@ class Region(SikuliClass):
     @return_from_remote('Region')
     def moveTo(self, location):
         """
-        :param location: :class:`~sikuli_client.location.Location` - the new top
+        :param location: :class:`~python_sikuli_client.location.Location` - the new top
             left corner
         :rtype: :class:`Region` -- the modified region object
 
@@ -173,7 +173,7 @@ class Region(SikuliClass):
     @return_from_remote('Location')
     def getCenter(self):
         """
-        :rtype: :class:`~sikuli_client.location.Location`
+        :rtype: :class:`~python_sikuli_client.location.Location`
 
         Get the center of the region.
         """
@@ -182,7 +182,7 @@ class Region(SikuliClass):
     @return_from_remote('Location')
     def getTopLeft(self):
         """
-        :rtype: :class:`~sikuli_client.location.Location`
+        :rtype: :class:`~python_sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -191,7 +191,7 @@ class Region(SikuliClass):
     @return_from_remote('Location')
     def getTopRight(self):
         """
-        :rtype: :class:`~sikuli_client.location.Location`
+        :rtype: :class:`~python_sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -200,7 +200,7 @@ class Region(SikuliClass):
     @return_from_remote('Location')
     def getBottomLeft(self):
         """
-        :rtype: :class:`~sikuli_client.location.Location`
+        :rtype: :class:`~python_sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -209,7 +209,7 @@ class Region(SikuliClass):
     @return_from_remote('Location')
     def getBottomRight(self):
         """
-        :rtype: :class:`~sikuli_client.location.Location`
+        :rtype: :class:`~python_sikuli_client.location.Location`
 
         Get the location of the region's respective corner.
         """
@@ -218,7 +218,7 @@ class Region(SikuliClass):
     @return_from_remote('Screen')
     def getScreen(self):
         """
-        :rtype: :class:`~sikuli_client.screen.Screen`
+        :rtype: :class:`~python_sikuli_client.screen.Screen`
 
         Returns the screen object that contains this region.
 
@@ -230,7 +230,7 @@ class Region(SikuliClass):
     @return_from_remote('Match')
     def getLastMatch(self):
         """
-        :rtype: :class:`~sikuli_client.match.Match`
+        :rtype: :class:`~python_sikuli_client.match.Match`
 
         All successful find operations (explicit like find() or implicit like
         click()), store the best match in the lastMatch attribute of the region
@@ -254,7 +254,7 @@ class Region(SikuliClass):
         location_ids = self.remote._eval(
             "[self._new_jython_object(x) for x in"
             " self._get_jython_object(%r).getLastMatches()]" % self._id)
-        from .match import Match
+        from python_sikuli_client.match import Match
         return (Match(remote=self.remote, server_id=location_id)
                 for location_id in location_ids)
 
@@ -291,7 +291,7 @@ class Region(SikuliClass):
         region. Width and height are the same. So this clones a region at a
         different place.
 
-        :param location: :class:`~sikuli_client.location.Location`
+        :param location: :class:`~python_sikuli_client.location.Location`
         :rtype: :class:`Region`
 
         .. code-block:: python
@@ -392,9 +392,9 @@ class Region(SikuliClass):
     @return_from_remote('Match')
     def find(self, PS):
         """
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
-        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+        :rtype: a :class:`~python_sikuli_client.match.Match` object that contains the
             best match or fails if PatternNotFound
 
         Find a particular GUI element, which is seen as the given image or
@@ -417,9 +417,9 @@ class Region(SikuliClass):
     @run_on_remote
     def findAll(self, PS):
         """
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
-        :rtype: one or more :class:`~sikuli_client.match.Match` objects as an
+        :rtype: one or more :class:`~python_sikuli_client.match.Match` objects as an
             iterator object or fails if PatternNotFound
 
         Repeatedly find ALL instances of a pattern, until no match can be
@@ -459,7 +459,7 @@ class Region(SikuliClass):
     def findAll(self, PS):
         """
         :rtype: generator
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
         """
         match_ids = self.remote._eval(
@@ -467,21 +467,21 @@ class Region(SikuliClass):
             " self._get_jython_object(%r).findAll(%s)]"
             % (self._id,
                PS._str_get if isinstance(PS, SikuliClass) else PS))
-        from .match import Match
+        from python_sikuli_client.match import Match
         return (Match(remote=self.remote, server_id=match_id)
                 for match_id in match_ids)
 
     @return_from_remote('Match')
     def wait(self, PS=None, seconds=None):
         """
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
         :param seconds: a number, which can have a fraction, as maximum waiting
             time in seconds. The internal granularity is milliseconds. If not
             specified, the auto wait timeout value set by
             :py:meth:`Region.setAutoWaitTimeout` is used. Use the string
             *'FOREVER'* to wait for an infinite time.
-        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+        :rtype: a :class:`~python_sikuli_client.match.Match` object that contains the
             best match or fails if PatternNotFound
 
         If *PS* is not specified, the script just pauses for the specified
@@ -508,14 +508,14 @@ class Region(SikuliClass):
     @wait.func
     def wait(self, PS=None, seconds=None):
         """
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
         :param seconds: a number, which can have a fraction, as maximum waiting
             time in seconds. The internal granularity is milliseconds. If not
             specified, the auto wait timeout value set by
             :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant
             *FOREVER* to wait for an infinite time.
-        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+        :rtype: a :class:`~python_sikuli_client.match.Match` object that contains the
             best match or fails if PatternNotFound
         """
         if PS is None:
@@ -532,13 +532,13 @@ class Region(SikuliClass):
         match_id = self.remote._eval(
             "self._new_jython_object(self._get_jython_object(%r).wait("
             "PS=%s, seconds=%s))" % (self._id, ps_str, sec_str))
-        from .match import Match
+        from python_sikuli_client.match import Match
         return Match(remote=self.remote, server_id=match_id)
 
     @run_on_remote
     def waitVanish(self, PS, seconds=None):
         """
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
         :param seconds: a number, which can have a fraction, as maximum waiting
             time in seconds. The internal granularity is milliseconds. If not
@@ -565,7 +565,7 @@ class Region(SikuliClass):
     @wait.func
     def waitVanish(self, PS, seconds=None):
         """
-        :param PS: a :class:`~sikuli_client.pattern.Pattern` object or a string
+        :param PS: a :class:`~python_sikuli_client.pattern.Pattern` object or a string
             (path to an image file or just plain text)
         :param seconds: a number, which can have a fraction, as maximum waiting
             time in seconds. The internal granularity is milliseconds. If not
@@ -598,7 +598,7 @@ class Region(SikuliClass):
             specified, the auto wait timeout value set by
             :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant
             *FOREVER* to wait for an infinite time.
-        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+        :rtype: a :class:`~python_sikuli_client.match.Match` object that contains the
             best match or fails if PatternNotFound. None is returned, if nothing
             is found within the specified waiting time.
 
@@ -632,7 +632,7 @@ class Region(SikuliClass):
             specified, the auto wait timeout value set by
             :py:meth:`Region.setAutoWaitTimeout` is used. Use the constant
             *FOREVER* to wait for an infinite time.
-        :rtype: a :class:`~sikuli_client.match.Match` object that contains the
+        :rtype: a :class:`~python_sikuli_client.match.Match` object that contains the
             best match or fails if PatternNotFound. None is returned, if nothing
             is found within the specified waiting time.
         """
@@ -647,7 +647,7 @@ class Region(SikuliClass):
             "self._new_jython_object(self._get_jython_object(%r)"
             ".exists(PS=%s, seconds=%s))" % (self._id, ps_str, sec_str))
 
-        from .match import Match
+        from python_sikuli_client.match import Match
         return (Match(remote=self.remote, server_id=match_id) if match_id is not
                 None else match_id)
 
@@ -1326,7 +1326,7 @@ class Region(SikuliClass):
         assert_PSMRL(PSMRL, self.getLocationFromPSRML)
 
     def get_xy_from_PSRML(self, PSMRL):
-        from SikuliServer.sikuli_client.misc import s_repr
+        from python_sikuli_client.misc import s_repr
 
         r = "self._get_jython_object(%r)" % self._id
         l = "%s.getLocationFromPSRML(%s)" % (r, s_repr(PSMRL))
@@ -1338,7 +1338,7 @@ class Region(SikuliClass):
         :param images: list of strings giving paths to images
         :return: found images
         """
-        from .match import Match
+        from python_sikuli_client.match import Match
         match_ids = self.remote._eval_foreach(
             "self._new_jython_object(self._get_jython_object(%r).find(arg))"
             % self._id,

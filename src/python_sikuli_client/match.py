@@ -2,7 +2,7 @@
 Classes to fulfill the roles of those described at
     http://doc.sikuli.org/match.html
 """
-from .sikuli_class import ClientSikuliClass
+from python_sikuli_client.sikuli_class import ClientSikuliClass
 
 __author__ = 'Alistair Broomhead'
 

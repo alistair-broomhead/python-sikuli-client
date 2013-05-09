@@ -81,7 +81,7 @@ def assert_PS(PS, meth):
     :param meth: calling method
     :param PS: Pattern or str
     """
-    from .pattern import Pattern
+    from python_sikuli_client.pattern import Pattern
 
     assert_one_of(PS, meth, [Pattern, basestring])
 
@@ -93,7 +93,7 @@ def assert_PSMRL(PSMRL, meth):
     :param meth: calling method
     :param PSMRL: Pattern, str, Match, Region or Location
     """
-    from .classes import Pattern, Match, Region, Location
+    from python_sikuli_client.classes import Pattern, Match, Region, Location
 
     assert_one_of(PSMRL, meth, [Pattern, basestring, Match, Region, Location])
 
@@ -105,7 +105,7 @@ def assert_PSML(PSMRL, meth):
     :param meth: calling method
     :param PSMRL: Pattern, str, Match or Location
     """
-    from .classes import Pattern, Match, Location
+    from python_sikuli_client.classes import Pattern, Match, Location
 
     assert_one_of(PSMRL, meth, [Pattern, basestring, Match, Location])
 
@@ -117,7 +117,7 @@ def assert_PSRM(PSRM, meth):
     :param meth: calling method
     :param PSRM: Pattern, str, Region or Match
     """
-    from .classes import Pattern, Match, Region
+    from python_sikuli_client.classes import Pattern, Match, Region
 
     assert_one_of(PSRM, meth, [Pattern, basestring, Region, Match])
 
@@ -129,6 +129,6 @@ def assert_Region(region, meth):
     :param meth: calling method
     :param region: Region
     """
-    from .classes import Region
+    from python_sikuli_client.classes import Region
     if not isinstance(region, Region):
         raise TypeError("%r expected Region, got %r" % (meth, region))

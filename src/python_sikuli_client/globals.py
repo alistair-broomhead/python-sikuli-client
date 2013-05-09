@@ -3,7 +3,7 @@ Classes to fulfill the roles of those described at
     http://doc.sikuli.org/globals.html
 """
 __author__ = 'Alistair Broomhead'
-from .sikuli_class import  UnimplementedSikuliClass
+from python_sikuli_client.sikuli_class import  UnimplementedSikuliClass
 
 class Settings(UnimplementedSikuliClass):
     """ Manages interaction with Sikuli's Settings """

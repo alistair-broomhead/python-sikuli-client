@@ -3,7 +3,7 @@ SikuliClient is an XMLRPC client for SikuliServer - an instance of SikuliClient
 should be held by each client-side instance of SikuliClass in order to allow it
 to interact with the server-side class.
 """
-from SikuliServer.sikuli_client.exceptions import SikuliClientException
+from python_sikuli_client.exceptions import SikuliClientException
 
 __author__ = 'Alistair Broomhead'
 
@@ -42,7 +42,7 @@ class SikuliClient(object):
         :param kwargs: kwargs to pass to :class:`~region.Region` contructor
         :rtype : SikuliServer.sikuli_client.Region
         """
-        from .region import Region
+        from python_sikuli_client.region import Region
         return Region.mknew(self, *args, **kwargs)
 
     def Location(self, *args, **kwargs):
@@ -52,7 +52,7 @@ class SikuliClient(object):
         :param kwargs: kwargs to pass to :class:`~location.Location` contructor
         :rtype : SikuliServer.sikuli_client.Location
         """
-        from .location import Location
+        from python_sikuli_client.location import Location
 
         return Location.mknew(self, *args, **kwargs)
 
@@ -63,7 +63,7 @@ class SikuliClient(object):
         :param kwargs: kwargs to pass to :class:`~screen.Screen` contructor
         :rtype : SikuliServer.sikuli_client.Screen
         """
-        from .screen import Screen
+        from python_sikuli_client.screen import Screen
 
         return Screen.mknew(self, *args, **kwargs)
 
@@ -159,7 +159,7 @@ class SikuliClient(object):
         include = frozenset(include) if include is not None else frozenset()
         exclude = frozenset(exclude) if exclude is not None else frozenset()
         from xmlrpclib import ServerProxy
-        from .misc import RemoteLib, SikuliUnreflected
+        from python_sikuli_client.misc import RemoteLib, SikuliUnreflected
         self._kwargs = dict(host=host,
                             port=port,
                             include=include,

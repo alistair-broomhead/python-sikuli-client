@@ -2,11 +2,11 @@
 Extra classes that implementent miscellaneous needed functionailty
 """
 from functools import wraps
-from .sikuli_class import ClientSikuliClass
+from python_sikuli_client.sikuli_class import ClientSikuliClass
 
 __author__ = 'Alistair Broomhead'
-from .pattern import Pattern
-from .match import Match
+from python_sikuli_client.pattern import Pattern
+from python_sikuli_client.match import Match
 
 
 class RemoteLib(object):
@@ -38,22 +38,22 @@ class SikuliUnreflected(object):
     def find(self, PS):
         """
 
-        :param PS: :class:`~sikuli_client.pattern.Pattern` or str
-        :rtype: :class:`~sikuli_client.match.Match`
+        :param PS: :class:`~python_sikuli_client.pattern.Pattern` or str
+        :rtype: :class:`~python_sikuli_client.match.Match`
 
         Find a particular GUI element, which is seen as the given image or
         just plain text. The given file name of an image specifies the
         element's appearance. It searches within the region and returns the best
         match, which shows a similarity greater than the minimum similarity
         given by the pattern. If no similarity was set for the pattern by
-        :meth:`sikuli_client.pattern.Pattern.similar` before, a default minimum
+        :meth:`python_sikuli_client.pattern.Pattern.similar` before, a default minimum
         similarity of 0.7 is set automatically.
 
         If autoWaitTimeout is set to a non-zero value, find() just acts as a
         wait().
 
         **Side Effect** *lastMatch*: the best match can be accessed using
-        :meth:`~sikuli_client.region.Region.getLastMatch` afterwards.
+        :meth:`~python_sikuli_client.region.Region.getLastMatch` afterwards.
         """
         if isinstance(PS, Pattern):
             assert isinstance(PS, Pattern)
@@ -62,6 +62,7 @@ class SikuliUnreflected(object):
             ps = repr(PS)
         #noinspection PyUnresolvedReferences
         match_id = self._eval("self._new_jython_object(self.find(%s))" % ps)
+        # noinspection PyArgumentList
         return Match(remote=self.remote, id_=match_id)
 
 
@@ -115,7 +116,7 @@ def return_from_remote(rtype):
     Decorator factory returning a run_on_remote decorator which marshals and
     unmarshals the return type as ``rtype`` where ``rtype`` must be either a
     subclass of :class:`ClientSikuliClass`, or the string name of a
-    class in :mod:`~sikuli_client.classes`
+    class in :mod:`~python_sikuli_client.classes`
 
     :param rtype: return type
 
@@ -130,6 +131,7 @@ def return_from_remote(rtype):
         func = run_on_remote(func)
         rt = []
 
+        # noinspection PyUnusedLocal
         @func.func
         def _inner_func(self, *args, **kwargs):
             location_id = self.remote._eval(
@@ -139,7 +141,7 @@ def return_from_remote(rtype):
                     func.__name__,
                     ', '.join([s_repr(x) for x in args])))
             if not rt:
-                from .classes import SIKULI_CLASSES
+                from python_sikuli_client.classes import SIKULI_CLASSES
 
                 cls = (rtype if isinstance(rtype, ClientSikuliClass) else
                        SIKULI_CLASSES[rtype])

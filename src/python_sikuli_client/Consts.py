@@ -6,8 +6,8 @@ Constants from the server-side
    :maxdepth: 2
    :glob:
 """
-from .sikuli_class import ClientSikuliClass
-from .misc import constructor
+from python_sikuli_client.sikuli_class import ClientSikuliClass
+from python_sikuli_client.misc import constructor
 
 
 class Const(ClientSikuliClass):

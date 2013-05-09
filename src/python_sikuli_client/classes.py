@@ -14,13 +14,13 @@ All the client-side Sikuli objects
 """
 __author__ = 'Alistair Broomhead'
 
-from .finder import Finder
-from .globals import Settings, App, Env, Vision
-from .match import Match
-from .pattern import Pattern
-from .region import SikuliEvent, Region
-from .screen import Screen
-from .location import Location
+from python_sikuli_client.finder import Finder
+from python_sikuli_client.globals import Settings, App, Env, Vision
+from python_sikuli_client.match import Match
+from python_sikuli_client.pattern import Pattern
+from python_sikuli_client.region import SikuliEvent, Region
+from python_sikuli_client.screen import Screen
+from python_sikuli_client.location import Location
 
 SIKULI_CLASSES = {
     cls.__name__: cls

@@ -2,11 +2,11 @@
 Classes to fulfill the roles of those described at
     http://doc.sikuli.org/screen.html
 """
-from .sikuli_class import ClientSikuliClass
-from .misc import (constructor,
+from python_sikuli_client.sikuli_class import ClientSikuliClass
+from python_sikuli_client.misc import (constructor,
                    run_on_remote,
                    DEFERRED)
-from .asserts import (assert_Region)
+from python_sikuli_client.asserts import (assert_Region)
 __author__ = 'Alistair Broomhead'
 
 

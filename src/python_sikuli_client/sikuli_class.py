@@ -2,8 +2,7 @@
 Base class for types based on the Sikuli native types
 """
 from functools import wraps
-from SikuliServer.sikuli_server.sikuli_class import (ServerSikuliClass,
-                                                     SIKULI_OBJECTS)
+from jython_sikuli_server.sikuli_class import ServerSikuliClass
 
 __author__ = 'Alistair Broomhead'
 
@@ -18,7 +17,7 @@ class ClientSikuliClass(ServerSikuliClass):
     @classmethod
     def mknew(cls, remote, *args, **kwargs):
         """ Create a new object, instantiating it on the server side. """
-        from .sikuli_client import SikuliClient
+        from python_sikuli_client.sikuli_client import SikuliClient
 
         assert isinstance(remote, SikuliClient)
         _remote, cls.remote = cls.remote, remote
@@ -57,6 +56,7 @@ class ClientSikuliClass(ServerSikuliClass):
 
     def __new__(cls, remote, server_id, *args, **kwargs):
         cls.remote = remote
+        # noinspection PyArgumentList
         obj = object.__new__(cls, remote, *args, **kwargs)
         return obj
 
@@ -105,8 +105,10 @@ SikuliClass = ClientSikuliClass
 #noinspection PyStatementEffect
 """
 For convenience - anything importing
-:class:`sikuli_client.sikuli_class.SikuliClass` will get
-:class:`~sikuli_client.sikuli_class.ClientSikuliClass`, wheras anything
-importing :class:`sikuli_server.class_definitions.sikuli_class.SikuliClass` will
-get :class:`~sikuli_server.class_definitions.sikuli_class.ServerSikuliClass`
+:class:`python_sikuli_client.sikuli_class.SikuliClass` will get
+:class:`~python_sikuli_client.sikuli_class.ClientSikuliClass`, wheras anything
+importing
+:class:`jython_sikuli_server.class_definitions.sikuli_class.SikuliClass` will
+get
+:class:`~jython_sikuli_server.class_definitions.sikuli_class.ServerSikuliClass`
 """
