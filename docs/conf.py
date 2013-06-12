@@ -52,6 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Python Sikuli Client'
+# noinspection PyShadowingBuiltins
 copyright = u'2013, Alistair Broomhead'
 
 # The version info for the project you're documenting, acts as replacement for
