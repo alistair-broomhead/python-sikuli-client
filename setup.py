@@ -19,5 +19,5 @@ setup(
     long_description=read('README.md'),
     packages=find_packages('src'),
     package_dir={ '' : 'src' },
-    install_requires=['jython-sikuli-server']
+    install_requires=['jython-sikuli-server', 'robotframework']
 )

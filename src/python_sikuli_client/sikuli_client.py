@@ -40,7 +40,7 @@ class SikuliClient(object):
         Create a new :class:`~region.Region` connected to this SikuliClient
         :param args: args to pass to :class:`~region.Region` contructor
         :param kwargs: kwargs to pass to :class:`~region.Region` contructor
-        :rtype : SikuliServer.sikuli_client.Region
+        :rtype : python_sikuli_client.region.Region
         """
         from python_sikuli_client.region import Region
         return Region.mknew(self, *args, **kwargs)
@@ -50,7 +50,7 @@ class SikuliClient(object):
         Create a new :class:`~location.Location` connected to this SikuliClient
         :param args: args to pass to :class:`~location.Location` contructor
         :param kwargs: kwargs to pass to :class:`~location.Location` contructor
-        :rtype : SikuliServer.sikuli_client.Location
+        :rtype : python_sikuli_client.location.Location
         """
         from python_sikuli_client.location import Location
 
@@ -61,7 +61,7 @@ class SikuliClient(object):
         Create a new :class:`~screen.Screen` connected to this SikuliClient
         :param args: args to pass to :class:`~screen.Screen` contructor
         :param kwargs: kwargs to pass to :class:`~screen.Screen` contructor
-        :rtype : SikuliServer.sikuli_client.Screen
+        :rtype : python_sikuli_client.screen.Screen
         """
         from python_sikuli_client.screen import Screen
 
@@ -166,6 +166,7 @@ class SikuliClient(object):
                             exclude=exclude)
         self._sikuliserver = RemoteLib(
             ServerProxy("http://%s:%r" % (host, port)))
+        # noinspection PyTypeChecker
         self._unreflected = SikuliUnreflected(self._sikuliserver)
         self._keywords = DEFAULT_EXPOSED.union(include).difference(exclude)
         self._garbage = []
